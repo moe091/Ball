@@ -1,0 +1,39 @@
+#editorDiv { 
+    border: 1px black solid;
+    background-color: #999;
+    padding: 6px;
+    border-radius: 3px;
+    margin-left: 20px;
+    width: 300px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.imgsDiv {
+
+    margin: 2px;
+    display: inline-block;
+    overflow: hidden;
+    width: 600px;
+}
+
+#gameDiv {
+    display: inline-block;
+
+}
+
+.editorImg {
+    max-width: 98px;
+    max-height: 98px;
+    min-width: 98px;
+    height: auto;
+    border: 1px white solid;
+    margin: 2px;
+    background-color: #666;
+    padding: 10px 0;
+}
+#imgScroll {
+    width: 300px;
+    display: inline-block;
+    overflow: hidden;
+}

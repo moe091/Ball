@@ -70,12 +70,12 @@ BALL.play = {
         
         //game.debug.spriteCoords(this.ball, 50, 50);
         
-        game.debug.text("downX: " + BALL.gameState.downX, 200, 100);
-        var x = 32;
-        var y = 0;
-        var yi = 32;
+        //game.debug.text("downX: " + BALL.gameState.downX, 200, 100);
+        //var x = 32;
+        //var y = 0;
+        //var yi = 32;
         
-        game.debug.text('Ball X: ' + this.ball.x, x, y += yi);
+        //game.debug.text('Ball X: ' + this.ball.x, x, y += yi);
     }
 };
 

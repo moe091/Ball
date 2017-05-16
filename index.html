@@ -6,6 +6,7 @@
         <meta charset="UTF-8" />
         <title>Ball</title>
         
+        <link rel=stylesheet href="style.css" type="text/css">
         
         
         <!-----------------------LIBS----------------------->
@@ -18,6 +19,9 @@
         <script src="js/play.js"></script>
         <script src="js/input.js"></script>
         <script src="js/gameState.js"></script>
+        
+        <!----------------------Editor--------------------------->
+        <script src="Editor/mapEditor.js"></script>
         
         
         
@@ -55,12 +59,49 @@
             game.state.add('play', BALL.play);
                 
             game.state.start('preload');
+            createEditor();
+            
+                    var imgDiv = document.getElementById('imgScroll');
+    function scrollHorizontally(e) {
+        console.log(e);
+        console.log(imgDiv);
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        imgDiv.scrollLeft -= (delta*40); // Multiplied by 40
+        e.preventDefault();
+    }
+        console.log(imgDiv)
+    if (imgDiv.addEventListener) {
+        // IE9, Chrome, Safari, Opera
+        imgDiv.addEventListener("mousewheel", scrollHorizontally, false);
+        // Firefox
+        imgDiv.addEventListener("DOMMouseScroll", scrollHorizontally, false);
+    } else {
+        // IE 6/7/8
+        imgDiv.attachEvent("onmousewheel", scrollHorizontally);
+    }
             
         };
     </script>
         
         <div id="gameDiv">
         </div>
+        <div id="editorDiv">
+            <div id="imgScroll">
+                <div id="imgsDiv1" class="imgsDiv">
+
+                </div>
+            </div>
+            
+        </div>
         
     </body>
+    
+    <script>
+    
+    (function() {
+
+})();
+    
+    </script>
 </html>

@@ -59,18 +59,15 @@
             game.state.add('play', BALL.play);
                 
             game.state.start('preload');
-            createEditor();
+            BALL.editor.createEditor();
             
                     var imgDiv = document.getElementById('imgScroll');
     function scrollHorizontally(e) {
-        console.log(e);
-        console.log(imgDiv);
         e = window.event || e;
         var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
         imgDiv.scrollLeft -= (delta*40); // Multiplied by 40
         e.preventDefault();
     }
-        console.log(imgDiv)
     if (imgDiv.addEventListener) {
         // IE9, Chrome, Safari, Opera
         imgDiv.addEventListener("mousewheel", scrollHorizontally, false);

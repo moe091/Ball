@@ -14,7 +14,8 @@
     margin: 2px;
     display: inline-block;
     overflow: hidden;
-    width: 600px;
+    height: 120px;
+    min-width: 1200px;
 }
 
 #gameDiv {
@@ -22,18 +23,32 @@
 
 }
 
+.editorImg:before {    /* create a full-height inline block pseudo=element */
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;  /* vertical alignment of the inline element */
+    height: 100%;
+}
 .editorImg {
-    max-width: 98px;
-    max-height: 98px;
-    min-width: 98px;
-    height: auto;
-    border: 1px white solid;
-    margin: 2px;
+    font: 0/0 a;
+    width: 98px;
+    height: 98px;
+    margin: 0 2px;
     background-color: #666;
-    padding: 10px 0;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    border: 1px black solid;
+}
+.editorImg img {
+    vertical-align: middle;
+    display: inline-block;
+    max-width: 88px;
+    max-height: 88px;
 }
 #imgScroll {
     width: 300px;
+    height: 120px;
     display: inline-block;
     overflow: hidden;
 }

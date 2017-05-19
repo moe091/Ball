@@ -4,6 +4,19 @@ BALL.preload = {
         game.load.image("ball", "assets/ball.png");
         game.load.image("plat", "assets/plat.png");
         game.load.image("bg", "assets/bg.png");
+        
+        //real assets
+        game.load.image("alien", "assets/balls/alien_ball.png");
+        game.load.image("alien_shading", "assets/balls/alien_shading.png");
+        
+        //plats
+        game.load.image("p1_angle", "assets/plats/p1_angle.png");
+        game.load.image("p1_corner", "assets/plats/p1_corner.png");
+        game.load.image("p1_edge", "assets/plats/p1_edge.png");
+        game.load.image("p1_flat", "assets/plats/p1_flat.png");
+        game.load.image("p1_ramp", "assets/plats/p1_ramp.png");
+        game.load.image("wall_hor", "assets/plats/wall_hor.png");
+        game.load.image("wall_vert", "assets/plats/wall_vert.png");
     },
         
     create: function() {

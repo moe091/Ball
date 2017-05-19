@@ -59,7 +59,7 @@ BALL.editor = {
                 console.log("EDITOR - NO OBJECT SELECTED");
                 console.log(this.curObj);
             }
-        }
+        }  
     },
     
     inputUp: function(pointer) {

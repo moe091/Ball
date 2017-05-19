@@ -6,6 +6,8 @@ BALL.play = {
     },
     
     create: function() {
+        
+            
         game.world.setBounds(0, 0, 1200, 800);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
@@ -55,7 +57,11 @@ BALL.play = {
         game.input.onDown.add(BALL.input.inputDown, this);
         game.input.onUp.add(BALL.input.inputUp, this);
         
+        game.input.onDown.add(BALL.editor.inputDown, this);
+        game.input.onDown.add(BALL.editor.inputUp, this);
         //game.camera.follow(this.ball);
+        
+        BALL.editor.createEditor(game);
     },
     
     update: function() {

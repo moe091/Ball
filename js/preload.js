@@ -35,6 +35,7 @@ BALL.preload = {
         game.scale.maxHeight = 1500;
         game.state.start('play');
         **/
+        
         button = game.add.button(game.world.centerX - 30, game.world.centerY - 30, 'ball', this.goFullScreen, this, 2, 1, 0);
     },
     
@@ -50,12 +51,14 @@ BALL.preload = {
         game.scale.maxWidth = 800; 
         game.scale.maxHeight = 480;
         game.state.start('play');
+        /**
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;  
         if (game.scale.isFullScreen) {    
             game.scale.stopFullScreen();  
         } else {  
             game.scale.startFullScreen();     
         }
+        **/
     }
 
 };

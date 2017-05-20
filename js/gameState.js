@@ -3,4 +3,6 @@ BALL.gameState = {
     jumpTime: 0,
     downX: 0,
     
+    objects: [],
+    
 }

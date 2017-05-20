@@ -58,14 +58,15 @@ BALL.play = {
         game.input.onUp.add(BALL.input.inputUp, this);
         
         game.input.onDown.add(BALL.editor.inputDown, this);
-        game.input.onDown.add(BALL.editor.inputUp, this);
+        game.input.onUp.add(BALL.editor.inputUp, this);
         //game.camera.follow(this.ball);
         
         BALL.editor.createEditor(game);
+        game.camera.follow(this.ball);
     },
     
     update: function() {
-        game.camera.focusOnXY(this.ball.x, this.ball.y);
+        //game.camera.focusOnXY(this.ball.x, this.ball.y);
     },
     
     

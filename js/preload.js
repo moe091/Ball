@@ -3,7 +3,7 @@ BALL.preload = {
     preload: function() {
         game.load.image("ball", "assets/ball.png");
         game.load.image("plat", "assets/plat.png");
-        game.load.image("bg", "assets/bg.png");
+        game.load.image("bg", "assets/bg.jpg");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");
@@ -17,6 +17,8 @@ BALL.preload = {
         game.load.image("p1_ramp", "assets/plats/p1_ramp.png");
         game.load.image("wall_hor", "assets/plats/wall_hor.png");
         game.load.image("wall_vert", "assets/plats/wall_vert.png");
+        
+        game.load.physics("plat_bodies", "assets/physics/plat_bodies.json");
     },
         
     create: function() {
@@ -25,7 +27,7 @@ BALL.preload = {
     
         game.scaleMode = Phaser.ScaleManager.SHOW_ALL; //Align the center of the game with the center of the screen 
         game.scale.pageAlignHorizontally = true; 
-        game.scale.pageAlignVertically = true; //Force landscape (optional of course) 
+        game.scale.pageAlignVertically = true; //Force landscape 
         game.scale.forceLandscape = true; //Make the game scale! 
         game.scale.setShowAll(); 
         game.scale.refresh(); //In case you want limitations to your scaling! 

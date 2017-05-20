@@ -10,20 +10,20 @@ BALL.input = {
     
     
     inputDown: function(event) {
-        if (BALL.gameState.touchDown == false) {
-            BALL.gameState.downX = event.screenX;
-            if (BALL.input.left.contains(event.x, event.y)) {
-                this.ball.body.angularVelocity-= 20;
-                console.log("SPIN");
-            } else if (BALL.input.right.contains(event.x, event.y)) {
-                console.log("RIGHT");
-                this.ball.body.angularVelocity+= 20;
-                
-            } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
-                //jump
-                console.log("JUMP");
-                this.ball.body.velocity.y-= 500;
-                BALL.gameState.jumpTime = game.time.now;
+
+        if (!BALL.editor.editMode) {
+            if (BALL.gameState.touchDown == false) {
+                BALL.gameState.downX = event.screenX;
+                if (BALL.input.left.contains(event.x, event.y)) {
+                    this.ball.body.angularVelocity-= 20;
+                } else if (BALL.input.right.contains(event.x, event.y)) {
+                    this.ball.body.angularVelocity+= 20;
+
+                } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
+                    //jump
+                    this.ball.body.velocity.y-= 500;
+                    BALL.gameState.jumpTime = game.time.now;
+                }
             }
         }
         
@@ -41,5 +41,58 @@ BALL.input = {
         this.left = new Phaser.Rectangle(0, 0, game.width / 3, game.height);
         this.middle = new Phaser.Rectangle(game.width / 3, 0, game.width / 3, game.height);
         this.right = new Phaser.Rectangle((game.width / 3) * 2, 0, game.width / 3, game.height);
+        
+        this.m = game.input.keyboard.addKey(Phaser.Keyboard.M);
+        this.n = game.input.keyboard.addKey(Phaser.Keyboard.N);
+        
+        this.shift = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
+        this.W = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        this.A = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        this.S = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        this.D = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        
+        this.UP = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        this.LEFT = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        this.RIGHT = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        this.DOWN = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        
+        this.createBindings();
+        this.m.onDown.add(BALL.editor.enterEditMode, this);
+        this.n.onDown.add(BALL.editor.exitEditMode, this);
+    },
+    
+    createBindings: function() {
+        //editMode on/off
+        this.m.onDown.add(BALL.editor.enterEditMode, this);
+        this.n.onDown.add(BALL.editor.exitEditMode, this);
+        
+        //move camera
+        this.W.onDown.add(BALL.editor.camUp, this);
+        this.A.onDown.add(BALL.editor.camLeft, this);
+        this.S.onDown.add(BALL.editor.camDown, this);
+        this.D.onDown.add(BALL.editor.camRight, this);
+        
+        this.UP.onDown.add(BALL.editor.selectedUp, this);
+        this.LEFT.onDown.add(BALL.editor.selectedLeft, this);
+        this.DOWN.onDown.add(BALL.editor.selectedDown, this);
+        this.RIGHT.onDown.add(BALL.editor.selectedRight, this);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

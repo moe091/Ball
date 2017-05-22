@@ -45,6 +45,9 @@ BALL.input = {
         this.m = game.input.keyboard.addKey(Phaser.Keyboard.M);
         this.n = game.input.keyboard.addKey(Phaser.Keyboard.N);
         
+        this.t = game.input.keyboard.addKey(Phaser.Keyboard.T);
+        this.g = game.input.keyboard.addKey(Phaser.Keyboard.G);
+        
         this.shift = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
         this.W = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.A = game.input.keyboard.addKey(Phaser.Keyboard.A);
@@ -56,9 +59,12 @@ BALL.input = {
         this.RIGHT = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
         this.DOWN = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         
+        this.tab = game.input.keyboard.addKey(Phaser.Keyboard.TAB); //click/drag to scroll
+        
+        this.f = game.input.keyboard.addKey(Phaser.Keyboard.F); //flip object horizontally
+        this.f_down = false; //keepy track of if f was pressed down already
+        
         this.createBindings();
-        this.m.onDown.add(BALL.editor.enterEditMode, this);
-        this.n.onDown.add(BALL.editor.exitEditMode, this);
     },
     
     createBindings: function() {

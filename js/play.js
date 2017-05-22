@@ -8,34 +8,43 @@ BALL.play = {
     create: function() {
         
             
-        game.world.setBounds(0, 0, 1200, 800);
+        game.world.setBounds(0, 0, 3200, 2200);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 900;
         game.physics.p2.friction = 12;
         game.physics.p2.restitution = 0.5;
         
-        game.add.sprite(-400, -300, "bg");
-        this.ball = game.add.sprite(200, 1, "ball");
+        game.camera.scale.setTo(0.75);
+        
+        game.add.sprite(0, 0, "bg").scale.setTo(1.5);
+        
+        BALL.editor.createEditor(game);
+        
+        this.ball = game.add.sprite(400, 400, "ball");
         this.ball.anchor.setTo(0.5, 0.5);
         
         var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial');
         
         
         this.plats = game.add.group();
-        this.plats.create(150, 400, "plat");
-        this.plats.create(268, 449, "plat");
-        this.plats.create(1210, 300, "plat");
-        this.plats.create(0, 700, "plat");
-        this.plats.create(128, 600, "plat");
-        this.plats.create(512, 600, "plat");
-        this.plats.create(640, 600, "plat");
-        this.plats.create(768, 600, "plat");
-        this.plats.create(896, 600, "plat");
-        this.plats.create(1024, 600, "plat");
-        this.plats.create(1152, 600, "plat");
-        this.plats.create(1280, 600, "plat");
-        this.plats.create(1408, 600, "plat");
+        //this.plats.create(150, 400, "plat");
+        //this.plats.create(268, 449, "plat");
+        //this.plats.create(1210, 300, "plat");
+        //this.plats.create(0, 700, "plat");
+        this.plats.create(128, 2200, "plat");
+        this.plats.create(512, 2200, "plat");
+        this.plats.create(640, 2200, "plat");
+        this.plats.create(768, 2200, "plat");
+        this.plats.create(896, 2200, "plat");
+        this.plats.create(1024, 2200, "plat");
+        this.plats.create(1152, 2200, "plat");
+        this.plats.create(1280, 2200, "plat");
+        this.plats.create(1408, 2200, "plat");
+        this.plats.create(1536, 2200, "plat");
+        this.plats.create(1664, 2200, "plat");
+        this.plats.create(1792, 2200, "plat");
+        this.plats.create(1920, 2200, "plat");
         
         for (var i in this.plats.children) {
             game.physics.p2.enable(this.plats.children[i], false);
@@ -48,8 +57,6 @@ BALL.play = {
         this.ball.body.setCircle(29);
         this.ball.body.gravity.y = 500;
         
-        this.plats.children[1].body.rotation = Math.PI / 8;
-        this.plats.children[0].body.rotation = Math.PI / 8;
         
         
         BALL.input.createRegions();
@@ -61,12 +68,18 @@ BALL.play = {
         game.input.onUp.add(BALL.editor.inputUp, this);
         //game.camera.follow(this.ball);
         
-        BALL.editor.createEditor(game);
+        
+        this.follow();
+    },
+    
+    follow: function() {
         game.camera.follow(this.ball);
     },
     
     update: function() {
-        //game.camera.focusOnXY(this.ball.x, this.ball.y);
+        if (BALL.editor.editMode) {
+            BALL.editor.update();
+        }
     },
     
     

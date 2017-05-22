@@ -8,23 +8,33 @@ BALL.editor = {
     objI: -1,
     sprites: null,
     
+    camScale: 1,
+    
     selected: null,
+    
+    hovering: false,
+    dragging: false,
+    lastPX: 0,
+    lastPY: 0,
         //gObjs
     
     populategObjs: function() {
         this.gObjs.push("p1_angle");
+        this.gObjs.push("p1_angle-f");
         this.gObjs.push("p1_corner");
         this.gObjs.push("p1_edge");
         this.gObjs.push("p1_flat");
         this.gObjs.push("p1_ramp");
+        this.gObjs.push("p1_ramp-f");
         this.gObjs.push("wall_hor");
         this.gObjs.push("wall_vert");
+        this.gObjs.push("electricity");
     },
     
     createEditor: function(g) {
         this.game = g;
         this.sprites = this.game.add.group();
-        
+        this.sprites.inputEnableChildren = true;
         this.populategObjs();
         for (var i in this.gObjs) {
             console.log(this.gObjs[i]);
@@ -60,43 +70,46 @@ BALL.editor = {
             BALL.editor.downY = game.input.worldY;
             BALL.editor.isDown = true;
 
-            var sel = false;
-            for (i in BALL.gameState.objects) {
-                if (BALL.gameState.objects[i].contains(pointer.screenX, pointer.screenY)) {
-                    BALL.editor.selected = BALL.gameState.objects[i];
-                    console.log("CLICKED SPRITE: ");
-                    console.log("CLICKED SPRITE: ");
-                    console.log("CLICKED SPRITE: ");
-                    console.log(BALL.editor.selected);
-                    sel = true;
-                    BALL.editor.dragging = true;
-                }
-            }
 
-            if (!sel) {
-                BALL.editor.dragging = false;
-                if (BALL.editor.curObj != null) {
-                    BALL.editor.selected = BALL.editor.sprites.create(game.input.worldX, game.input.worldY, BALL.editor.curObj);
+
+            BALL.editor.dragging = false;
+            if (BALL.editor.hovering) {
+                
+            } else {
+                if (BALL.input.tab.isDown) {
+                    BALL.editor.dragging = true;
+                    BALL.editor.lastPX = game.input.activePointer.x;
+                    BALL.editor.lastPY = game.input.activePointer.y;
+                } else if (BALL.editor.curObj != null) {
+                    BALL.editor.selected = BALL.editor.sprites.create(Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)), BALL.editor.curObj);
                     BALL.editor.selected.anchor.setTo(0.5, 0.5);
-                    game.physics.p2.enable(BALL.editor.selected, true);
-                    BALL.editor.selected.body.clearShapes();
-                    BALL.editor.selected.body.loadPolygon("plat_bodies", BALL.editor.curObj);
-                    BALL.editor.selected.body.static = true;
+                    if (BALL.editor.curObj === "electricity") {
+                        console.log("ELECTRICITY _ MATCHES");
+                        BALL.editor.selected.animations.add('electrify');
+                        BALL.editor.selected.animations.play("electrify", 20, true);
+                    } else {
+                        game.physics.p2.enable(BALL.editor.selected, false);
+                        BALL.editor.selected.body.clearShapes();
+                        BALL.editor.selected.body.loadPolygon("plat_bodies", BALL.editor.curObj);
+                        BALL.editor.selected.body.static = true;
+                    }
                     
                     BALL.editor.selected.inputEnabled = true;
                     BALL.editor.selected.input.pixelPerfectOver = true;
                     BALL.editor.selected.input.useHandCursor = true;
                     BALL.editor.selected.input.enableDrag(true);
-                    console.log(pointer);
-
+                    BALL.editor.selected.events.onInputDown.add(BALL.editor.clickObj, this);
+                    BALL.editor.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
+                    BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
+                    
+                    console.log("WORLD: ", game.input.worldX, ", ", game.input.worldY);
+                    console.log("POINTER: ", pointer.x, ", ", pointer.y);
+                    console.log(game.camera);
                     BALL.gameState.objects.push(BALL.editor.selected);
                 } else {
                     console.log("EDITOR - NO OBJECT SELECTED");
                 }
-            } else { //SEL = true(clicked an obj)
-                console.log("you clicked:");
-                console.log(BALL.editor.selected);
-            } 
+            }
             
             
         } //END EDITMODE
@@ -104,15 +117,18 @@ BALL.editor = {
             
     },
     
+    clickObj: function(s) {
+        console.log(this);
+        BALL.editor.selected = s;
+    },
+    
     inputUp: function(pointer) {
         BALL.editor.isDown = false;
+        BALL.editor.dragging = false;
         if (BALL.editor.selected != null) {
             if (BALL.editor.selected.getBounds().contains(new Phaser.Point(pointer.x, pointer.y))) {
-                console.log("U CLICKED A SPRITE");
+                
             } else {
-                console.log("MISSED UPCLICK");
-                console.log("input: " + pointer.screenX + ", " + pointer.screenY);
-                console.log(BALL.editor.selected.getBounds());
                 //BALL.editor.selected = null;
             }
         }
@@ -121,7 +137,7 @@ BALL.editor = {
     enterEditMode: function() {
         BALL.editor.editMode = true;
         console.log("entering edit mode - " + BALL.editor.editMode);
-        game.camera.follow = null;
+        //game.camera.follow = null;
         game.camera.target = null;
         //BALL.editor.camUp = BALL.editor.camUp;
     },
@@ -130,9 +146,26 @@ BALL.editor = {
         BALL.editor.editMode = false;
         console.log("exiting edit mode - " + BALL.editor.editMode);
         //this.camUp = function() {};
+        BALL.play.ball.reset(400, 400);
+        game.camera.follow(BALL.play.ball);
+        game.camera.scale.setTo(0.75);
+        
     },
     
     update: function() {
+        if (this.dragging) {
+            console.log("HOVERING");
+            console.log(game.input.activePointer);
+            console.log(game.origDragPoint);
+            game.camera.x-= (game.input.activePointer.x - this.lastPX);
+            game.camera.y-= (game.input.activePointer.y - this.lastPY);
+            this.lastPX = game.input.activePointer.x;
+            this.lastPY = game.input.activePointer.y;
+        }
+        
+        
+        
+        //:::::::::::::--SPRITE CONTROLS--::::::::::::::::\\
         if (BALL.input.shift.isDown) {
             this.camSpeed = 100;
             this.spriteSpeed = 1;
@@ -141,7 +174,25 @@ BALL.editor = {
             this.spriteSpeed = 10;
         }
         
+        if (BALL.input.f.isDown) {
+            if (!BALL.input.f_down) {
+                BALL.input.f_down = true;
+                if (this.selected != null) {
+                    this.selected.scale.x*= -1;
+                } else {
+                    console.log("null: no object is selected to flip");
+                }
+            }
+        } else {
+            if (BALL.input.f_down) {
+                BALL.input.f_down = false;
+            }
+        }
         
+        
+        
+        
+        //CAMERA MOVEMENT
         if (BALL.input.W.isDown) {
             game.camera.y-= 5;
         }
@@ -156,37 +207,75 @@ BALL.editor = {
         }
         
         
+        //CAMERA SCALING
+        if (BALL.input.t.isDown) {
+            console.log(game.camera.scale.x);
+            this.camScale += 0.02;
+        }
+        if (BALL.input.g.isDown) {
+            this.camScale -= 0.02;
+        }
+        if (this.camScale < 0.5)
+            this.camScale = 0.5;
+        game.camera.scale.setTo(this.camScale);
+        
     },
     
     
     camSpeed: 10,
     camUp: function() {
-        game.camera.y-= BALL.editor.camSpeed;
+        //game.camera.y-= BALL.editor.camSpeed;
     },
     camLeft: function() {
-        game.camera.x-= BALL.editor.camSpeed;
+        //game.camera.x-= BALL.editor.camSpeed;
     },
     camDown: function() {
-        game.camera.y+= BALL.editor.camSpeed;
+        //game.camera.y+= BALL.editor.camSpeed;
     },
     camRight: function() {
-        game.camera.x+= BALL.editor.camSpeed;
+        //game.camera.x+= BALL.editor.camSpeed;
     },
     
     spriteSpeed: 10,
     selectedUp: function() { 
-        BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+        if (BALL.editor.selected.body != null) {
+            BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+        } else {
+            BALL.editor.selected.y -= BALL.editor.spriteSpeed;
+        }
     },
     selectedLeft: function() {
-        BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+        if (BALL.editor.selected.body != null) {
+            BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+        } else {
+            BALL.editor.selected.x -= BALL.editor.spriteSpeed;
+        }
     },
     selectedDown: function() {
-        BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+        if (BALL.editor.selected.body != null) {
+            BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+        } else {
+            BALL.editor.selected.y += BALL.editor.spriteSpeed;
+        }
     },
     selectedRight: function() {
-        BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+        if (BALL.editor.selected.body != null) {
+            BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+        } else {
+            BALL.editor.selected.x += BALL.editor.spriteSpeed;
+        }
     },
     
+    
+    
+    spriteHover: function() {
+        BALL.editor.hovering = true;
+        console.log("hovinger");
+    },
+    spriteUnhover: function() {
+        BALL.editor.hovering = false;
+        console.log("Unhover");
+    }
     
 
 }

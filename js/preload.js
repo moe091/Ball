@@ -3,7 +3,7 @@ BALL.preload = {
     preload: function() {
         game.load.image("ball", "assets/ball.png");
         game.load.image("plat", "assets/plat.png");
-        game.load.image("bg", "assets/bg.jpg");
+        game.load.image("bg", "assets/background.png");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");
@@ -11,12 +11,16 @@ BALL.preload = {
         
         //plats
         game.load.image("p1_angle", "assets/plats/p1_angle.png");
+        game.load.image("p1_angle-f", "assets/plats/p1_angle-f.png");
         game.load.image("p1_corner", "assets/plats/p1_corner.png");
         game.load.image("p1_edge", "assets/plats/p1_edge.png");
         game.load.image("p1_flat", "assets/plats/p1_flat.png");
         game.load.image("p1_ramp", "assets/plats/p1_ramp.png");
+        game.load.image("p1_ramp-f", "assets/plats/p1_ramp-f.png");
         game.load.image("wall_hor", "assets/plats/wall_hor.png");
         game.load.image("wall_vert", "assets/plats/wall_vert.png");
+        
+        game.load.spritesheet("electricity", "assets/plats/electricity.png", 130, 20);
         
         game.load.physics("plat_bodies", "assets/physics/plat_bodies.json");
     },

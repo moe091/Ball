@@ -17,11 +17,11 @@ BALL.play = {
         
         game.camera.scale.setTo(0.75);
         
-        game.add.sprite(0, 0, "bg").scale.setTo(1.5);
+        game.add.sprite(0, 0, "bg").scale.setTo(4);
         
         BALL.editor.createEditor(game);
         
-        this.ball = game.add.sprite(400, 400, "ball");
+        this.ball = game.add.sprite(100, 100, "ball");
         this.ball.anchor.setTo(0.5, 0.5);
         
         var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial');
@@ -80,6 +80,7 @@ BALL.play = {
         if (BALL.editor.editMode) {
             BALL.editor.update();
         }
+        BALL.gameState.update();
     },
     
     

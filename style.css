@@ -4,7 +4,8 @@
     padding: 6px;
     border-radius: 3px;
     margin-left: 20px;
-    width: 300px;
+    width: 930px;
+    height: 360px;
     overflow: hidden;
     display: inline-block;
 }
@@ -14,7 +15,7 @@
     margin: 2px;
     display: inline-block;
     overflow: hidden;
-    height: 120px;
+    height: 110px;
     min-width: 1200px;
 }
 
@@ -48,7 +49,113 @@
 }
 #imgScroll {
     width: 300px;
-    height: 120px;
+    height: 108px;
+    display: inline-block;
+    overflow: hidden;
+    background-color: #000;
+}
+
+
+
+
+
+//_________________________________________EDITOR__________________________________________\\
+
+
+
+
+
+
+
+
+.editorPanel{
+    height: 320px !important;
+}
+
+
+
+.editorSection {
+    background-color: #eaeaea;
+    border: 1px #adadad dashed;
+    text-align: center;
+    padding: 5px;
+    width: 300px;
+    height: 350px;
     display: inline-block;
     overflow: hidden;
 }
+
+.optionSpan {
+    margin: 5px 2px;
+    background-color: #e7e7e7;
+    display: inline-block;
+}
+
+
+#curSelectionImg {
+    border: 1px white solid;
+}
+#curSelectionDiv {
+    
+}
+
+#rotSpeedVal {
+    width: 4em;
+    height: 1.5em;
+    font-size: 1.2em;
+    overflow: visible;
+}
+
+#objDetailDiv {
+    background-color: #333;
+    color: #f4f4f4;
+}
+
+
+
+
+
+
+
+
+input[type=number]::-webkit-inner-spin-button {
+    height: 2.5em;
+    border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

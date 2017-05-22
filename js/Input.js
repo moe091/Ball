@@ -72,11 +72,6 @@ BALL.input = {
         this.m.onDown.add(BALL.editor.enterEditMode, this);
         this.n.onDown.add(BALL.editor.exitEditMode, this);
         
-        //move camera
-        this.W.onDown.add(BALL.editor.camUp, this);
-        this.A.onDown.add(BALL.editor.camLeft, this);
-        this.S.onDown.add(BALL.editor.camDown, this);
-        this.D.onDown.add(BALL.editor.camRight, this);
         
         this.UP.onDown.add(BALL.editor.selectedUp, this);
         this.LEFT.onDown.add(BALL.editor.selectedLeft, this);

@@ -3,7 +3,7 @@ BALL.preload = {
     preload: function() {
         game.load.image("ball", "assets/ball.png");
         game.load.image("plat", "assets/plat.png");
-        game.load.image("bg", "assets/background.png");
+        game.load.image("bg", "assets/sunset_city_bg.jpg");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");

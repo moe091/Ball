@@ -22,6 +22,7 @@
         
         <!----------------------Editor--------------------------->
         <script src="Editor/mapEditor.js"></script>
+        <script src="Editor/editorUI.js"></script>
         
         
         
@@ -60,33 +61,73 @@
                 
             game.state.start('preload');
             
-                    var imgDiv = document.getElementById('imgScroll');
-    function scrollHorizontally(e) {
-        e = window.event || e;
-        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-        imgDiv.scrollLeft -= (delta*40); // Multiplied by 40
-        e.preventDefault();
-    }
-    if (imgDiv.addEventListener) {
-        // IE9, Chrome, Safari, Opera
-        imgDiv.addEventListener("mousewheel", scrollHorizontally, false);
-        // Firefox
-        imgDiv.addEventListener("DOMMouseScroll", scrollHorizontally, false);
-    } else {
-        // IE 6/7/8
-        imgDiv.attachEvent("onmousewheel", scrollHorizontally);
-    }
-            
+            var imgDiv = document.getElementById('imgScroll');
+            function scrollHorizontally(e) {
+                e = window.event || e;
+                var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+                imgDiv.scrollLeft -= (delta*40); // Multiplied by 40
+                e.preventDefault();
+            }
+            if (imgDiv.addEventListener) {
+                // IE9, Chrome, Safari, Opera
+                imgDiv.addEventListener("mousewheel", scrollHorizontally, false);
+                // Firefox
+                imgDiv.addEventListener("DOMMouseScroll", scrollHorizontally, false);
+            } else {
+                // IE 6/7/8
+                imgDiv.attachEvent("onmousewheel", scrollHorizontally);
+            }
+
         };
+        
     </script>
         
         <div id="gameDiv">
         </div>
         <div id="editorDiv">
-            <div id="imgScroll">
-                <div id="imgsDiv1" class="imgsDiv">
+            <div id="leftPanel" class="editorPanel">
+                
+                <div id="selectionDiv" class="editorSection">
+                    <div id="imgScroll">
+                        <div id="imgsDiv1" class="imgsDiv">
 
+                        </div>
+                    </div>
+                    
+                    <label id="selectedLbl" class="editorLbl">Nothing Selected</label>
+                    
+                    <br />
+                    
+                    <div class="editorImg" id="curSelectionDiv">
+                        <img id="curSelectionImg" src="assets/plats/p1_flat.png">
+                    </div> 
+                    
+                    <br />
+                    
+                    <span id="existsSpan" class="optionSpan">
+                        <label class="editorLbl">Exists?</label>
+                        <input type="checkBox" class="editorChk" text="exists: ">
+                    </span>
+                    
+                    <br />
+                    
+                    
+                    <span id="rotationSpan" class="optionSpan">
+                        <label class="editorLbl">Rot Speed:</label>
+                        <input type="number" step=0.05 class="editorNumInput mod" id="rotSpeedVal">
+                    </span>
+                    
                 </div>
+                
+                <div id="objDetailDiv" class="editorSection">
+                
+                </div>
+            </div>
+            
+            <div id="rightPanel" class="editorPanel">
+                
+            
+            
             </div>
             
         </div>

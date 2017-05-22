@@ -14,6 +14,7 @@ BALL.editor = {
     
     hovering: false,
     dragging: false,
+    dragObj: false,
     lastPX: 0,
     lastPY: 0,
         //gObjs
@@ -74,7 +75,10 @@ BALL.editor = {
 
             BALL.editor.dragging = false;
             if (BALL.editor.hovering) {
-                
+                BALL.editor.dragObj = true;
+                console.log("_______________DRAG____________");
+                this.lastPX = Math.round(game.input.worldX);
+                this.lastPY = Math.round(game.input.worldY);
             } else {
                 if (BALL.input.tab.isDown) {
                     BALL.editor.dragging = true;
@@ -88,7 +92,7 @@ BALL.editor = {
                         BALL.editor.selected.animations.add('electrify');
                         BALL.editor.selected.animations.play("electrify", 20, true);
                     } else {
-                        game.physics.p2.enable(BALL.editor.selected, false);
+                        game.physics.p2.enable(BALL.editor.selected, true);
                         BALL.editor.selected.body.clearShapes();
                         BALL.editor.selected.body.loadPolygon("plat_bodies", BALL.editor.curObj);
                         BALL.editor.selected.body.static = true;
@@ -125,6 +129,9 @@ BALL.editor = {
     inputUp: function(pointer) {
         BALL.editor.isDown = false;
         BALL.editor.dragging = false;
+        BALL.editor.dragObj = false;
+        this.lastPX = 0;
+        this.lastPY = 0;
         if (BALL.editor.selected != null) {
             if (BALL.editor.selected.getBounds().contains(new Phaser.Point(pointer.x, pointer.y))) {
                 
@@ -154,13 +161,25 @@ BALL.editor = {
     
     update: function() {
         if (this.dragging) {
-            console.log("HOVERING");
-            console.log(game.input.activePointer);
-            console.log(game.origDragPoint);
-            game.camera.x-= (game.input.activePointer.x - this.lastPX);
-            game.camera.y-= (game.input.activePointer.y - this.lastPY);
-            this.lastPX = game.input.activePointer.x;
-            this.lastPY = game.input.activePointer.y;
+                console.log("HOVERING");
+                console.log(game.input.activePointer);
+                console.log(game.origDragPoint);
+                game.camera.x-= (game.input.activePointer.x - this.lastPX);
+                game.camera.y-= (game.input.activePointer.y - this.lastPY);
+                this.lastPX = game.input.activePointer.x;
+                this.lastPY = game.input.activePointer.y;
+        }
+        if (this.dragObj) {
+            console.log(game.input.activePointer.movementX);
+            if (game.input.activePointer.positionDown.x - game.input.activePointer.position.x > 10 || game.input.activePointer.positionDown.y - game.input.activePointer.position.y > 10) {
+                console.log(game.input.activePointer.positionDown.x + " - " + game.input.activePointer.position.x);
+                this.selected.reset(Math.round(game.input.worldX), Math.round(game.input.worldY));
+                this.lastPX = Math.round(game.input.worldX);
+                this.lastPY = Math.round(game.input.worldY);
+            } else {
+                this.lastPX = Math.round(game.input.worldX);
+                this.lastPY = Math.round(game.input.worldY);
+            }
         }
         
         

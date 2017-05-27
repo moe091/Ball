@@ -14,15 +14,24 @@
         <script src="libs/jquery-3.2.1.js"></script>
         
         <!------------------------GAME------------------------>
-        <script src="js/preload.js"></script>
-        <script src="js/menu.js"></script>
-        <script src="js/play.js"></script>
-        <script src="js/input.js"></script>
-        <script src="js/gameState.js"></script>
+        <!-- states -->
+        <script src="js/states/preload.js"></script>
+        <script src="js/states/menu.js"></script>
+        <script src="js/states/play.js"></script>
+        <!-- logic -->
+        <script src="js/logic/input.js"></script>
+        <script src="js/logic/gameState.js"></script>
+        <script src="js/logic/gObject.js"></script>
+        <!-- objects -->
+        <script src="js/objects/MovePath.js"></script>
+        <script src="js/objects/Trigger.js"></script>
+        <script src="js/objects/Event.js"></script>
         
         <!----------------------Editor--------------------------->
         <script src="Editor/mapEditor.js"></script>
         <script src="Editor/editorUI.js"></script>
+        <script src="Editor/editorFunctions.js"></script>
+        <script src="Editor/pathEditor.js"></script>
         
         
         
@@ -114,23 +123,93 @@
                     
                     <span id="rotationSpan" class="optionSpan">
                         <label class="editorLbl">Rot Speed:</label>
-                        <input type="number" step=0.05 class="editorNumInput mod" id="rotSpeedVal">
+                        <input type="number" step=5 value=0 class="editorNumInput" id="rotSpeedVal">
                     </span>
                     
+                    <span id="angleSpan" class="optionSpan">
+                        <label class="editorLbl">Angle:</label>
+                        <input type="number" step=5 value=0 class="editorNumInput" id="angleVal">
+                    </span>
+                    
+                    <button id="delSelectedBtn" class="botRightBtn btn">Delete</button>
                 </div>
                 
                 <div id="objDetailDiv" class="editorSection">
+                    
+                    <div id="movePathsDiv" class="propSelectDiv">
+                        
+                        <span class="groupSpan" id="mPathGroupSpan">
+                            <label class="editorLbL">Move Paths:</label>
+                            <button class="rightBtn btn" id="newPathBtn" onclick="BALL.editorUI.createMovePath()">New Path</button>
+                        </span>
+                        
+                        <select size=5 class="propSelectBox" id="mPathSelect">
+                            <option val=0>0__________Back and Forth[default]</option>
+                            <option val=1>1__________Sped Up</option>
+                            <option val=2>2__________Slowed Down</option>
+                        </select>
+                        
+                        <span class="groupSpan" id="mPathButtonsSpan">
+                            <button class="rightBtn btn" id="editPathBtn">Edit Path</button>
+                            <button class="leftBtn btn" id="delPathBtn">Delete Path</button>
+                        </span>
+                        
+                    </div><!-- MOVE PATHS DIV -->
+                    
+                    
+                    
+                    <div id="triggersDiv" class="propSelectDiv">
+                        
+                        <span class="groupSpan" id="triggersSpan">
+                            <label class="editorLbL">Triggers:</label>
+                            <button class="rightBtn btn" id="newTriggerBtn" onclick="newTriggerClick()">New Trigger</button>
+                        </span>
+                        
+                        <select size=5 class="propSelectBox" id="triggerSelect">
+                            <option val=0>0__________Back and Forth[default]</option>
+                            <option val=1>1__________Sped Up</option>
+                            <option val=2>2__________Slowed Down</option>
+                        </select>
+                        
+                        <span class="groupSpan" id="triggerButtonsSpan">
+                            <button class="rightBtn btn" id="editTriggerBtn">Edit Trigger</button>
+                            <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
+                        </span>
+                        
+                    </div><!-- TRIGGERS DIV -->
+                    
+                    
+                </div><!-- EDITOR SECTION DIV -->
                 
+                <div id="objEditorDiv" class="editorSection">
+                    <div class="propEditDiv" id="pathEditDiv">
+                        
+                        <div class="propSelectDiv">
+                            <span class="groupSpan" id="pathPointBtnSpan">
+                                <label class="editorLbL">Path Points: </label>
+                                <button class="rightBtn btn" id="createPointBtn">Add Point</button>
+                            </span>
+                            <select size=5 class="propSelectBox" id="pathPointSelect">
+                                <option val=0>0__________Back and Forth[default]</option>
+                                <option val=1>1__________Sped Up</option>
+                                <option val=2>2__________Slowed Down</option> 
+                            </select>
+                            <span class="groupSpan" id="pathPointBtnSpan"> 
+                                <button class="leftBtn btn" id="deletePointBtn">Delete Point</button>
+                                <button class="rightBtn btn" id="editPointBtn">Edit Point</button>
+                            </span>
+                        </div>
+                        
+                    </div>
+
+
                 </div>
-            </div>
-            
-            <div id="rightPanel" class="editorPanel">
                 
+            </div><!-----------------::: EDITOR PANEL :::-------------->
             
-            
-            </div>
-            
+
         </div>
+        
         
     </body>
     

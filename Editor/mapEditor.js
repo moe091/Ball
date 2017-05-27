@@ -13,24 +13,34 @@ BALL.editor = {
     spriteSpeed: 10,
     
     selected: null,
+    pathSpriteSelected: false,
     
     hovering: false,
     dragging: false,
-    dragObj: false,
     lastPX: 0,
     lastPY: 0,
-        //gObjs
-    
-    
-    
-
-    
-    
-    
     isDown: false,
     downX: 0,
     downY: 0,
     dragging: false,
+    movingObj: false,
+    
+    curEditor: null,
+    
+    setEditor: function(editor) {
+        this.curEditor = editor;
+    },
+    
+    select: function(sprite) {
+        this.selected = sprite;
+        BALL.editorUI.select(sprite);
+        if (this.curEditor != null) 
+            this.curEditor.select(sprite);
+    },
+    
+    //::::::::::::::::::::::::::::::'''''''''''''::::::::::::::::::::::::::::\\
+    //:::::::::::::::::::::::::... INPUT CALLBACKS ...:::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
     inputDown: function(pointer) {
         if (BALL.editor.editMode) {
                 
@@ -39,14 +49,12 @@ BALL.editor = {
             BALL.editor.isDown = true;
 
 
-
             BALL.editor.dragging = false;
-            if (BALL.editor.hovering) {
+            if (BALL.editor.hovering) { //hovering
                 BALL.editor.dragObj = true;
-                console.log("_______________DRAG____________");
                 this.lastPX = Math.round(game.input.worldX);
                 this.lastPY = Math.round(game.input.worldY);
-            } else {
+            } else {                    //not hovering
                 if (BALL.input.tab.isDown) {
                     BALL.editor.dragging = true;
                     BALL.editor.lastPX = game.input.activePointer.x;
@@ -56,17 +64,9 @@ BALL.editor = {
                 } else {
                     console.log("EDITOR - NO OBJECT SELECTED");
                 }
-            }
+            } //end if hovering
             
-            
-        } //END EDITMODE
-            
-            
-    },
-    
-    clickObj: function(s) {
-        BALL.editor.selected = s;
-        BALL.editorUI.updateSelected(BALL.editor.selected);
+        }//end if editMode 
     },
     
     inputUp: function(pointer) {
@@ -84,117 +84,73 @@ BALL.editor = {
         }
     },
     
+    clickObj: function(s) {
+        BALL.editor.select(s);
+        BALL.editor.pathSpriteSelected = false;
+    },
+    
 
     
-    movingObj: false,
+    //::::::::::::::::::::::::::::::::... UPDATE ...:::::::::::::::::::::::::\\
+    
     update: function() {
+        //EDITOR VARS
+        this.setMovespeeds();
+        
+        //OBJECT
+        this.dragObject();
+        this.flipObject();
+        
+        //CAMERA
         this.dragCamera();
+        this.scrollCamera();
+        this.scaleCamera();
         
-            this.dragObject();
-        
-        
-        
-        
-        //:::::::::::::--SPRITE CONTROLS--::::::::::::::::\\
-        if (BALL.input.shift.isDown) {
-            this.camSpeed = 100;
-            this.spriteSpeed = 1;
-        } else {
-            this.camSpeed = 10;
-            this.spriteSpeed = 10;
-        }
-        
-        if (BALL.input.f.isDown) {
-            if (!BALL.input.f_down) {
-                BALL.input.f_down = true;
-                if (this.selected != null) {
-                    this.selected.scale.x*= -1;
-                } else {
-                    console.log("null: no object is selected to flip");
-                }
-            }
-        } else {
-            if (BALL.input.f_down) {
-                BALL.input.f_down = false;
-            }
-        }
+        //OBJECT PROPERTIES
+        this.updateRotation();
         
         
-        
-        
-        //CAMERA MOVEMENT
-        if (BALL.input.W.isDown) {
-            game.camera.y-= 5;
-        }
-        if (BALL.input.A.isDown) {
-            game.camera.x-= 5;
-        }
-        if (BALL.input.S.isDown) {
-            game.camera.y+= 5;
-        }
-        if (BALL.input.D.isDown) {
-            game.camera.x+= 5;
-        }
-        
-        
-        //CAMERA SCALING
-        if (BALL.input.t.isDown) {
-            console.log(game.camera.scale.x);
-            this.camScale += 0.02;
-        }
-        if (BALL.input.g.isDown) {
-            this.camScale -= 0.02;
-        }
-        if (this.camScale < 0.5)
-            this.camScale = 0.5;
-        game.camera.scale.setTo(this.camScale);
+        //UPDATE UI
+        BALL.editorUI.update();
         
     },
     
     
-
-    selectedUp: function() { 
-        if (BALL.editor.selected.body != null) {
-            BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
-        } else {
-            BALL.editor.selected.y -= BALL.editor.spriteSpeed;
-        }
-    },
-    selectedLeft: function() {
-        if (BALL.editor.selected.body != null) {
-            BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
-        } else {
-            BALL.editor.selected.x -= BALL.editor.spriteSpeed;
-        }
-    },
-    selectedDown: function() {
-        if (BALL.editor.selected.body != null) {
-            BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
-        } else {
-            BALL.editor.selected.y += BALL.editor.spriteSpeed;
-        }
-    },
-    selectedRight: function() {
-        if (BALL.editor.selected.body != null) {
-            BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
-        } else {
-            BALL.editor.selected.x += BALL.editor.spriteSpeed;
-        }
-    },
     
+    
+    //::::::::::::::::::::::::::::::'''''''''''''::::::::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::... UPDATE FUNCS ...:::::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
     dragObject: function(){
         if (this.dragObj) {
-            if (Math.abs(game.input.activePointer.positionDown.x - game.input.activePointer.position.x) > 5 || Math.abs(game.input.activePointer.positionDown.y - game.input.activePointer.position.y) > 5 || this.movingObj) {
-                this.movingObj = true; console.log(game.input.activePointer.positionDown.x + " - " + game.input.activePointer.position.x);
-                this.selected.body.static = false;
-                this.selected.body.x = Math.round(game.input.worldX * (1 / game.camera.scale.x));
-                this.selected.body.y = Math.round(game.input.worldY * (1 / game.camera.scale.y));
-                this.selected.body.static = true;
-                this.lastPX = Math.round(game.input.worldX);
-                this.lastPY = Math.round(game.input.worldY);
-            } else {
-                this.lastPX = Math.round(game.input.worldX);
-                this.lastPY = Math.round(game.input.worldY);
+            if (!this.pathSpriteSelected) {//NOT PATH SPRITE
+                
+                //IF MOVED MORE THAN 5PX(so that i don't accidently drag sprites when trying to select them by clicking)
+                if (Math.abs(game.input.activePointer.positionDown.x - game.input.activePointer.position.x) > 5 || Math.abs(game.input.activePointer.positionDown.y - game.input.activePointer.position.y) > 5 || this.movingObj) {
+                    this.movingObj = true; 
+
+                    BALL.gameState.moveObject(this.selected, Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)));
+
+                    this.lastPX = Math.round(game.input.worldX);
+                    this.lastPY = Math.round(game.input.worldY);
+                } else {
+                    this.lastPX = Math.round(game.input.worldX);
+                    this.lastPY = Math.round(game.input.worldY);
+                }
+                
+            } else { //PATHSPRITE
+                
+                //IF MOVED MORE THAN 5PX(so that i don't accidently drag sprites when trying to select them by clicking)
+                if (Math.abs(game.input.activePointer.positionDown.x - game.input.activePointer.position.x) > 5 || Math.abs(game.input.activePointer.positionDown.y - game.input.activePointer.position.y) > 5 || this.movingObj) {
+                    BALL.gameState.moveObject(this.selected, Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)));
+
+                    this.lastPX = Math.round(game.input.worldX);
+                    this.lastPY = Math.round(game.input.worldY);
+                } else {
+                    this.lastPX = Math.round(game.input.worldX);
+                    this.lastPY = Math.round(game.input.worldY);
+                }
+                
             }
         } else {
             this.movingObj = false;
@@ -210,16 +166,145 @@ BALL.editor = {
         }
     },
     
+    flipObject: function() {
+        if (BALL.input.f.isDown) {
+            if (!BALL.input.f_down) {
+                BALL.input.f_down = true;
+                if (this.selected != null) {
+                    this.selected.scale.x*= -1;
+                } else {
+                    console.log("null: no object is selected to flip");
+                }
+            }
+        } else {
+            if (BALL.input.f_down) {
+                BALL.input.f_down = false;
+            }
+        }
+    },
+    
+    setMovespeeds: function() {
+        //MOVESPEED VARS
+        if (BALL.input.shift.isDown) {
+            this.camSpeed = 100;
+            this.spriteSpeed = 1;
+        } else {
+            this.camSpeed = 10;
+            this.spriteSpeed = 10;
+        }
+    },
+    
+    scrollCamera: function() {
+        //CAMERA MOVEMENT
+        if (BALL.input.W.isDown) {
+            game.camera.y-= 5;
+        }
+        if (BALL.input.A.isDown) {
+            game.camera.x-= 5;
+        }
+        if (BALL.input.S.isDown) {
+            game.camera.y+= 5;
+        }
+        if (BALL.input.D.isDown) {
+            game.camera.x+= 5;
+        }
+    },
+    
+    scaleCamera: function() {
+        //CAMERA SCALING
+        if (BALL.input.t.isDown) {
+            console.log(game.camera.scale.x);
+            this.camScale += 0.02;
+        }
+        if (BALL.input.g.isDown) {
+            this.camScale -= 0.02;
+        }
+        if (this.camScale < 0.5)
+            this.camScale = 0.5;
+        game.camera.scale.setTo(this.camScale);
+    },
+    
+    updateRotation: function() {
+        if (this.selected != null && !this.pathSpriteSelected) {
+            
+            if (BALL.editorUI.rotValue != null) {
+                this.selected.rotSpeed = BALL.editorUI.rotValue;
+                
+                if (this.selected.rotateUpdate == null) {
+                    this.selected.rotateUpdate = BALL.gObject.rotateUpdate(BALL.editorUI.rotValue, this.selected);
+                    this.selected.updateFuncs.push(this.selected.rotateUpdate);
+                }
+            } else {
+                console.log("NULL ROTVAL:", this.selected.key);
+            }
+            
+        }
+    },
+    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
+    //:::::::::::::::::::::::::::: END CAM FUNCS ::::::::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
+    
+    
+
+    selectedUp: function() { 
+        if (BALL.editor.pathSpriteSelected == false) {
+            if (BALL.editor.selected.body != null) {
+                BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+            } else {
+                BALL.editor.selected.y -= BALL.editor.spriteSpeed;
+            }
+        } else {
+            
+        }
+    },
+    selectedLeft: function() {
+        if (BALL.editor.pathSpriteSelected == false) {
+            if (BALL.editor.selected.body != null) {
+                BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+            } else {
+                BALL.editor.selected.x -= BALL.editor.spriteSpeed;
+            }
+        } else {
+            
+        }
+    },
+    selectedDown: function() {
+        if (BALL.editor.pathSpriteSelected == false) {
+            if (BALL.editor.selected.body != null) {
+                BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+            } else {
+                BALL.editor.selected.y += BALL.editor.spriteSpeed;
+            }
+        } else {
+            
+        }
+    },
+    selectedRight: function() {
+        if (BALL.editor.pathSpriteSelected == false) {
+            if (BALL.editor.selected.body != null) {
+                BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+            } else {
+                BALL.editor.selected.x += BALL.editor.spriteSpeed;
+            }
+        } else {
+            
+        }
+    },
+
     
     spriteHover: function() {
         BALL.editor.hovering = true;
-        console.log("hovinger");
     },
     spriteUnhover: function() {
         BALL.editor.hovering = false;
-        console.log("Unhover");
     },
+
     
+    
+    
+    //::::::::::::::::::::::::::::::'''''''''''''::::::::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::... EDITOR SETUP ...:::::::::::::::::::::::::\\
+    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
     enterEditMode: function() {
         BALL.editor.editMode = true;
         console.log("entering edit mode - " + BALL.editor.editMode);
@@ -258,12 +343,12 @@ BALL.editor = {
         this.sprites.inputEnableChildren = true;
         this.populategObjs();
         for (var i in this.gObjs) {
-            console.log(this.gObjs[i]);
             $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/plats/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
             $("#imgDiv-" + i).click({index: Number(i)}, function(event) {
                 BALL.editorUI.clickObject(event.data.index);
             });
         }
+        BALL.editorUI.setupUI();
     },
     
 

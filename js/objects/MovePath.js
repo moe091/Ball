@@ -3,7 +3,7 @@ BALL.MovePath = function(parent, name) {
     this.parent = parent;
     this.pointSprites = game.add.group();
     this.points = [];
-    this.points.push(new BALL.PathPoint(Math.round(parent.x), Math.round(parent.y), 3.5, 0, this)); //START/ORIGIN POINT
+    this.points.push(new BALL.PathPoint(Math.round(parent.x), Math.round(parent.y), 2, 0, this)); //START/ORIGIN POINT
     this.points[0].origin = true;
     
     this.startX = parent.x;
@@ -27,7 +27,8 @@ BALL.MovePath = function(parent, name) {
     
     console.log("created Path: ", this);
     parent.curPath = this;
-    parent.addUpdateFunc(function() { console.log("wrong update dude"); if (this.curPath != null) this.curPath.update(); });
+    this.updateFunc = function() { if (this.curPath.active) this.curPath.update()};
+    parent.addUpdateFunc(this.updateFunc);
     console.log(parent.updateFuncs);
     this.start();
 }
@@ -37,22 +38,44 @@ BALL.MovePath.prototype.start = function() {
         for (var p in this.points) {
             this.points[p].update();
         }
-        this.curPoint = this.points[0];
-        this.nextPoint = this.points[1];
-        this.curIndex = 0;
-        this.nextIndex = 1;
-        this.updateVelocity();
+        
+        this.curPoint = this.points[this.points.length - 1];
+        this.nextPoint = this.points[0];
+        this.curIndex = this.points.length - 1;
+        this.nextIndex = 0;
+        this.endPoint();
         this.active = true;
+        this.parent.curPath = this;
+        
+        
+        this.updateVelocity();
+        this.resetPosition();
+        console.log("started", this);
     } else {
         console.warn("TRYING TO START MOVEPATH WITH LESS THAN 2 POINTS");
+    }
+}
+
+BALL.MovePath.prototype.stop = function() {
+    this.active = false;
+    this.resetPosition;
+}
+
+BALL.MovePath.prototype.resetPosition = function() {
+    if (this.parent.body != null) {
+        this.parent.body.x = this.points[0].pSprite.x;
+        this.parent.body.y = this.points[0].pSprite.y;
+    } else {
+        this.parent.x = this.points[0].pSprite.x;
+        this.parent.y = this.points[0].pSprite.y;
     }
 }
 
 BALL.MovePath.prototype.update = function() {
     //parent.move(dx, dy);
     //parent.angle = this.getAngle();
-    console.log("updating. active =", this.active);
     if (this.active) {
+        console.log("DX:", this.dX, "DY:", this.dY);
         //console.log("body: ", this.parent.body.x, this.parent.body.y);
         //console.log("sprite: ", this.parent.x, this.parent.y);
         this.parent.body.x+= this.dX;
@@ -107,9 +130,9 @@ BALL.MovePath.prototype.endPoint = function() {
     }
 }
 BALL.MovePath.prototype.updateVelocity = function() {
-    this.dX = Math.cos(Math.atan2(this.nextPoint.y - this.curPoint.y, this.nextPoint.x - this.curPoint.x)) * this.curPoint.speed;
-    this.dY = Math.sin(Math.atan2(this.nextPoint.y - this.curPoint.y, this.nextPoint.x - this.curPoint.x)) * this.curPoint.speed;
-    console.log("DX:", this.dX, "    DY:", this.dY);
+    this.dX = Math.cos(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
+    this.dY = Math.sin(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
+    console.log("update - DX:", this.dX, "    DY:", this.dY);
 }
 
 BALL.MovePath.prototype.getAngle = function() {
@@ -154,6 +177,7 @@ BALL.PathPoint = function(x, y, speed, angle, path) {
     this.path = path;
     this.origin = false;
     this.pSprite = BALL.gameState.pointSprites.create(x, y, path.parent.key);
+    this.pSprite.parentObj = path.parent;
     this.pSprite.anchor.setTo(0.5);
     this.pSprite.alpha = 0.5;
     

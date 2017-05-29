@@ -32,6 +32,7 @@
         <script src="Editor/editorUI.js"></script>
         <script src="Editor/editorFunctions.js"></script>
         <script src="Editor/pathEditor.js"></script>
+        <script src="Editor/triggerEditor.js"></script>
         
         
         
@@ -162,7 +163,7 @@
                         
                         <span class="groupSpan" id="triggersSpan">
                             <label class="editorLbL">Triggers:</label>
-                            <button class="rightBtn btn" id="newTriggerBtn" onclick="newTriggerClick()">New Trigger</button>
+                            <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
                         </span>
                         
                         <select size=5 class="propSelectBox" id="triggerSelect">
@@ -198,11 +199,85 @@
                                 <button class="leftBtn btn" id="deletePointBtn">Delete Point</button>
                                 <button class="rightBtn btn" id="editPointBtn">Edit Point</button>
                             </span>
+                            <span class="groupSpan" id="startPathBtnSpan">
+                                <button class="leftBtn btn" id="startPathBtn">Start Path</button>
+                                <button class="rightBtn btn" id="stopPathBtn">Stop Path</button>
+                            </span>
                         </div>
                         
-                    </div>
+                    </div><!-- pathEditDiv -->
 
 
+                    <div class="propEditDiv" id="trigEditDiv">
+                        <div class="propSelectDiv">
+                            <span class="groupSpan">
+                                <b> <label class="editorLbl" id="trigNameLbl">NAME  -  </label></b>  <label class="editorLbL">  Trigger Type: </label>
+                            </span>
+                            <select size=4 class="propSelectBox" id="trigTypeSelect">
+                                <option val=1>1. On Contact</option>
+                                <option val=2>2. Path Complete</option>
+                                <option val=3>3. On Create</option> 
+                                <option val=4>4. On Destroy</option> 
+                            </select>
+                        </div>
+                        
+                        <div class="propSelectDiv">
+
+                            <div class="smallDiv" id="addEventDetDiv">
+                                <label class="editorLbL">Parameters:</label> 
+                                <br />
+                                <div class="smallDiv">
+                                    <label class="smLbl" id="tParamLbl1">param 1:</label><br />
+                                    <input type="number" class="evParamTxt" id="tParam1">
+                                </div>
+                                <div class="smallDiv">
+                                    <label class="smLbl" id="tParamLbl2">param 1:</label><br />
+                                    <input type="number" class="evParamTxt" id="tParam1">
+                                </div>
+                                <br />
+                                <button class="selTarBtn" id="selectTrigTargetBtn" enabled=false>Select Target</button>
+                            </div>
+
+                            
+                        </div>
+                        
+                        <div class="propSelectDiv">
+                            <select size=3 class="propSelectBox" id="eventTypeSelect">
+                                <option val=1>.........No Options...........</option>
+                            </select>
+                            <span class="groupSpan centered">
+                                <button class="btnRight btn" id="deleteEventBtn">Delete</button>
+                            </span>
+                        </div>
+                        
+                        
+                    </div><!-- trig edit div -->
+                    
+
+                        
+                </div><!--ObjEditorDiv -->
+                
+                <div class="editorSection" id="eventEditorSection">
+                    
+                    <div class="eventGroupDiv" id="eventEditDiv">
+                        <span class="groupSpan">
+                            <label class="editorLbL">Event Name</label>
+                            <label class="editorLbL rightBtn">Event Type:</label>
+                        </span>
+                        <select size=4 class="propSelectBox" id="eventTypeSelect">
+                            <option val=1>1. Kill</option>
+                            <option val=2>2. Spawn</option>
+                            <option val=3>3. Start Movepath</option> 
+                            <option val=4>4. Stop Movepath</option> 
+                            <option val=5>5. Apply Force</option> 
+                            <option val=6>6. Apply Torque</option> 
+                        </select>
+                        <span class="groupSpan centered">
+                            <button class="rightBtn btn" id="addEventBtn">Add</button>
+                            <button class="leftBtn btn" id="RemoveEventBtn">Remove</button>
+                        </span>
+                        
+                    </div><!-- event edit div -->
                 </div>
                 
             </div><!-----------------::: EDITOR PANEL :::-------------->

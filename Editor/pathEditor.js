@@ -15,8 +15,12 @@ BALL.pathEditor = {
         //update mPathSelect list
         //select this path in list
             //update path editor/points
+        if (this.curPath != null) {
+            this.curPath.stop();
+        }
         if (sprite.movePaths == null)
             sprite.movePaths = [];
+        
         
         var mPath = new BALL.MovePath(sprite, name);
         sprite.movePaths.push(mPath);
@@ -47,12 +51,13 @@ BALL.pathEditor = {
         //show path.pSprites
     },
     
-    startPath: function(path) {
-        //start this path
+    startPath: function() {
+        this.curPath.stop();
+        this.curPath.start();
     },
     
-    stopPath: function(path) {
-        
+    stopPath: function() {
+        this.curPath.stop();
     },
     
     
@@ -62,6 +67,7 @@ BALL.pathEditor = {
     
     
     selectMovePath: function(path) {
+        BALL.editor.getSelectedObj().setPath(path);
         this.curPath = path;
         this.showPathSprites(); //CREATE THIS
         this.showPathEditor();

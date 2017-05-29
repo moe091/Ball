@@ -14,6 +14,7 @@ BALL.play = {
         game.physics.p2.gravity.y = 900;
         game.physics.p2.friction = 12;
         game.physics.p2.restitution = 0.5;
+        game.physics.p2.setImpactEvents(true);
         
         game.camera.scale.setTo(0.75);
         

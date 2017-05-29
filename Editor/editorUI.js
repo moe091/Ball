@@ -14,8 +14,8 @@ BALL.editorUI = {
     update: function() {
         this.updateRotSpeedInput();
         
-        if (this.selected != null) {
-            this.selected.rotSpeed = this.rotValue;
+        if (BALL.editor.getSelectedObj() != null) {
+            BALL.editor.getSelectedObj().rotSpeed = this.rotValue;
             this.bodyUpdate();
         } else {
             console.log("NULL SELECTED");
@@ -34,12 +34,12 @@ BALL.editorUI = {
         if (parseFloat($("#angleVal").val()) != null) {
             this.angleValue = parseFloat($("#angleVal").val());
         }
-        if (this.selected.rotSpeed == null || this.selected.rotSpeed == 0) {
-            this.selected.bodyAngle = this.angleValue;
-            if (this.selected.body != null) {
-                this.selected.body.angle = this.angleValue;
+        if (BALL.editor.getSelectedObj().rotSpeed == null || BALL.editor.getSelectedObj().rotSpeed == 0) {
+            BALL.editor.getSelectedObj().bodyAngle = this.angleValue;
+            if (BALL.editor.getSelectedObj().body != null) {
+                BALL.editor.getSelectedObj().body.angle = this.angleValue;
             } else {
-                this.selected.angle = this.angleValue;
+                BALL.editor.getSelectedObj().angle = this.angleValue;
             }
         }
     },
@@ -110,9 +110,9 @@ BALL.editorUI = {
     
     updateTriggers: function() {
         $("#triggerSelect").empty();
-        if (this.selected.triggers != null) {
-            for (var i in this.selected.triggers) {
-                $("#triggerSelect").append("<option value=" + i + ">" + i + ".................. " + this.selected.triggers[i].name + "</option>");
+        if (BALL.editor.getSelectedObj().triggers != null) {
+            for (var i in BALL.editor.getSelectedObj().triggers) {
+                $("#triggerSelect").append("<option value=" + i + ">" + i + ".................. " + BALL.editor.getSelectedObj().triggers[i].name + "</option>");
             }
         }
     },
@@ -124,17 +124,62 @@ BALL.editorUI = {
     setupUI: function() {
         
         $("#mPathSelect").change(function(event) {
-            BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
-            BALL.pathEditor.selectMovePath(BALL.editor.selected.movePaths[$("#mPathSelect").val()])
+            //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
+            console.log("CHANGE HERE");
+            BALL.pathEditor.selectMovePath(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
         });
-        this.showObjEditor($(".nothing"));
+        $("#mPathSelect").focus(function(event) {
+            //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
+            console.log("CHANGE HERE");
+            BALL.pathEditor.selectMovePath(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
+        });
+        
+        
+        
+        $("#triggerSelect").change(function(event) {
+            BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
+        });
+        
+        $("#triggerSelect").focus(function(event) {
+            if ($("#triggerSelect").val() != null) {
+                BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
+            }
+        });
+        
+        $("#trigTypeSelect").change(function(event) {
+            BALL.trigEditor.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val()); 
+        });
+        
+        $("#addEventBtn").click(function(event) {
+            triggerEditor.addEvent(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), parseInt($("#evParam1").val()), parseInt($("#evParam2").val()), prompt("Enter Event Name:") );
+        });
+        
+        
         
         $("#createPointBtn").click(function() {
             console.log("SKLDJFSD");
-            if (BALL.editorUI.selected != null) {
+            if (BALL.editor.getSelectedObj() != null) {
                 BALL.pathEditor.createPoint();
             }
         });
+        
+        $("#startPathBtn").click(function() {
+            BALL.pathEditor.startPath();
+        });
+        
+        $("#stopPathBtn").click(function() {
+            BALL.pathEditor.stopPath();                  
+        });
+        
+        
+        //___________Triggers_____________\\
+        $("#newTriggerBtn").click(function() {
+            if (BALL.editor.getSelectedObj() != null) {
+                BALL.editor.setEditor(BALL.trigEditor);
+                BALL.trigEditor.createTrigger(BALL.editor.getSelectedObj(), prompt("ENTER TRIGGER NAME"));
+                BALL.editorUI.updateTriggers();
+            }
+        })
     },
 
     selectMovePath: function(event) {
@@ -143,7 +188,7 @@ BALL.editorUI = {
     
     createMovePath: function(event) {
         BALL.editor.setEditor(BALL.pathEditor);
-        BALL.pathEditor.createPath(this.selected, prompt("ENTER PATH NAME:"));
+        BALL.pathEditor.createPath(BALL.editor.getSelectedObj(), prompt("ENTER PATH NAME:"));
     },
     
 
@@ -199,8 +244,8 @@ BALL.mpElement =
 
 
 function newPathClick(event) {
-    if (this.selected != null)
-        pathEditor.createPath(this.selected, prompt("Path Name:"));
+    if (BALL.editor.selected != null)
+        pathEditor.createPath(BALL.editor.getSelectedObj(), prompt("Path Name:"));
     else 
         console.log("Select an object before creating movepath");
 }

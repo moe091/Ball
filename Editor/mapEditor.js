@@ -38,6 +38,14 @@ BALL.editor = {
             this.curEditor.select(sprite);
     },
     
+    getSelectedObj: function() {
+        if (this.pathSpriteSelected) {
+            return this.selected.parentObj;
+        } else {
+            return this.selected;
+        }
+    },
+    
     //::::::::::::::::::::::::::::::'''''''''''''::::::::::::::::::::::::::::\\
     //:::::::::::::::::::::::::... INPUT CALLBACKS ...:::::::::::::::::::::::\\
     //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
@@ -170,7 +178,7 @@ BALL.editor = {
         if (BALL.input.f.isDown) {
             if (!BALL.input.f_down) {
                 BALL.input.f_down = true;
-                if (this.selected != null) {
+                if (this.selected != null && !this.pathSpriteSelected) {
                     this.selected.scale.x*= -1;
                 } else {
                     console.log("null: no object is selected to flip");

@@ -35,3 +35,23 @@ Phaser.Sprite.prototype.update = function() {
         }
     }
 }
+
+
+
+
+//:::::::::::::: MOVEPATH FUNCS :::::::::::::::::\\
+Phaser.Sprite.prototype.setPath = function(path) {
+    if (this.curPath != null) {
+        this.curPath.stop();
+    }
+    this.curPath = path;
+    if (path.points[0].pSprite != null) {
+        if (this.body != null) {
+            this.body.x = path.points[0].pSprite.x;
+            this.body.y = path.points[0].pSprite.y;
+        } else {
+            this.x = path.points[0].pSprite.x;
+            this.y = path.points[0].pSprite.y;
+        }
+    }
+}

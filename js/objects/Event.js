@@ -5,8 +5,10 @@ BALL.E_START_MOVEPATH = 3;
 BALL.E_STOP_MOVEPATH = 4;
 BALL.E_APPLY_FORCE = 5;
 BALL.E_APPLY_TORQUE = 6;
+BALL.E_TOGGLE = 7;
 
-BALL.Event = function(target, name, type) {
+BALL.Event = function(target, name, type, id) {
+    this.id = id;
     this.target = target;
     this.name = name;
     this.type = type;

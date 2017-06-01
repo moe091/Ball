@@ -247,6 +247,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .smallDiv {
     display: inline-block;
+    margin: 2px 5px;
 }
 
 .eventGroupDiv {
@@ -254,6 +255,14 @@ input[type=number]::-webkit-inner-spin-button {
     color: #fff;
     border: 1px white solid;
     padding: 3px;
+}
+
+#selectTrigTargetBtn {
+    margin: 5px;
+}
+
+.eParamInput {
+    width: 5em;
 }
 
 

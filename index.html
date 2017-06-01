@@ -214,10 +214,10 @@
                                 <b> <label class="editorLbl" id="trigNameLbl">NAME  -  </label></b>  <label class="editorLbL">  Trigger Type: </label>
                             </span>
                             <select size=4 class="propSelectBox" id="trigTypeSelect">
-                                <option val=1>1. On Contact</option>
-                                <option val=2>2. Path Complete</option>
-                                <option val=3>3. On Create</option> 
-                                <option val=4>4. On Destroy</option> 
+                                <option value=1>1. On Contact</option>
+                                <option value=2>2. Path Complete</option>
+                                <option value=3>3. On Create</option> 
+                                <option value=4>4. On Destroy</option> 
                             </select>
                         </div>
                         
@@ -231,22 +231,24 @@
                                     <input type="number" class="evParamTxt" id="tParam1">
                                 </div>
                                 <div class="smallDiv">
-                                    <label class="smLbl" id="tParamLbl2">param 1:</label><br />
-                                    <input type="number" class="evParamTxt" id="tParam1">
+                                    <label class="smLbl" id="tParamLbl2">param 2:</label><br />
+                                    <input type="number" class="evParamTxt" id="tParam2">
                                 </div>
-                                <br />
-                                <button class="selTarBtn" id="selectTrigTargetBtn" enabled=false>Select Target</button>
+                                
                             </div>
 
                             
                         </div>
                         
                         <div class="propSelectDiv">
-                            <select size=3 class="propSelectBox" id="eventTypeSelect">
-                                <option val=1>.........No Options...........</option>
+                           
+                            <select size=4 class="propSelectBox" id="trigEventsSelect">
+                                <option value=1>...NO EVENTS...</option>
                             </select>
+                            
                             <span class="groupSpan centered">
-                                <button class="btnRight btn" id="deleteEventBtn">Delete</button>
+                                <button class="btnleft btn" id="removeEventBtn">Delete</button>
+                                <button class="btnRight btn" id="addEventBtn">Add</button>
                             </span>
                         </div>
                         
@@ -265,16 +267,32 @@
                             <label class="editorLbL rightBtn">Event Type:</label>
                         </span>
                         <select size=4 class="propSelectBox" id="eventTypeSelect">
-                            <option val=1>1. Kill</option>
-                            <option val=2>2. Spawn</option>
-                            <option val=3>3. Start Movepath</option> 
-                            <option val=4>4. Stop Movepath</option> 
-                            <option val=5>5. Apply Force</option> 
-                            <option val=6>6. Apply Torque</option> 
+                            <option value=1>1. Kill</option>
+                            <option value=2>2. Spawn</option>
+                            <option value=3>3. Start Movepath</option> 
+                            <option value=4>4. Stop Movepath</option> 
+                            <option value=5>5. Apply Force</option> 
+                            <option value=6>6. Apply Torque</option> 
                         </select>
+                        <br />
+                        
+                         <!----------------SPACE UNDER SELECT EVENT TYPE------------------>
+                        <div class="smallDiv">
+                            <button class="selTarBtn" id="selectTrigTargetBtn" disabled>Select Target</button>
+                        </div>
+
+                        <div class="smallDiv">
+                            <label class="editorLbl" id="eParamLbl1">Param 1</label>
+                            <input type="number" class="eParamInput" id="eParam1">
+                        </div>
+                        <div class="smallDiv">
+                            <label class="editorLbl" id="eParamLbl2">Param 1</label>
+                            <input type="number" class="eParamInput" id="eParam2">
+                        </div>
+                        
+                        <!----------------- ADD / REMOVE EVENT BTNS ----------------->
                         <span class="groupSpan centered">
-                            <button class="rightBtn btn" id="addEventBtn">Add</button>
-                            <button class="leftBtn btn" id="RemoveEventBtn">Remove</button>
+                            <button class="rightBtn btn" id="createEventBtn">Create</button>
                         </span>
                         
                     </div><!-- event edit div -->

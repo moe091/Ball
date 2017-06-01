@@ -7,6 +7,7 @@ BALL.gameState = {
     updateObjs: [],
     
     movePaths: [],
+    events: [],
     pointSprites: null,
     
     

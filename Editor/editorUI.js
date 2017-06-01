@@ -63,6 +63,7 @@ BALL.editorUI = {
     },
     
     updateSelected: function(sel) {
+        console.log("updating selected");
         BALL.gameState.hidePathSprites();
         if (sel != null) {
             this.selected = sel;
@@ -85,7 +86,7 @@ BALL.editorUI = {
                 $("#angleVal").val(0);
             }
 
-            this.updateMovePaths();
+            this.updateTriggers();
             console.log(sel.movePaths);
         }
     },
@@ -108,14 +109,7 @@ BALL.editorUI = {
         console.warn("DEPRECATED");
     },
     
-    updateTriggers: function() {
-        $("#triggerSelect").empty();
-        if (BALL.editor.getSelectedObj().triggers != null) {
-            for (var i in BALL.editor.getSelectedObj().triggers) {
-                $("#triggerSelect").append("<option value=" + i + ">" + i + ".................. " + BALL.editor.getSelectedObj().triggers[i].name + "</option>");
-            }
-        }
-    },
+
     
     
     
@@ -151,9 +145,17 @@ BALL.editorUI = {
         });
         
         $("#addEventBtn").click(function(event) {
-            triggerEditor.addEvent(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), parseInt($("#evParam1").val()), parseInt($("#evParam2").val()), prompt("Enter Event Name:") );
+            BALL.trigEditor.addEvent(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), parseInt($("#evParam1").val()), parseInt($("#evParam2").val()), prompt("Enter Event Name:") );
         });
         
+        $("#eventTypeSelect").change(function(event) {
+            console.log("UI - CHANGE", event);
+            BALL.trigEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+        });
+        $("#eventTypeSelect").focus(function(event) {
+            console.log("UI - CHANGE", event);
+            BALL.trigEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+        });
         
         
         $("#createPointBtn").click(function() {
@@ -177,7 +179,7 @@ BALL.editorUI = {
             if (BALL.editor.getSelectedObj() != null) {
                 BALL.editor.setEditor(BALL.trigEditor);
                 BALL.trigEditor.createTrigger(BALL.editor.getSelectedObj(), prompt("ENTER TRIGGER NAME"));
-                BALL.editorUI.updateTriggers();
+                BALL.trigEditor.updateTriggerList(BALL.editor.getSelectedObj());
             }
         })
     },

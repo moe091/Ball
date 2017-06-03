@@ -326,19 +326,16 @@ BALL.editor = {
         console.log("exiting edit mode - " + BALL.editor.editMode);
         //this.camUp = function() {};
         BALL.play.ball.reset(100, 100);
+        BALL.play.ball_back.reset(0, 0);
+        BALL.play.ball_face.reset(0, 0);
         game.camera.follow(BALL.play.ball);
         game.camera.scale.setTo(0.75);
         
     },
     
     populategObjs: function() {
-        this.gObjs.push("p1_angle");
-        this.gObjs.push("p1_angle-f");
-        this.gObjs.push("p1_corner");
-        this.gObjs.push("p1_edge");
-        this.gObjs.push("p1_flat");
-        this.gObjs.push("p1_ramp");
-        this.gObjs.push("p1_ramp-f");
+        this.gObjs.push("nb-dub_laser");
+        this.gObjs.push("w1-plat");
         this.gObjs.push("wall_hor");
         this.gObjs.push("wall_vert");
         this.gObjs.push("electricity");
@@ -351,10 +348,19 @@ BALL.editor = {
         this.sprites.inputEnableChildren = true;
         this.populategObjs();
         for (var i in this.gObjs) {
-            $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/plats/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
-            $("#imgDiv-" + i).click({index: Number(i)}, function(event) {
-                BALL.editorUI.clickObject(event.data.index);
-            });
+            console.log(this.gObjs[i]);
+            if (this.gObjs[i].substr(0, 2) == "w1") {
+                console.log("w1");
+                $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/graphics/world1/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
+                $("#imgDiv-" + i).click({index: Number(i)}, function(event) {
+                    BALL.editorUI.clickObject(event.data.index);
+                });
+            } else {
+                $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/plats/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
+                $("#imgDiv-" + i).click({index: Number(i)}, function(event) {
+                    BALL.editorUI.clickObject(event.data.index);
+                });
+            }
         }
         BALL.editorUI.setupUI();
     },

@@ -1,9 +1,14 @@
 BALL = {};
 BALL.preload = {
     preload: function() {
-        game.load.image("ball", "assets/ball.png");
+        game.load.image("ball", "assets/graphics/char-wheel.png");
+        game.load.image("ball_face", "assets/graphics/char-face.png");
         game.load.image("plat", "assets/plat.png");
-        game.load.image("bg", "assets/sunset_city_bg.jpg");
+        game.load.image("bg", "assets/graphics/world1/world1_bg.png");
+        
+        //world1
+        game.load.image("nb-dub_laser", "assets/graphics/world1/double-laser.png");
+        game.load.image("w1-plat", "assets/graphics/world1/w1-plat.png");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");

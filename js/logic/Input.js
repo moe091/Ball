@@ -15,13 +15,13 @@ BALL.input = {
             if (BALL.gameState.touchDown == false) {
                 BALL.gameState.downX = event.screenX;
                 if (BALL.input.left.contains(event.x, event.y)) {
-                    this.ball.body.angularVelocity-= 20;
+                    this.ball.body.angularVelocity-= 12;
                 } else if (BALL.input.right.contains(event.x, event.y)) {
-                    this.ball.body.angularVelocity+= 20;
+                    this.ball.body.angularVelocity+= 12;
 
                 } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
                     //jump
-                    this.ball.body.velocity.y-= 500;
+                    this.ball.body.velocity.y-= 600;
                     BALL.gameState.jumpTime = game.time.now;
                 }
             }

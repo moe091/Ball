@@ -12,7 +12,7 @@ BALL.play = {
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 900;
-        game.physics.p2.friction = 12;
+        game.physics.p2.friction = 42;
         game.physics.p2.restitution = 0.5;
         game.physics.p2.setImpactEvents(true);
         
@@ -22,8 +22,18 @@ BALL.play = {
         
         BALL.editor.createEditor(game);
         
-        this.ball = game.add.sprite(100, 100, "ball");
+        
+        this.ball_face = game.add.sprite(0, 0, "ball_face");
+        this.ball_face.anchor.setTo(0.5, 0.5);
+        
+        this.ball_back = game.add.sprite(0, 0, "ball");
+        this.ball_back.anchor.setTo(0.5, 0.5);
+        
+        this.ball = game.add.sprite(100, 800, "");
         this.ball.anchor.setTo(0.5, 0.5);
+        
+        this.ball.addChild(this.ball_face);
+        this.ball.addChild(this.ball_back);
         
         var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial');
         
@@ -33,6 +43,7 @@ BALL.play = {
         //this.plats.create(268, 449, "plat");
         //this.plats.create(1210, 300, "plat");
         //this.plats.create(0, 700, "plat");
+        /**
         this.plats.create(128, 2200, "plat");
         this.plats.create(512, 2200, "plat");
         this.plats.create(640, 2200, "plat");
@@ -54,10 +65,14 @@ BALL.play = {
             this.plats.children[i].body.setRectangle(128, 12, 0, -2);
             this.plats.children[i].body.static = true;
         }
+        **/
         game.physics.p2.enable(this.ball, false);
-        this.ball.body.setCircle(29);
+        this.ball.body.setCircle(32);
         this.ball.body.gravity.y = 500;
         
+        
+        this.ball_face.body.destroy();
+        this.ball_back.body.destroy();
         
         
         BALL.input.createRegions();
@@ -78,6 +93,18 @@ BALL.play = {
     },
     
     update: function() {
+        //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
+        //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];
+        this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
+        if (this.ball.body.angularVelocity > 35) {
+            this.ball_face.angle+= 35;
+        } else if (this.ball.body.angularVelocity < -35) {
+            this.ball_face.angle -= 35;
+        } else {
+            this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
+            this.ball_face.angle+= this.ball.body.angularVelocity;
+        }
+        
         if (BALL.editor.editMode) {
             BALL.editor.update();
         }

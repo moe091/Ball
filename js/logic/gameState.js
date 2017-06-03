@@ -28,16 +28,19 @@ BALL.gameState = {
         BALL.editor.selected.input.useHandCursor = true;
         BALL.editor.selected.input.enableDrag(true);
         
-        if (BALL.editor.curObj === "electricity") {
-            BALL.editor.selected.animations.add('electrify');
-            BALL.editor.selected.animations.play("electrify", 20, true);
-        } else {
-            game.physics.p2.enable(BALL.editor.selected, true);
+            game.physics.p2.enable(BALL.editor.selected, false);
             BALL.editor.selected.body.clearShapes();
             BALL.editor.selected.body.loadPolygon("plat_bodies", BALL.editor.curObj);
             BALL.editor.selected.body.static = true;
             BALL.editor.selected.input.pixelPerfectOver = true;
-        }
+        
+            if (BALL.editor.curObj.substr(0, 3) == "nb-") {
+                BALL.editor.selected.input.pixelPerfectOver = true;
+               // BALL.editor.selected.body.data.shapes[0].sensor=true;
+                
+                BALL.editor.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+            }
+        
         BALL.editor.selected.updateFuncs = [];
         this.updateObjs.push(BALL.editor.selected);
         
@@ -46,6 +49,13 @@ BALL.gameState = {
         BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
 
         BALL.gameState.objects.push(BALL.editor.selected);
+    },
+    
+    killCallback: function(obj, ball) {
+        console.log(obj.sprite.key);
+        BALL.play.ball.kill();
+        BALL.play.ball_back.kill();
+        BALL.play.ball_face.kill();
     },
     
     moveObject: function(sprite, x, y) {

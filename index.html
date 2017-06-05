@@ -22,6 +22,7 @@
         <script src="js/logic/input.js"></script>
         <script src="js/logic/gameState.js"></script>
         <script src="js/logic/gObject.js"></script>
+        <script src="js/logic/timer.js"></script>
         <!-- objects -->
         <script src="js/objects/MovePath.js"></script>
         <script src="js/objects/Trigger.js"></script>
@@ -263,7 +264,7 @@
                     
                     <div class="eventGroupDiv" id="eventEditDiv">
                         <span class="groupSpan">
-                            <label class="editorLbL">Event Name</label>
+                            <label class="editorLbL" id="eventNameLbl">Event Name</label>
                             <label class="editorLbL rightBtn">Event Type:</label>
                         </span>
                         <select size=4 class="propSelectBox" id="eventTypeSelect">
@@ -278,7 +279,7 @@
                         
                          <!----------------SPACE UNDER SELECT EVENT TYPE------------------>
                         <div class="smallDiv">
-                            <button class="selTarBtn" id="selectTrigTargetBtn" disabled>Select Target</button>
+                            <button class="selTarBtn" id="selectEventTargetBtn" disabled>Select Target</button>
                         </div>
 
                         <div class="smallDiv">

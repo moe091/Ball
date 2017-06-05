@@ -26,16 +26,23 @@ BALL.editor = {
     movingObj: false,
     
     curEditor: null,
+    targetSelect: null,
     
     setEditor: function(editor) {
         this.curEditor = editor;
     },
     
     select: function(sprite) {
-        this.selected = sprite;
-        BALL.editorUI.select(sprite);
-        if (this.curEditor != null) 
-            this.curEditor.select(sprite);
+        if (this.targetSelect == null) {
+            this.selected = sprite;
+            BALL.editorUI.select(sprite);
+            if (this.curEditor != null) {
+                this.curEditor.select(sprite);
+            }
+        } else {
+            this.targetSelect.selectTarget(sprite);
+            this.targetSelect = null;
+        }
     },
     
     getSelectedObj: function() {
@@ -336,6 +343,7 @@ BALL.editor = {
     populategObjs: function() {
         this.gObjs.push("nb-dub_laser");
         this.gObjs.push("w1-plat");
+        this.gObjs.push("w1-plat_break");
         this.gObjs.push("wall_hor");
         this.gObjs.push("wall_vert");
         this.gObjs.push("electricity");

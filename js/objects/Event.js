@@ -12,12 +12,23 @@ BALL.Event = function(target, name, type, id) {
     this.target = target;
     this.name = name;
     this.type = type;
+    this.args = [];
     
-    this.func = BALL.EventFuncs.killTarget();
+    this.func = null;
 }
 
 BALL.Event.prototype.execute = function(trigger) {
-    this.func(this.target, trigger);
+    this.func(this.target, this.args);
+}
+
+BALL.Event.prototype.setType = function(t) {
+    this.type = t;
+    if (t == BALL.E_KILL) {
+        this.func = BALL.EventFuncs.killTarget();
+    } else if (t == BALL.E_START_MOVEPATH) {
+        this.func = BALL.EventFuncs.startMovepath();
+        this.execute();
+    }
 }
 
 
@@ -29,12 +40,28 @@ BALL.Event.prototype.execute = function(trigger) {
 
 BALL.EventFuncs = {
     killTarget: function() {
-        return function(target, trigger) {
-            if (target == -1) {
+        return function(target, trigger, args) {
+            if (target == -1) { //if event has no target, use the triggers target instead
                 trigger.target.kill();
             } else {
                 target.kill();
             }
         }
+    },
+    
+    startMovepath: function() {
+        return function(target, trigger, args) {
+            if (target.movePaths[args[0]] != null) {
+                console.log(target.movePaths[args[0]]);
+                target.movePaths[args[0]].start();
+            }
+        }
+    },
+    
+    
+    
+    //NEW FUNCTIONS
+    destroyParent: function(obj) {
+        obj.kill();
     }
 }

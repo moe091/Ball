@@ -4,11 +4,13 @@ BALL.preload = {
         game.load.image("ball", "assets/graphics/char-wheel.png");
         game.load.image("ball_face", "assets/graphics/char-face.png");
         game.load.image("plat", "assets/plat.png");
-        game.load.image("bg", "assets/graphics/world1/world1_bg.png");
+        game.load.image("bg", "assets/graphics/world1/bg_texture.png");
+        game.load.image("bg2", "assets/graphics/world1/bg_buildings.png");
         
         //world1
         game.load.image("nb-dub_laser", "assets/graphics/world1/double-laser.png");
         game.load.image("w1-plat", "assets/graphics/world1/w1-plat.png");
+        game.load.image("w1-plat_break", "assets/graphics/world1/w1-plat_break.png");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");

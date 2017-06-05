@@ -38,67 +38,28 @@ BALL.trigEditor = {
     addEvent: function(sprite, type, p1, p2, name) {
         this.curEvent = new BALL.Event(BALL.play.ball, name, type, BALL.gameState.events.length);
         BALL.gameState.events.push(this.curEvent);
-        console.log(this.curTrigger);
-        console.log(this.curTrigger.events);
         this.curTrigger.events.push(this.curEvent);
-        console.log(this.curTrigger.events);
         this.updateTrigEventList();
+        $("#trigEventsSelect").val(this.curTrigger.events.length - 1);
+        BALL.eventEditor.selectEvent(this.curEvent);
     },
     
-    selectEventType: function(sprite, index) {
-        console.log("select :" + index);
-        if (index == BALL.E_KILL) {
-            this.eventParamSetup(null, "Delay", true);
-        } else if (index == BALL.E_SPAWN) {
-            this.eventParamSetup(null, "Delay", true);
-        } else if (index == BALL.E_START_MOVEPATH) {
-            this.eventParamSetup("Path #", "Delay", true);
-        } else if (index == BALL.E_STOP_MOVEPATH) {
-            this.eventParamSetup("path #", "Delay", true);
-        } else if (index == BALL.E_APPLY_FORCE) {
-            console.log("FORCE");
-            this.eventParamSetup("X-force", "Y-force", true);
-        } else if (index == BALL.E_APPLY_TORQUE) {
-            console.log("torque");
-            this.eventParamSetup("Value", null, true);
-        } else if (index == BALL.E_TOGGLE) {
-            this.eventParamSetup(null, "Delay", true);
-        }
-    },
-    eventParamSetup: function(p1, p2, sel) {
-        console.log(p2, p1, sel);
-        if (p1 == null) {
-            $("#eParamLbl1").hide();
-            $("#eParam1").hide();
-        } else {
-            $("#eParamLbl1").show();
-            $("#eParamLbl1").html(p1);
-            $("#eParam1").show();
-        }
-        
-        if (p2 == null) {
-            $("#eParamLbl2").hide();
-            $("#eParam2").hide();
-        } else {
-            $("#eParamLbl2").show();
-            $("#eParamLbl2").html(p2);
-            $("#eParam2").show();
-        }
-        
-        if (!sel) {
-            $("#selectTrigTargetBtn").prop('disabled', true);
-        } else {
-            $("#selectTrigTargetBtn").prop('disabled', false);
-        }
-    },
+
     
     
+    
+    selectEvent: function(sprite, index) {
+        this.curEvent = this.curTrigger.events[index];
+        BALL.eventEditor.selectEvent(this.curEvent);
+        console.log(this.curEvent);
+    },
     
     
     
     
     //___________UI CALLBACKS______________\\
     selectType: function(sprite, index) {
+        this.curTrigger.setType(Number(index));
         if (index == BALL.T_CONTACT) {
             $("#tParamLbl1").hide();
             $("#tParamLbl2").hide();
@@ -153,3 +114,100 @@ BALL.trigEditor = {
     }
     
 }
+
+
+
+BALL.eventEditor = {
+    curEvent: null,
+    
+    selectEvent: function(event) {
+        this.curEvent = event;
+        this.showEditor();
+        $("#eventNameLbl").html(event.name);
+    },
+    
+    showEditor: function() {
+        $("#eventEditorSection").css("display", "inline-block");
+        if (this.curEvent.type != null) {
+            $("#eventTypeSelect").val(this.curEvent.type);
+        }
+    },
+    
+    hideEditor: function() {
+        $("#eventEditorSection").hide();
+    },
+    
+    
+    selectTargetClick: function() {
+        console.log(this);
+        BALL.editor.targetSelect = this;
+    },
+    
+    selectTarget: function(sprite) {
+        this.curEvent.target = sprite;
+    },
+    
+    
+    
+    selectEventType: function(sprite, index) {
+        console.log("selectEventType - " + index);
+        this.curEvent.setType(Number(index));
+        if (index == BALL.E_KILL) {
+            this.eventParamSetup(null, "Delay", true);
+        } else if (index == BALL.E_SPAWN) {
+            this.eventParamSetup(null, "Delay", true);
+        } else if (index == BALL.E_START_MOVEPATH) {
+            this.eventParamSetup("Path #", "Delay", true);
+        } else if (index == BALL.E_STOP_MOVEPATH) {
+            this.eventParamSetup("path #", "Delay", true);
+        } else if (index == BALL.E_APPLY_FORCE) {
+            console.log("FORCE");
+            this.eventParamSetup("X-force", "Y-force", true);
+        } else if (index == BALL.E_APPLY_TORQUE) {
+            console.log("torque");
+            this.eventParamSetup("Value", null, true);
+        } else if (index == BALL.E_TOGGLE) {
+            this.eventParamSetup(null, "Delay", true);
+        }
+    },
+    eventParamSetup: function(p1, p2, sel) {
+        console.log(p2, p1, sel);
+        if (p1 == null) {
+            $("#eParamLbl1").hide();
+            $("#eParam1").hide();
+        } else {
+            $("#eParamLbl1").show();
+            $("#eParamLbl1").html(p1);
+            $("#eParam1").show();
+        }
+        
+        if (p2 == null) {
+            $("#eParamLbl2").hide();
+            $("#eParam2").hide();
+        } else {
+            $("#eParamLbl2").show();
+            $("#eParamLbl2").html(p2);
+            $("#eParam2").show();
+        }
+        
+        if (!sel) {
+            $("#selectEventTargetBtn").prop('disabled', true);
+        } else {
+            $("#selectEventTargetBtn").prop('disabled', false);
+        }
+    },
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

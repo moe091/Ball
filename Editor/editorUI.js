@@ -7,6 +7,7 @@ BALL.editorUI = {
     
     
     
+    
     select: function(sprite) {
         this.selected = sprite;
     },
@@ -117,19 +118,35 @@ BALL.editorUI = {
     curPath: null,
     setupUI: function() {
         
+        
+        //--------------------- MovePaths -------------------\\
         $("#mPathSelect").change(function(event) {
             //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
             console.log("CHANGE HERE");
+            
+            console.log(BALL.editor.getSelectedObj().movePaths);
+            console.log($("#mPathSelect").val());
+            console.log(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
+            
             BALL.pathEditor.selectMovePath(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
         });
         $("#mPathSelect").focus(function(event) {
             //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
-            console.log("CHANGE HERE");
-            BALL.pathEditor.selectMovePath(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
+            console.log("Focus");
+            
+            console.log(BALL.editor.getSelectedObj().movePaths);
+            console.log($("#mPathSelect").val());
+            console.log(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
+            if ($("#mPathSelect").val() != null) {
+                BALL.pathEditor.selectMovePath(BALL.editor.getSelectedObj().movePaths[$("#mPathSelect").val()]);
+            }
         });
         
         
         
+        
+        
+        //-------------------- Triggers --------------------------\\
         $("#triggerSelect").change(function(event) {
             BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
         });
@@ -148,14 +165,27 @@ BALL.editorUI = {
             BALL.trigEditor.addEvent(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), parseInt($("#evParam1").val()), parseInt($("#evParam2").val()), prompt("Enter Event Name:") );
         });
         
+        $("#trigEventsSelect").change(function(event) {
+            BALL.trigEditor.selectEvent(BALL.editor.getSelectedObj(), $("#trigEventsSelect").val());
+        });
+
+        
+        //----------------------- Events -------------------------\\
         $("#eventTypeSelect").change(function(event) {
             console.log("UI - CHANGE", event);
-            BALL.trigEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
         });
         $("#eventTypeSelect").focus(function(event) {
             console.log("UI - CHANGE", event);
-            BALL.trigEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
         });
+        
+        $("#selectEventTargetBtn").click(function(event) {
+            BALL.eventEditor.selectTargetClick();
+        });
+        
+        
+        
         
         
         $("#createPointBtn").click(function() {

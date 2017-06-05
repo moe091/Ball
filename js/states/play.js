@@ -18,9 +18,18 @@ BALL.play = {
         
         game.camera.scale.setTo(0.75);
         
-        game.add.sprite(0, 0, "bg").scale.setTo(4);
+        this.bg = game.add.tileSprite(0, 0, 1600, 900, "bg")
+        this.bg.fixedToCamera = true;
+        this.bg.scale.setTo(1);
+        
+        this.bg2 = game.add.tileSprite(0, 0, 1600, 833, "bg2");
+        this.bg2.fixedToCamera = true;
+        this.bg2.scale.setTo(1);
         
         BALL.editor.createEditor(game);
+        
+        
+        BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
         
         
         this.ball_face = game.add.sprite(0, 0, "ball_face");
@@ -93,6 +102,14 @@ BALL.play = {
     },
     
     update: function() {
+        BALL.timer.update();
+        //update BG POSITION:::
+        this.bg.cameraOffset.x = this.ball.x * -0.2;
+        this.bg.cameraOffset.y = this.ball.y * -0.2;
+        
+        this.bg2.cameraOffset.x = this.ball.x * -0.4;
+        this.bg2.cameraOffset.y = this.ball.y * -0.2;
+        
         //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
         //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];
         this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;

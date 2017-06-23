@@ -18,7 +18,8 @@ BALL.trigEditor = {
     
     createTrigger: function(sprite, name) {
         this.curTrigger = new BALL.Trigger(sprite, name);
-        
+        $("#trigTypeSelect").val(1);
+        this.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val());
     },
     
     
@@ -144,7 +145,17 @@ BALL.eventEditor = {
     },
     
     selectTarget: function(sprite) {
-        this.curEvent.target = sprite;
+        this.curEvent.setTarget(sprite);
+    },
+    
+    updateParam2: function(val) {
+        console.log($("#eParamLbl2").text());
+        console.log("val:");
+        console.log(val);
+        
+        if ($("#eParamLbl2").text() == "Delay") {
+            this.curEvent.setDelay(val);
+        }
     },
     
     

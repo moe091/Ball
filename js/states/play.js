@@ -13,7 +13,7 @@ BALL.play = {
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 900;
         game.physics.p2.friction = 42;
-        game.physics.p2.restitution = 0.5;
+        game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
         
         game.camera.scale.setTo(0.75);
@@ -22,14 +22,14 @@ BALL.play = {
         this.bg.fixedToCamera = true;
         this.bg.scale.setTo(1);
         
-        this.bg2 = game.add.tileSprite(0, 0, 1600, 833, "bg2");
+        this.bg2 = game.add.tileSprite(0, 0, 1599, 833, "bg2");
         this.bg2.fixedToCamera = true;
         this.bg2.scale.setTo(1);
         
-        BALL.editor.createEditor(game);
         
         
-        BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
+        
+        //BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
         
         
         this.ball_face = game.add.sprite(0, 0, "ball_face");
@@ -38,7 +38,7 @@ BALL.play = {
         this.ball_back = game.add.sprite(0, 0, "ball");
         this.ball_back.anchor.setTo(0.5, 0.5);
         
-        this.ball = game.add.sprite(100, 800, "");
+        this.ball = game.add.sprite(350, 800, "");
         this.ball.anchor.setTo(0.5, 0.5);
         
         this.ball.addChild(this.ball_face);
@@ -47,34 +47,7 @@ BALL.play = {
         var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial');
         
         
-        this.plats = game.add.group();
-        //this.plats.create(150, 400, "plat");
-        //this.plats.create(268, 449, "plat");
-        //this.plats.create(1210, 300, "plat");
-        //this.plats.create(0, 700, "plat");
-        /**
-        this.plats.create(128, 2200, "plat");
-        this.plats.create(512, 2200, "plat");
-        this.plats.create(640, 2200, "plat");
-        this.plats.create(768, 2200, "plat");
-        this.plats.create(896, 2200, "plat");
-        this.plats.create(1024, 2200, "plat");
-        this.plats.create(1152, 2200, "plat");
-        this.plats.create(1280, 2200, "plat");
-        this.plats.create(1408, 2200, "plat");
-        this.plats.create(1536, 2200, "plat");
-        this.plats.create(1664, 2200, "plat");
-        this.plats.create(1792, 2200, "plat");
-        this.plats.create(1920, 2200, "plat");
         
-        for (var i in this.plats.children) {
-            game.physics.p2.enable(this.plats.children[i], false);
-            
-            this.plats.children[i].anchor.setTo(0.5);
-            this.plats.children[i].body.setRectangle(128, 12, 0, -2);
-            this.plats.children[i].body.static = true;
-        }
-        **/
         game.physics.p2.enable(this.ball, false);
         this.ball.body.setCircle(32);
         this.ball.body.gravity.y = 500;
@@ -82,6 +55,8 @@ BALL.play = {
         
         this.ball_face.body.destroy();
         this.ball_back.body.destroy();
+        
+        BALL.editor.createEditor(game);
         
         
         BALL.input.createRegions();
@@ -95,6 +70,10 @@ BALL.play = {
         
         
         this.follow();
+        game.camera.scale.setTo(0.6);
+        
+        
+        
     },
     
     follow: function() {
@@ -102,13 +81,14 @@ BALL.play = {
     },
     
     update: function() {
+        console.log("main update - fps: " + game.time.fps);
         BALL.timer.update();
         //update BG POSITION:::
-        this.bg.cameraOffset.x = this.ball.x * -0.2;
-        this.bg.cameraOffset.y = this.ball.y * -0.2;
+        this.bg.cameraOffset.x = this.ball.x * -0.10;
+        this.bg.cameraOffset.y = this.ball.y * -0.15 + 145;
         
-        this.bg2.cameraOffset.x = this.ball.x * -0.4;
-        this.bg2.cameraOffset.y = this.ball.y * -0.2;
+        this.bg2.cameraOffset.x = this.ball.x * -0.16;
+        this.bg2.cameraOffset.y = this.ball.y * -0.15 + 188;
         
         //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
         //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];

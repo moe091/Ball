@@ -11,6 +11,7 @@ BALL.preload = {
         game.load.image("nb-dub_laser", "assets/graphics/world1/double-laser.png");
         game.load.image("w1-plat", "assets/graphics/world1/w1-plat.png");
         game.load.image("w1-plat_break", "assets/graphics/world1/w1-plat_break.png");
+        game.load.image("w1-big_plat", "assets/graphics/world1/w1-big_plat.png");
         
         //real assets
         game.load.image("alien", "assets/balls/alien_ball.png");
@@ -30,6 +31,8 @@ BALL.preload = {
         game.load.spritesheet("electricity", "assets/plats/electricity.png", 130, 20);
         
         game.load.physics("plat_bodies", "assets/physics/plat_bodies.json");
+        
+        game.load.json("level", "assets/levels/level.json");
     },
         
     create: function() {

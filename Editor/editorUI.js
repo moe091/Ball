@@ -184,6 +184,12 @@ BALL.editorUI = {
             BALL.eventEditor.selectTargetClick();
         });
         
+        $("#eParam2").keypress(function(event) {
+            BALL.eventEditor.updateParam2(Number($("#eParam2").val()));
+        });
+        $("#eParam2").change(function(event) {
+            BALL.eventEditor.updateParam2(Number($("#eParam2").val()));
+        });
         
         
         
@@ -211,7 +217,18 @@ BALL.editorUI = {
                 BALL.trigEditor.createTrigger(BALL.editor.getSelectedObj(), prompt("ENTER TRIGGER NAME"));
                 BALL.trigEditor.updateTriggerList(BALL.editor.getSelectedObj());
             }
-        })
+        });
+        
+        
+        
+        $("#saveLvlBtn").click( function() {
+            
+            var lvlStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(BALL.editor.saveLevel()));
+            var dLink = document.getElementById('downloadLevel');
+            dLink.setAttribute("href", lvlStr);
+            dLink.setAttribute("download", "level.json");
+            dLink.click();
+        });
     },
 
     selectMovePath: function(event) {

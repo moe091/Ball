@@ -3,9 +3,10 @@ BALL.gObject = {
     rotateUpdate: function(speed, sprite) {
         sprite.rotSpeed = speed;
         return function() {
+            console.log("rotate:");
             if (sprite.body != null) {
                 sprite.body.rotateRight(sprite.rotSpeed);
-                
+                console.log(sprite.rotSpeed);
             } else {
                 sprite.angle+= sprite.rotSpeed;
             }

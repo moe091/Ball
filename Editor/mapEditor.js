@@ -75,7 +75,7 @@ BALL.editor = {
                     BALL.editor.lastPX = game.input.activePointer.x;
                     BALL.editor.lastPY = game.input.activePointer.y;
                 } else if (BALL.editor.curObj != null) {
-                    BALL.gameState.createObj();
+                    BALL.gameState.createObj(Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)), BALL.editor.curObj);
                 } else {
                     console.log("EDITOR - NO OBJECT SELECTED");
                 }
@@ -332,11 +332,11 @@ BALL.editor = {
         BALL.editor.editMode = false;
         console.log("exiting edit mode - " + BALL.editor.editMode);
         //this.camUp = function() {};
-        BALL.play.ball.reset(100, 100);
+        BALL.play.ball.reset(350, 800);
         BALL.play.ball_back.reset(0, 0);
         BALL.play.ball_face.reset(0, 0);
         game.camera.follow(BALL.play.ball);
-        game.camera.scale.setTo(0.75);
+        game.camera.scale.setTo(0.6);
         
     },
     
@@ -344,6 +344,7 @@ BALL.editor = {
         this.gObjs.push("nb-dub_laser");
         this.gObjs.push("w1-plat");
         this.gObjs.push("w1-plat_break");
+        this.gObjs.push("w1-big_plat");
         this.gObjs.push("wall_hor");
         this.gObjs.push("wall_vert");
         this.gObjs.push("electricity");
@@ -371,7 +372,67 @@ BALL.editor = {
             }
         }
         BALL.editorUI.setupUI();
+        BALL.editor.loadLevel(game.cache.getJSON('level'));
     },
+    
+    
+    
+    saveLevel: function() {
+        var level = {};
+        level.objs = [];
+        
+        for (var i in BALL.gameState.objects) {
+            var o = {};
+            o.key = BALL.gameState.objects[i].key;
+            o.x = BALL.gameState.objects[i].x;
+            o.y = BALL.gameState.objects[i].y;
+            o.rotSpeed = BALL.gameState.objects[i].rotSpeed;
+            o.angle = BALL.gameState.objects[i].angle;
+            
+            if (BALL.gameState.objects[i].movePaths != null) {
+                o.movePaths = [];
+                
+                for (var p in BALL.gameState.objects[i].movePaths) {
+                    var path = {};
+                    path.startX = BALL.gameState.objects[i].movePaths[p].startX;
+                    path.startY = BALL.gameState.objects[i].movePaths[p].startY;
+                    
+                    path.points = [];
+                    for (var pt in BALL.gameState.objects[i].movePaths[p].points) {
+                        var point = {};
+                        point.x = BALL.gameState.objects[i].movePaths[p].points[pt].x;
+                        point.y = BALL.gameState.objects[i].movePaths[p].points[pt].y;
+                        point.speed = BALL.gameState.objects[i].movePaths[p].points[pt].speed;
+                        path.points.push(point);
+                    }//point loop
+                    
+                    o.movePaths.push(path);
+                }//path loop
+                
+            }//path IF
+            
+            level.objs.push(o);
+        }//object loop
+        
+        return level;
+    },
+    
+    loadLevel: function(level) {
+        for (var i in level.objs) {
+            var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key);
+            console.log(j);
+            j.rotSpeed = level.objs[i].rotSpeed;
+            console.log(level.objs[i]);
+            console.log(level.objs[i].rotSpeed);
+            if (j.rotSpeed != 0) {
+                j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
+                j.updateFuncs.push(j.rotateUpdate);
+            }
+            j.angle = level.objs[i].angle;
+            console.log(j);
+            
+        }
+    }
     
 
 }

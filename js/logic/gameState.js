@@ -20,8 +20,9 @@ BALL.gameState = {
     },
     
     
-    createObj: function() {
-        BALL.editor.select(BALL.editor.sprites.create(Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)), BALL.editor.curObj));
+    createObj: function(x, y, key) {
+        console.log("key:", key);
+        BALL.editor.select(BALL.editor.sprites.create(x, y, key));
         BALL.editor.selected.anchor.setTo(0.5, 0.5);
         
         BALL.editor.selected.inputEnabled = true;
@@ -30,11 +31,11 @@ BALL.gameState = {
         
             game.physics.p2.enable(BALL.editor.selected, false);
             BALL.editor.selected.body.clearShapes();
-            BALL.editor.selected.body.loadPolygon("plat_bodies", BALL.editor.curObj);
+            BALL.editor.selected.body.loadPolygon("plat_bodies", key);
             BALL.editor.selected.body.static = true;
             BALL.editor.selected.input.pixelPerfectOver = true;
         
-            if (BALL.editor.curObj.substr(0, 3) == "nb-") {
+            if (key.substr(0, 3) == "nb-") {
                 BALL.editor.selected.input.pixelPerfectOver = true;
                // BALL.editor.selected.body.data.shapes[0].sensor=true;
                 
@@ -47,8 +48,10 @@ BALL.gameState = {
         BALL.editor.selected.events.onInputDown.add(BALL.editor.clickObj, this);
         BALL.editor.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
         BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
-
+        console.log("ccreated object:");
+        console.log(BALL.editor.selected);
         BALL.gameState.objects.push(BALL.editor.selected);
+        return BALL.editor.selected;
     },
     
     killCallback: function(obj, ball) {

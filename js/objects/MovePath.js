@@ -25,15 +25,29 @@ BALL.MovePath = function(parent, name) {
     
     BALL.gameState.movePaths.push(this);
     
-    console.log("created Path: ", this);
     parent.curPath = this;
-    this.updateFunc = function() { if (this.curPath.active) this.curPath.update()};
-    parent.addUpdateFunc(this.updateFunc);
-    console.log(parent.updateFuncs);
+    //this.updateFunc = function() { if (this.curPath.active) this.curPath.update()};
+    //parent.addUpdateFunc(this.updateFunc);
+    
+    //______create movepath func for parent if it doesn't already exist. only needs to be created once regardless of how many movepaths
+    if (parent.movePathFunc == null) {
+        
+        parent.movePathFunc = function() {
+            console.log("movepath func - ", this);
+            if (this.curPath != null) {
+                this.curPath.update();
+            } 
+        };
+        parent.addUpdateFunc(parent.movePathFunc);
+        
+    }
+    
+    
     this.start();
 }
 
 BALL.MovePath.prototype.start = function() {
+    console.log("starting path: ", this);
     if (this.points.length >= 2) {
         for (var p in this.points) {
             this.points[p].update();
@@ -58,14 +72,16 @@ BALL.MovePath.prototype.start = function() {
 
 BALL.MovePath.prototype.stop = function() {
     this.active = false;
-    this.resetPosition;
+    this.resetPosition();
 }
 
 BALL.MovePath.prototype.resetPosition = function() {
     if (this.parent.body != null) {
+        console.log("has body", this.parent);
         this.parent.body.x = this.points[0].pSprite.x;
         this.parent.body.y = this.points[0].pSprite.y;
     } else {
+        console.log("no body", this.parent);
         this.parent.x = this.points[0].pSprite.x;
         this.parent.y = this.points[0].pSprite.y;
     }
@@ -75,7 +91,6 @@ BALL.MovePath.prototype.update = function() {
     //parent.move(dx, dy);
     //parent.angle = this.getAngle();
     if (this.active) {
-        console.log("DX:", this.dX, "DY:", this.dY);
         //console.log("body: ", this.parent.body.x, this.parent.body.y);
         //console.log("sprite: ", this.parent.x, this.parent.y);
         this.parent.body.x+= this.dX;
@@ -132,7 +147,6 @@ BALL.MovePath.prototype.endPoint = function() {
 BALL.MovePath.prototype.updateVelocity = function() {
     this.dX = Math.cos(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
     this.dY = Math.sin(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
-    console.log("update - DX:", this.dX, "    DY:", this.dY);
 }
 
 BALL.MovePath.prototype.getAngle = function() {

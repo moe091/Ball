@@ -12,6 +12,7 @@ BALL.timer = {
             console.log(func);
         }
         this.tEvents.push(new BALL.TimerEvent(func, parent, interval, repeat, args));
+        console.log(this.tEvents[this.tEvents.length - 1]);
     },
     
     removeEvent: function(ev) {

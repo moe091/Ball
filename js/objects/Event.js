@@ -14,21 +14,43 @@ BALL.Event = function(target, name, type, id) {
     this.type = type;
     this.args = [];
     
+    
+    this.delay = 0;
+    
     this.func = null;
 }
 
 BALL.Event.prototype.execute = function(trigger) {
+    console.log("executing:");
+    console.log(this.func);
     this.func(this.target, this.args);
 }
 
 BALL.Event.prototype.setType = function(t) {
     this.type = t;
     if (t == BALL.E_KILL) {
-        this.func = BALL.EventFuncs.killTarget();
+        if (this.delay == 0) {
+            this.func = BALL.EventFuncs.killTarget(this.target);
+        } else {
+            this.func = function() {
+                BALL.timer.pushEvent(BALL.EventFuncs.killTarget(this.target), this, this.delay, false);
+            }
+        }
     } else if (t == BALL.E_START_MOVEPATH) {
         this.func = BALL.EventFuncs.startMovepath();
         this.execute();
     }
+}
+
+BALL.Event.prototype.setTarget = function(sprite) {
+    this.target = sprite;
+    this.setType(this.type);
+    
+}
+
+BALL.Event.prototype.setDelay = function(d) {
+    this.delay = d;
+    this.setType(this.type);
 }
 
 
@@ -39,8 +61,11 @@ BALL.Event.prototype.setType = function(t) {
 
 
 BALL.EventFuncs = {
-    killTarget: function() {
-        return function(target, trigger, args) {
+    killTarget: function(target, trigger, args) {
+        return function() {
+            console.log(target);
+            console.log("killtarget");
+            console.log(this);
             if (target == -1) { //if event has no target, use the triggers target instead
                 trigger.target.kill();
             } else {

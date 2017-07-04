@@ -341,10 +341,10 @@ BALL.editor = {
     },
     
     populategObjs: function() {
-        this.gObjs.push("nb-dub_laser");
-        this.gObjs.push("w1-plat");
-        this.gObjs.push("w1-plat_break");
-        this.gObjs.push("w1-big_plat");
+        this.gObjs.push("double-laser");
+        this.gObjs.push("w1-plat1");
+        this.gObjs.push("w1-platbreak");
+
         this.gObjs.push("wall_hor");
         this.gObjs.push("wall_vert");
         this.gObjs.push("electricity");
@@ -358,7 +358,7 @@ BALL.editor = {
         this.populategObjs();
         for (var i in this.gObjs) {
             console.log(this.gObjs[i]);
-            if (this.gObjs[i].substr(0, 2) == "w1") {
+            if (this.gObjs[i].substr(0, 2) == "w1" || true) {
                 console.log("w1");
                 $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/graphics/world1/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
                 $("#imgDiv-" + i).click({index: Number(i)}, function(event) {

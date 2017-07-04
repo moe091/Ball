@@ -18,13 +18,13 @@ BALL.play = {
         
         game.camera.scale.setTo(0.75);
         
-        this.bg = game.add.tileSprite(0, 0, 1600, 900, "bg")
-        this.bg.fixedToCamera = true;
+        this.bg = game.add.tileSprite(0, 0, 3200, 2200, "graybg")
+        //this.bg.fixedToCamera = true;
         this.bg.scale.setTo(1);
         
-        this.bg2 = game.add.tileSprite(0, 0, 1599, 833, "bg2");
-        this.bg2.fixedToCamera = true;
-        this.bg2.scale.setTo(1);
+        //this.bg2 = game.add.tileSprite(0, 0, 256, 256, "bg2");
+        //this.bg2.fixedToCamera = true;
+        //this.bg2.scale.setTo(1);
         
         
         
@@ -84,11 +84,11 @@ BALL.play = {
         console.log("main update - fps: " + game.time.fps);
         BALL.timer.update();
         //update BG POSITION:::
-        this.bg.cameraOffset.x = this.ball.x * -0.10;
-        this.bg.cameraOffset.y = this.ball.y * -0.15 + 145;
+        //this.bg.cameraOffset.x = this.ball.x * -0.10;
+        //this.bg.cameraOffset.y = this.ball.y * -0.15 + 45;
         
-        this.bg2.cameraOffset.x = this.ball.x * -0.16;
-        this.bg2.cameraOffset.y = this.ball.y * -0.15 + 188;
+       // this.bg2.cameraOffset.x = this.ball.x * -0.16;
+        //this.bg2.cameraOffset.y = this.ball.y * -0.15 + 188;
         
         //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
         //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];

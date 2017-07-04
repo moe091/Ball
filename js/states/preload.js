@@ -1,6 +1,10 @@
 BALL = {};
 BALL.preload = {
     preload: function() {
+        game.load.image("w1-plat1", "assets/graphics/world1/w1-plat1.png");
+        game.load.image("graybg", "assets/graphics/world1/graybg.png");
+        game.load.image("w1-platbreak", "assets/graphics/world1/w1-platbreak.png");
+        
         game.load.image("ball", "assets/graphics/char-wheel.png");
         game.load.image("ball_face", "assets/graphics/char-face.png");
         game.load.image("plat", "assets/plat.png");
@@ -8,7 +12,7 @@ BALL.preload = {
         game.load.image("bg2", "assets/graphics/world1/bg_buildings.png");
         
         //world1
-        game.load.image("nb-dub_laser", "assets/graphics/world1/double-laser.png");
+        game.load.image("double-laser", "assets/graphics/world1/double-laser.png");
         game.load.image("w1-plat", "assets/graphics/world1/w1-plat.png");
         game.load.image("w1-plat_break", "assets/graphics/world1/w1-plat_break.png");
         game.load.image("w1-big_plat", "assets/graphics/world1/w1-big_plat.png");
@@ -30,7 +34,7 @@ BALL.preload = {
         
         game.load.spritesheet("electricity", "assets/plats/electricity.png", 130, 20);
         
-        game.load.physics("plat_bodies", "assets/physics/plat_bodies.json");
+        game.load.physics("plat_bodies", "assets/physics/bodies.json");
         
         game.load.json("level", "assets/levels/level.json");
     },

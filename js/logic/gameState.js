@@ -35,7 +35,7 @@ BALL.gameState = {
             BALL.editor.selected.body.static = true;
             BALL.editor.selected.input.pixelPerfectOver = true;
         
-            if (key.substr(0, 3) == "nb-") {
+            if (key.substr(0, 3) == "nb-" || key == "double-laser") {
                 BALL.editor.selected.input.pixelPerfectOver = true;
                // BALL.editor.selected.body.data.shapes[0].sensor=true;
                 

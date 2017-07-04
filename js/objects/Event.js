@@ -10,6 +10,12 @@ BALL.E_TOGGLE = 7;
 BALL.Event = function(target, name, type, id) {
     this.id = id;
     this.target = target;
+    this.targetID = null;
+    if (this.target != null) {
+        if (!this.target.ID)
+            console.warn("no or 0 id: ", this.target);
+        this.targetID = this.target.ID;
+    }
     this.name = name;
     this.type = type;
     this.args = [];
@@ -44,8 +50,11 @@ BALL.Event.prototype.setType = function(t) {
 
 BALL.Event.prototype.setTarget = function(sprite) {
     this.target = sprite;
+    this.targetID = sprite.ID;
     this.setType(this.type);
     
+    console.log("setting target to sprite id#-" + this.targetID + ": ");
+    console.log(this.target);
 }
 
 BALL.Event.prototype.setDelay = function(d) {

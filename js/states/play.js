@@ -81,7 +81,8 @@ BALL.play = {
     },
     
     update: function() {
-        console.log("main update - fps: " + game.time.fps);
+        //console.log("main update - fps: " + game.time.fps);
+        console.log(game.time.fps);
         BALL.timer.update();
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.10;

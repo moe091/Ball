@@ -388,6 +388,7 @@ BALL.editor = {
             o.y = BALL.gameState.objects[i].y;
             o.rotSpeed = BALL.gameState.objects[i].rotSpeed;
             o.angle = BALL.gameState.objects[i].angle;
+            o.ID = BALL.gameState.objects[i].ID;
             
             if (BALL.gameState.objects[i].movePaths != null) {
                 o.movePaths = [];
@@ -411,6 +412,33 @@ BALL.editor = {
                 
             }//path IF
             
+            if (BALL.gameState.objects[i].triggers != null && BALL.gameState.objects[i].triggers.length > 0) {
+                o.triggers = [];
+                for (var j in BALL.gameState.objects[i].triggers) {
+                    var trig = {};
+                    trig.type = BALL.gameState.objects[i].triggers[j].type;
+                    trig.name = BALL.gameState.objects[i].triggers[j].name;
+                    trig.params = BALL.gameState.objects[i].triggers[j].params;
+                    trig.parentID = BALL.gameState.objects[i].triggers[j].parent.ID;
+                    trig.events = [];
+                    if (BALL.gameState.objects[i].triggers[j].events != null && BALL.gameState.objects[i].triggers[j].events.length > 0) {
+                        for (var k in BALL.gameState.objects[i].triggers[j].events) {
+                            var event = {};
+                            event.delay = BALL.gameState.objects[i].triggers[j].events[k].delay;
+                            event.id = BALL.gameState.objects[i].triggers[j].events[k].id;
+                            event.name = BALL.gameState.objects[i].triggers[j].events[k].name;
+                            event.type = BALL.gameState.objects[i].triggers[j].events[k].type;
+                            event.targetID = BALL.gameState.objects[i].triggers[j].events[k].targetID;
+                            if (event.targetID == 0 || event.targetID == null) {
+                                console.warn("TARGET IS NULL OR 0", event, "id = ", event.targetID);
+                            }
+                            trig.events.push(event);
+                        }
+                    }
+                    o.triggers.push(trig);
+                }
+            }
+            
             level.objs.push(o);
         }//object loop
         
@@ -419,16 +447,30 @@ BALL.editor = {
     
     loadLevel: function(level) {
         for (var i in level.objs) {
-            var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key);
-            console.log(j);
+            var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
             j.rotSpeed = level.objs[i].rotSpeed;
-            console.log(level.objs[i]);
-            console.log(level.objs[i].rotSpeed);
             if (j.rotSpeed != 0) {
                 j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
                 j.updateFuncs.push(j.rotateUpdate);
             }
             j.angle = level.objs[i].angle;
+            
+            if (level.objs[i].triggers != null) {
+                j.triggers = [];
+                for (var a in level.objs[i].triggers) {
+                    j.triggers[a] = new BALL.Trigger(BALL.gameState.getSpriteById(level.objs[i].triggers[a].parentID), level.objs[i].triggers[a].name);
+                    j.triggers[a].setType(level.objs[i].triggers[a].type);
+                    j.triggers[a].params = level.objs[i].triggers[a].params;
+                    j.triggers[a].events = [];
+                    for (var b in level.objs[i].triggers[a].events) {
+                        j.triggers[a].events[b] = new BALL.Event(null, level.objs[i].triggers[a].events[b].name, null, 0);
+                        j.triggers[a].events[b].setTarget(BALL.gameState.getSpriteById(level.objs[i].triggers[a].events[b].targetID));
+                        j.triggers[a].events[b].setDelay(level.objs[i].triggers[a].events[b].delay);
+                        j.triggers[a].events[b].setType(level.objs[i].triggers[a].events[b].type);
+                    }
+                }
+            }
+            
             console.log(j);
             
         }

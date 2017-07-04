@@ -10,6 +10,8 @@ BALL.gameState = {
     events: [],
     pointSprites: null,
     
+    curID: 0,
+    
     
     update: function() {
         for (var i in this.updateObjs) {
@@ -20,10 +22,19 @@ BALL.gameState = {
     },
     
     
-    createObj: function(x, y, key) {
+    createObj: function(x, y, key, id) {
         console.log("key:", key);
         BALL.editor.select(BALL.editor.sprites.create(x, y, key));
         BALL.editor.selected.anchor.setTo(0.5, 0.5);
+        console.log("id param = " + id);
+        if (id == undefined) {
+            BALL.editor.selected.ID = this.curID++;
+            console.log("no id provided, setting id to: " + BALL.editor.selected.ID);
+        } else {
+            BALL.editor.selected.ID = id;
+            console.log("setting ID to provided value: " + BALL.editor.selected.ID);
+        }
+        
         
         BALL.editor.selected.inputEnabled = true;
         BALL.editor.selected.input.useHandCursor = true;
@@ -48,7 +59,7 @@ BALL.gameState = {
         BALL.editor.selected.events.onInputDown.add(BALL.editor.clickObj, this);
         BALL.editor.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
         BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
-        console.log("ccreated object:");
+        console.log("ccreated object " + BALL.editor.selected.ID + ": ");
         console.log(BALL.editor.selected);
         BALL.gameState.objects.push(BALL.editor.selected);
         return BALL.editor.selected;
@@ -84,6 +95,17 @@ BALL.gameState = {
     hidePathSprites: function() {
         
         console.warn("hidePathSprites - DEPCREATED");
+    },
+    
+    getSpriteById: function(id) {
+        console.log("getSpriteByID() context: ", this);
+        for (var i in this.objects) {
+            if (this.objects[i].ID == id) {
+                return this.objects[i];
+            }
+        }
+        console.warn("NO OBJECT FOUND WITH ID " + id + ", RETURNING NULL!");
+        return null;
     }
     
     

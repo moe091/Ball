@@ -9,7 +9,7 @@ BALL.trigEditor = {
     
     
     select: function(sprite) {
-        if (this.curTrigger.parent != sprite) {
+        if (this.curTrigger == null || this.curTrigger.parent != sprite) {
             $(".propEditDiv").hide();
         }
         this.updateTriggerList(sprite);

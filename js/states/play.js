@@ -8,7 +8,7 @@ BALL.play = {
     create: function() {
         
             
-        game.world.setBounds(0, 0, 3200, 2200);
+        game.world.setBounds(0, 0, 8000, 4300);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 900;
@@ -18,7 +18,7 @@ BALL.play = {
         
         game.camera.scale.setTo(0.75);
         
-        this.bg = game.add.tileSprite(0, 0, 3200, 2200, "graybg")
+        this.bg = game.add.tileSprite(0, 0, 8000, 4300, "graybg")
         //this.bg.fixedToCamera = true;
         this.bg.scale.setTo(1);
         
@@ -38,7 +38,7 @@ BALL.play = {
         this.ball_back = game.add.sprite(0, 0, "ball");
         this.ball_back.anchor.setTo(0.5, 0.5);
         
-        this.ball = game.add.sprite(350, 800, "");
+        this.ball = game.add.sprite(1750, 2000, "");
         this.ball.anchor.setTo(0.5, 0.5);
         
         this.ball.addChild(this.ball_face);
@@ -82,7 +82,7 @@ BALL.play = {
     
     update: function() {
         //console.log("main update - fps: " + game.time.fps);
-        console.log(game.time.fps);
+        //console.log(game.time.fps);
         BALL.timer.update();
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.10;

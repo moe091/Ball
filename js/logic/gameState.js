@@ -21,14 +21,24 @@ BALL.gameState = {
         }  
     },
     
+    nextID: function() {
+        while (this.getSpriteById(this.curID) != null) {
+            this.curID++;
+        }
+        return this.curID;
+    },
+    
     
     createObj: function(x, y, key, id) {
+        if (key == "double-laser") {
+            key = "k01-dublaser";
+        }
         console.log("key:", key);
         BALL.editor.select(BALL.editor.sprites.create(x, y, key));
         BALL.editor.selected.anchor.setTo(0.5, 0.5);
         console.log("id param = " + id);
         if (id == undefined) {
-            BALL.editor.selected.ID = this.curID++;
+            BALL.editor.selected.ID = this.nextID();
             console.log("no id provided, setting id to: " + BALL.editor.selected.ID);
         } else {
             BALL.editor.selected.ID = id;
@@ -46,11 +56,16 @@ BALL.gameState = {
             BALL.editor.selected.body.static = true;
             BALL.editor.selected.input.pixelPerfectOver = true;
         
-            if (key.substr(0, 3) == "nb-" || key == "double-laser") {
-                BALL.editor.selected.input.pixelPerfectOver = true;
+            if (key.substr(0, 4) == "k01-") {
+                //BALL.editor.selected.input.pixelPerfectOver = true;
                // BALL.editor.selected.body.data.shapes[0].sensor=true;
                 
                 BALL.editor.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+            }
+        
+            if (key == "k01-electricity") {
+                BALL.editor.selected.animations.add("play");
+                BALL.editor.selected.animations.play("play", 20, true);
             }
         
         BALL.editor.selected.updateFuncs = [];
@@ -63,6 +78,15 @@ BALL.gameState = {
         console.log(BALL.editor.selected);
         BALL.gameState.objects.push(BALL.editor.selected);
         return BALL.editor.selected;
+    },
+    
+    destroyObject: function(sprite) {
+        for (var i in this.objects) {
+            if (this.objects[i].ID == sprite.ID) {
+                this.objects.splice(i, 1);
+            }
+        }
+        sprite.destroy();
     },
     
     killCallback: function(obj, ball) {

@@ -181,35 +181,7 @@ BALL.editor = {
         }
     },
     
-    flipObject: function() {
-        if (BALL.input.f.isDown) {
-            if (!BALL.input.f_down) {
-                BALL.input.f_down = true;
-                if (this.selected != null && !this.pathSpriteSelected) {
-                    this.selected.scale.x*= -1;
-                } else {
-                    console.log("null: no object is selected to flip");
-                }
-            }
-        } else {
-            if (BALL.input.f_down) {
-                BALL.input.f_down = false;
-            }
-        }
-    },
-    
-    setMovespeeds: function() {
-        //MOVESPEED VARS
-        if (BALL.input.shift.isDown) {
-            this.camSpeed = 100;
-            this.spriteSpeed = 1;
-        } else {
-            this.camSpeed = 10;
-            this.spriteSpeed = 10;
-        }
-    },
-    
-    scrollCamera: function() {
+        scrollCamera: function() {
         //CAMERA MOVEMENT
         if (BALL.input.W.isDown) {
             game.camera.y-= 5;
@@ -239,6 +211,40 @@ BALL.editor = {
         game.camera.scale.setTo(this.camScale);
     },
     
+    //_________________________________________________________________________\\
+    //____________________________MODIFY OBJECTS_______________________________\\
+
+    
+    flipObject: function() {
+        if (BALL.input.f.isDown) {
+            if (!BALL.input.f_down) {
+                BALL.input.f_down = true;
+                if (this.selected != null && !this.pathSpriteSelected) {
+                    this.selected.scale.x*= -1;
+                } else {
+                    console.log("null: no object is selected to flip");
+                }
+            }
+        } else {
+            if (BALL.input.f_down) {
+                BALL.input.f_down = false;
+            }
+        }
+    },
+    
+    setMovespeeds: function() {
+        //MOVESPEED VARS
+        if (BALL.input.shift.isDown) {
+            this.camSpeed = 100;
+            this.spriteSpeed = 1;
+        } else {
+            this.camSpeed = 10;
+            this.spriteSpeed = 10;
+        }
+    },
+    
+
+    
     updateRotation: function() {
         if (this.selected != null && !this.pathSpriteSelected) {
             
@@ -255,11 +261,11 @@ BALL.editor = {
             
         }
     },
-    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
-    //:::::::::::::::::::::::::::: END CAM FUNCS ::::::::::::::::::::::::::::\\
-    //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
     
     
+    
+    
+    //______________________________________________SELECTION MOVEMENT__________________________________________\\
 
     selectedUp: function() { 
         if (BALL.editor.pathSpriteSelected == false) {
@@ -332,7 +338,7 @@ BALL.editor = {
         BALL.editor.editMode = false;
         console.log("exiting edit mode - " + BALL.editor.editMode);
         //this.camUp = function() {};
-        BALL.play.ball.reset(350, 800);
+        BALL.play.ball.reset(1750, 2000);
         BALL.play.ball_back.reset(0, 0);
         BALL.play.ball_face.reset(0, 0);
         game.camera.follow(BALL.play.ball);
@@ -341,13 +347,14 @@ BALL.editor = {
     },
     
     populategObjs: function() {
-        this.gObjs.push("double-laser");
+        //plats
         this.gObjs.push("w1-plat1");
         this.gObjs.push("w1-platbreak");
+        this.gObjs.push("bigplat");
 
-        this.gObjs.push("wall_hor");
-        this.gObjs.push("wall_vert");
-        this.gObjs.push("electricity");
+        //special
+        this.gObjs.push("k01-dublaser");
+        this.gObjs.push("k01-electricity");
     },
     
     createEditor: function(g) {
@@ -358,6 +365,13 @@ BALL.editor = {
         this.populategObjs();
         for (var i in this.gObjs) {
             console.log(this.gObjs[i]);
+            
+            $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/graphics/world1/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
+            $("#imgDiv-" + i).click({index: Number(i)}, function(event) {
+                BALL.editorUI.clickObject(event.data.index);
+            });
+            
+            /**  OLD CODE, REMOVE IF THINGS AREN'T BROKEN
             if (this.gObjs[i].substr(0, 2) == "w1" || true) {
                 console.log("w1");
                 $("#imgsDiv1").append("<div id='imgDiv-" + i + "' class='editorImg'><img src='assets/graphics/world1/" + this.gObjs[i] + ".png' id='edImg-" + i + "'></div>");
@@ -370,6 +384,7 @@ BALL.editor = {
                     BALL.editorUI.clickObject(event.data.index);
                 });
             }
+            **/
         }
         BALL.editorUI.setupUI();
         BALL.editor.loadLevel(game.cache.getJSON('level'));
@@ -446,6 +461,7 @@ BALL.editor = {
     },
     
     loadLevel: function(level) {
+        console.log(level);
         for (var i in level.objs) {
             var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
             j.rotSpeed = level.objs[i].rotSpeed;
@@ -453,7 +469,8 @@ BALL.editor = {
                 j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
                 j.updateFuncs.push(j.rotateUpdate);
             }
-            j.angle = level.objs[i].angle;
+            
+            
             
             if (level.objs[i].triggers != null) {
                 j.triggers = [];
@@ -471,7 +488,20 @@ BALL.editor = {
                 }
             }
             
-            console.log(j);
+            j.angle = level.objs[i].angle;
+            j.rotation = level.objs[i].angle * (Math.PI / 180);
+            
+            if (j.body != null) {
+                j.body.angle = level.objs[i].angle;
+            }
+            
+            if (level.objs[i].angle != 0) {
+                console.log("Object #" + level.objs[i].ID + ": " + level.objs[i].key);
+                console.log("saved angle: " + level.objs[i].angle);
+                console.log("actual angle: " + j.angle);
+                console.log(j);
+            }
+            
             
         }
     }

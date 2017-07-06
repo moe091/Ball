@@ -1,3 +1,7 @@
+//update trigger listbox on selectSprite()
+//update event delay every time value is changed(fix bug where it updates BEFORE chagne takes place isntead of after)
+
+
 BALL.editorUI = {
     selected: null,
     pathSprite: null, //currently selected pathSprite
@@ -10,6 +14,9 @@ BALL.editorUI = {
     
     select: function(sprite) {
         this.selected = sprite;
+        if (this.selected.triggers != null && this.selected.triggers.length > 0) {
+            BALL.trigEditor.select(this.selected);
+        }
     },
     
     update: function() {
@@ -117,7 +124,10 @@ BALL.editorUI = {
     //:::::::::::::::::::::::::::::--- UI CALLBACKS ---::::::::::::::::::::::::::\\
     curPath: null,
     setupUI: function() {
-        
+        $("#delSelectedBtn").click(function(event) {
+            BALL.gameState.destroyObject(BALL.editor.getSelectedObj()); 
+            BALL.editor.selected = null;
+        });
         
         //--------------------- MovePaths -------------------\\
         $("#mPathSelect").change(function(event) {

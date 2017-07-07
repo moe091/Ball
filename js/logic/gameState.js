@@ -5,6 +5,7 @@ BALL.gameState = {
     
     objects: [],
     updateObjs: [],
+    deadObjs: [],
     
     movePaths: [],
     events: [],
@@ -80,6 +81,16 @@ BALL.gameState = {
         return BALL.editor.selected;
     },
     
+    initObject: function(sprite) {
+        if (sprite.createTrigger != null) {
+            sprite.startX = sprite.x;
+            sprite.startY = sprite.y;
+            for (var i in sprite.createTrigger.events) {
+                sprite.createTrigger.events[i].execute();
+            }
+        }  
+    },
+    
     destroyObject: function(sprite) {
         for (var i in this.objects) {
             if (this.objects[i].ID == sprite.ID) {
@@ -94,6 +105,8 @@ BALL.gameState = {
         BALL.play.ball.kill();
         BALL.play.ball_back.kill();
         BALL.play.ball_face.kill();
+        
+        BALL.editor.exitEditMode();
     },
     
     moveObject: function(sprite, x, y) {
@@ -115,6 +128,8 @@ BALL.gameState = {
         }
     },
     
+
+    
     
     hidePathSprites: function() {
         
@@ -130,6 +145,20 @@ BALL.gameState = {
         }
         console.warn("NO OBJECT FOUND WITH ID " + id + ", RETURNING NULL!");
         return null;
+    },
+    
+    restoreObject: function(sprite) {
+        sprite.reset(sprite.startX, sprite.startY);
+    },
+    
+    buryObject: function(sprite) {
+        this.deadObjs.push(sprite);
+    },
+    
+    resurrectObjs: function() {
+        for (var i in this.deadObjs) {
+            this.restoreObject(this.deadObjs[i]);
+        }
     }
     
     

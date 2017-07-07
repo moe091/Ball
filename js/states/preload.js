@@ -85,14 +85,14 @@ BALL.preload = {
         game.scale.maxWidth = 800; 
         game.scale.maxHeight = 480;
         game.state.start('play');
-        /**
+        
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;  
         if (game.scale.isFullScreen) {    
             game.scale.stopFullScreen();  
         } else {  
             game.scale.startFullScreen();     
         }
-        **/
+        
     }
 
 };

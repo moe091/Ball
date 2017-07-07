@@ -45,6 +45,10 @@ BALL.Event.prototype.setType = function(t) {
     } else if (t == BALL.E_START_MOVEPATH) {
         this.func = BALL.EventFuncs.startMovepath();
         this.execute();
+    } else if (t == BALL.E_TOGGLE) {
+        if (this.delay == 0)
+            this.delay = 1000;
+        this.func = BALL.EventFuncs.getToggle(this, this.target, this.delay);
     }
 }
 
@@ -67,17 +71,41 @@ BALL.Event.prototype.setDelay = function(d) {
     //CREATE SYSTEM TO APPLY EVENT AND TRIGGER TYPES WITH CONSTANTS - MAKE CREATIO PROCESS AS SIMPLE AS POSSIBLE
 
 
-
-
 BALL.EventFuncs = {
+    
+    getToggle: function(parent, target, delay) {
+        console.log("GET TOGGLE CALLED");
+        return function(target, args) {
+            console.log("PUSHING EVENT TO TIMER");
+            BALL.timer.pushEvent(BALL.EventFuncs.toggle(target), parent, delay, true);
+        }  
+    },
+    toggle: function(sprite) {
+        return function() {
+            console.log("TOGGLING!", sprite);
+            if (sprite.alive) {
+                sprite.kill();
+            } else {
+                sprite.reset(sprite.startX, sprite.startY);
+            }
+        }
+    },
+    
+    
     killTarget: function(target, trigger, args) {
         return function() {
             console.log(target);
             console.log("killtarget");
             console.log(this);
             if (target == -1) { //if event has no target, use the triggers target instead
+                trigger.target.startX = trigger.target.x;
+                trigger.target.startY = trigger.target.y;
+                BALL.gameState.buryObject(trigger.target);
                 trigger.target.kill();
             } else {
+                target.startX = target.x;
+                target.startY = target.y;
+                BALL.gameState.buryObject(target);
                 target.kill();
             }
         }

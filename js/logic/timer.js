@@ -46,6 +46,7 @@ BALL.TimerEvent = function(func, parent, interval, repeat, args) {
 BALL.TimerEvent.prototype.update = function(elapsed) {
     this.countDown-= elapsed;
     if (this.countDown <= 0) {
+        console.log(this.func);
         this.func(this.parent, this.args);
         if (this.repeat) {
             this.countDown = this.interval + this.countDown;

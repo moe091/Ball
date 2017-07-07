@@ -1,7 +1,4 @@
-BALL.T_CONTACT = 1;
-BALL.T_PATH_COMPLETE = 2;
-BALL.T_CREATE = 3;
-BALL.T_DESTROY = 4;
+
 
 BALL.trigEditor = {
     curTrigger: null,

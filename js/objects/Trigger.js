@@ -1,4 +1,8 @@
+
 BALL.T_CONTACT = 1;
+BALL.T_PATH_COMPLETE = 2;
+BALL.T_CREATE = 3;
+BALL.T_DESTROY = 4;
 
 BALL.Trigger = function(parent, name) {
     this.parent = parent;
@@ -29,6 +33,8 @@ BALL.Trigger.prototype.setType = function(t) {
     if (this.type == BALL.T_CONTACT) {
         console.log("Adding contact callback");
         this.parent.body.createBodyCallback(BALL.play.ball, this.callEvent, this);
+    } else if (this.type == BALL.T_CREATE) {
+        this.parent.createTrigger = this;
     }
 }
 BALL.Trigger.prototype.setTarget = function(t) {

@@ -34,16 +34,13 @@ BALL.gameState = {
         if (key == "double-laser") {
             key = "k01-dublaser";
         }
-        console.log("key:", key);
         BALL.editor.select(BALL.editor.sprites.create(x, y, key));
         BALL.editor.selected.anchor.setTo(0.5, 0.5);
-        console.log("id param = " + id);
         if (id == undefined) {
             BALL.editor.selected.ID = this.nextID();
             console.log("no id provided, setting id to: " + BALL.editor.selected.ID);
         } else {
             BALL.editor.selected.ID = id;
-            console.log("setting ID to provided value: " + BALL.editor.selected.ID);
         }
         
         
@@ -75,8 +72,6 @@ BALL.gameState = {
         BALL.editor.selected.events.onInputDown.add(BALL.editor.clickObj, this);
         BALL.editor.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
         BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
-        console.log("ccreated object " + BALL.editor.selected.ID + ": ");
-        console.log(BALL.editor.selected);
         BALL.gameState.objects.push(BALL.editor.selected);
         return BALL.editor.selected;
     },

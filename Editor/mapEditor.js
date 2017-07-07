@@ -358,6 +358,7 @@ BALL.editor = {
         //special
         this.gObjs.push("k01-dublaser");
         this.gObjs.push("k01-electricity");
+        this.gObjs.push("k02-button");
     },
     
     createEditor: function(g) {
@@ -447,6 +448,7 @@ BALL.editor = {
                             event.name = BALL.gameState.objects[i].triggers[j].events[k].name;
                             event.type = BALL.gameState.objects[i].triggers[j].events[k].type;
                             event.targetID = BALL.gameState.objects[i].triggers[j].events[k].targetID;
+                            event.args = BALL.gameState.objects[i].triggers[j].events[k].args;
                             if (event.targetID == 0 || event.targetID == null) {
                                 console.warn("TARGET IS NULL OR 0", event, "id = ", event.targetID);
                             }
@@ -486,7 +488,12 @@ BALL.editor = {
                         j.triggers[a].events[b] = new BALL.Event(null, level.objs[i].triggers[a].events[b].name, null, 0);
                         j.triggers[a].events[b].setTarget(BALL.gameState.getSpriteById(level.objs[i].triggers[a].events[b].targetID));
                         j.triggers[a].events[b].setDelay(level.objs[i].triggers[a].events[b].delay);
+                        if (level.objs[i].triggers[a].events[b].args != null && level.objs[i].triggers[a].events[b].args[0] != null) {
+                            j.triggers[a].events[b].setParam1(level.objs[i].triggers[a].events[b].args[0]);
+                        }
+                        //SET TYPE LAST, SET TYPE CREATES/UPDATES EVENT FUNC
                         j.triggers[a].events[b].setType(level.objs[i].triggers[a].events[b].type);
+                        
                     }
                 }
             }
@@ -497,13 +504,7 @@ BALL.editor = {
             if (j.body != null) {
                 j.body.angle = level.objs[i].angle;
             }
-            
-            if (level.objs[i].angle != 0) {
-                console.log("Object #" + level.objs[i].ID + ": " + level.objs[i].key);
-                console.log("saved angle: " + level.objs[i].angle);
-                console.log("actual angle: " + j.angle);
-                console.log(j);
-            }
+
             
             BALL.gameState.initObject(j);
         }

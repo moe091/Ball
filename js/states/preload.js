@@ -17,9 +17,10 @@ BALL.preload = {
         
         //special/obstacles
         game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");
+        game.load.image("k02-button", "assets/graphics/world1/k02-button.png");
         game.load.spritesheet("k01-electricity", "assets/graphics/world1/k01-electricity.png", 260, 39);
         
-        
+        /**
         //:::::::::::::::::::::::::================---################---===============::::::::::::::::::::::::::::::\\
         game.load.image("plat", "assets/plat.png");
         game.load.image("bg", "assets/graphics/world1/bg_texture.png");
@@ -46,7 +47,10 @@ BALL.preload = {
         game.load.image("wall_hor", "assets/plats/wall_hor.png");
         game.load.image("wall_vert", "assets/plats/wall_vert.png");
         
+        
         game.load.spritesheet("electricity", "assets/graphics/world1/electricity.png", 260, 40);
+        **/
+        
         
         game.load.physics("plat_bodies", "assets/physics/bodies.json");
         

@@ -13,7 +13,11 @@ BALL.editorUI = {
     
     
     select: function(sprite) {
+        if (this.selected != sprite) {
+            BALL.eventEditor.hideEditor();
+        }
         this.selected = sprite;
+        $("#angleVal").val(sprite.angle);
         if (this.selected.triggers != null && this.selected.triggers.length > 0) {
             BALL.trigEditor.select(this.selected);
         }
@@ -183,22 +187,30 @@ BALL.editorUI = {
         //----------------------- Events -------------------------\\
         $("#eventTypeSelect").change(function(event) {
             console.log("UI - CHANGE", event);
-            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), true); 
         });
         $("#eventTypeSelect").focus(function(event) {
             console.log("UI - CHANGE", event);
-            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val()); 
+            BALL.eventEditor.selectEventType(BALL.editor.getSelectedObj(), $("#eventTypeSelect").val(), true); 
         });
         
         $("#selectEventTargetBtn").click(function(event) {
             BALL.eventEditor.selectTargetClick();
         });
         
+        
         $("#eParam2").keypress(function(event) {
             BALL.eventEditor.updateParam2(Number($("#eParam2").val()));
         });
         $("#eParam2").change(function(event) {
             BALL.eventEditor.updateParam2(Number($("#eParam2").val()));
+        });
+        
+        $("#eParam1").keypress(function(event) {
+            BALL.eventEditor.updateParam1(Number($("#eParam1").val()));
+        });
+        $("#eParam1").change(function(event) {
+            BALL.eventEditor.updateParam1(Number($("#eParam1").val()));
         });
         
         

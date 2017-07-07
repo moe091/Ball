@@ -1,4 +1,7 @@
-
+//--------TODO----------\\
+//UPDATE STARTX/STARTY WHEN MOVING SPRITES WITH EVENT
+//Fix issue with last object rotating to 0 angle when entering edit mode for the first time
+//update triggers/events(mostly ONCREATE triggers and timed events) right away, instead of requiring saving and reloading level to take effect. (Can I just simply call initObject?)
 BALL.E_KILL = 1;
 BALL.E_SPAWN = 2;
 BALL.E_START_MOVEPATH = 3;
@@ -48,7 +51,7 @@ BALL.Event.prototype.setType = function(t) {
     } else if (t == BALL.E_TOGGLE) {
         if (this.delay == 0)
             this.delay = 1000;
-        this.func = BALL.EventFuncs.getToggle(this, this.target, this.delay);
+        this.func = BALL.EventFuncs.getToggle(this, this.target, this.delay, this.args);
     }
 }
 
@@ -66,6 +69,10 @@ BALL.Event.prototype.setDelay = function(d) {
     this.setType(this.type);
 }
 
+BALL.Event.prototype.setParam1 = function(val) {
+    this.args[0] = val;
+    console.log("SET PARAM1, this: ", this, ", args: ", this.args);
+}
 
 //NEXT UP - MAKE ADD EVENT BUTTON WORK
     //CREATE SYSTEM TO APPLY EVENT AND TRIGGER TYPES WITH CONSTANTS - MAKE CREATIO PROCESS AS SIMPLE AS POSSIBLE
@@ -73,16 +80,15 @@ BALL.Event.prototype.setDelay = function(d) {
 
 BALL.EventFuncs = {
     
-    getToggle: function(parent, target, delay) {
+    getToggle: function(parent, target, delay, offset) {
         console.log("GET TOGGLE CALLED");
         return function(target, args) {
-            console.log("PUSHING EVENT TO TIMER");
-            BALL.timer.pushEvent(BALL.EventFuncs.toggle(target), parent, delay, true);
+            console.log("PUSHING EVENT TO TIMER. args[0]: " + offset);
+            BALL.timer.pushEvent(BALL.EventFuncs.toggle(target), parent, delay, true, offset);
         }  
     },
     toggle: function(sprite) {
         return function() {
-            console.log("TOGGLING!", sprite);
             if (sprite.alive) {
                 sprite.kill();
             } else {

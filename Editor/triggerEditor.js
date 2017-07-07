@@ -128,6 +128,17 @@ BALL.eventEditor = {
         $("#eventEditorSection").css("display", "inline-block");
         if (this.curEvent.type != null) {
             $("#eventTypeSelect").val(this.curEvent.type);
+            this.selectEventType(BALL.editor.getSelectedObj, this.curEvent.type, false);
+        }
+        
+        if (this.curEvent.args[1] != null) {
+            $("#eParam2").val(this.curEvent.args[1]);   
+        } else {
+            $("#eParam2").val(this.curEvent.delay);
+        }
+        
+        if (this.curEvent.args[0] != null) {
+            $("#eParam1").val(this.curEvent.args[0]);
         }
     },
     
@@ -145,6 +156,15 @@ BALL.eventEditor = {
         this.curEvent.setTarget(sprite);
     },
     
+    updateParam1: function(val) {
+        console.log($("#eParamLbl1").text());
+        console.log("param1 val:");
+        console.log(val);
+        
+        this.curEvent.setParam1(val);
+        
+    },
+    
     updateParam2: function(val) {
         console.log($("#eParamLbl2").text());
         console.log("val:");
@@ -157,9 +177,12 @@ BALL.eventEditor = {
     
     
     
-    selectEventType: function(sprite, index) {
+    selectEventType: function(sprite, index, update) {
         console.log("selectEventType - " + index);
-        this.curEvent.setType(Number(index));
+        
+        if (update)
+            this.curEvent.setType(Number(index));
+        
         if (index == BALL.E_KILL) {
             this.eventParamSetup(null, "Delay", true);
         } else if (index == BALL.E_SPAWN) {
@@ -175,7 +198,7 @@ BALL.eventEditor = {
             console.log("torque");
             this.eventParamSetup("Value", null, true);
         } else if (index == BALL.E_TOGGLE) {
-            this.eventParamSetup(null, "Delay", true);
+            this.eventParamSetup("Offset", "Delay", true);
         }
     },
     eventParamSetup: function(p1, p2, sel) {

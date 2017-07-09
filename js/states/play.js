@@ -15,6 +15,7 @@ BALL.play = {
         game.physics.p2.friction = 42;
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
+        game.physics.p2.useElapsedTime = true;
         
         game.camera.scale.setTo(0.75);
         
@@ -80,9 +81,8 @@ BALL.play = {
         game.camera.follow(this.ball);
     },
     
+    
     update: function() {
-        //console.log("main update - fps: " + game.time.fps);
-        //console.log(game.time.fps);
         BALL.timer.update();
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.10;
@@ -107,22 +107,27 @@ BALL.play = {
             BALL.editor.update();
         }
         BALL.gameState.update();
+        console.log(game.time.fps);
+        //game.debug.renderRectangle(floor,'#0fffff');
     },
     
     
     render: function() {
+        BALL.input.left.x = game.camera.x;
+        BALL.input.left.y = game.camera.y;
+        BALL.input.right.x = game.camera.x + game.camera.width * 0.75;
+        BALL.input.right.y = game.camera.y;
+        
+        this.game.debug.text(game.time.fps || '--', 20, 20);   
+        //game.debug.geom(BALL.input.left, 'rgba(0, 0, 0, 0.05)');
+        //game.debug.geom(BALL.input.right, 'rgba(0, 0, 0, 0.05)');
+        
         //game.debug.cameraInfo(game.camera, 52, 132);
         //game.debug.text("device: " + window.innerWidth + ", " + window.innerHeight, 420, 32);
         //game.debug.text("ratio: " + window.devicePixelRatio, 420, 100);
         
         //game.debug.spriteCoords(this.ball, 50, 50);
         
-        //game.debug.text("downX: " + BALL.gameState.downX, 200, 100);
-        //var x = 32;
-        //var y = 0;
-        //var yi = 32;
-        
-        //game.debug.text('Ball X: ' + this.ball.x, x, y += yi);
     }
 };
 

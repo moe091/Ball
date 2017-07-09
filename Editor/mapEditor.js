@@ -339,7 +339,7 @@ BALL.editor = {
         console.log("exiting edit mode - " + BALL.editor.editMode);
         //this.camUp = function() {};
         
-        BALL.gameState.resurrectObjs();
+        BALL.gameState.resetLevel();
         
         BALL.play.ball.reset(1750, 2000);
         BALL.play.ball_back.reset(0, 0);
@@ -508,6 +508,7 @@ BALL.editor = {
             
             BALL.gameState.initObject(j);
         }
+        BALL.timer.init();
     }
     
 

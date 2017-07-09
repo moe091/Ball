@@ -10,13 +10,12 @@ BALL.input = {
     
     
     inputDown: function(event) {
-
         if (!BALL.editor.editMode) {
             if (BALL.gameState.touchDown == false) {
                 BALL.gameState.downX = event.screenX;
-                if (BALL.input.left.contains(event.x, event.y)) {
+                if (BALL.input.left.contains(event.x + game.camera.x, event.y + game.camera.y)) {
                     this.ball.body.angularVelocity-= 12;
-                } else if (BALL.input.right.contains(event.x, event.y)) {
+                } else if (BALL.input.right.contains(event.x + game.camera.x, event.y + game.camera.y)) {
                     this.ball.body.angularVelocity+= 12;
 
                 } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
@@ -33,14 +32,13 @@ BALL.input = {
     inputUp: function(pointer) {
         this.dX = pointer.screenX - this.downX;
         this.dY = pointer.screenY - this.downY;
-        //console.log("UP: " + this.dX + ", " + this.dY);
         BALL.gameState.touchDown = false;
     },
     
     createRegions: function() {
-        this.left = new Phaser.Rectangle(0, 0, game.width / 3, game.height);
-        this.middle = new Phaser.Rectangle(game.width / 3, 0, game.width / 3, game.height);
-        this.right = new Phaser.Rectangle((game.width / 3) * 2, 0, game.width / 3, game.height);
+        this.left = new Phaser.Rectangle(0, 0, game.width / 4, game.height);
+        this.middle = new Phaser.Rectangle(game.width / 4, 0, game.width / 2, game.height);
+        this.right = new Phaser.Rectangle((game.width / 4) * 3, 0, game.width / 4, game.height);
         
         this.m = game.input.keyboard.addKey(Phaser.Keyboard.M);
         this.n = game.input.keyboard.addKey(Phaser.Keyboard.N);

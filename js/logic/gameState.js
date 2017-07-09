@@ -77,13 +77,19 @@ BALL.gameState = {
     },
     
     initObject: function(sprite) {
+        sprite.startX = sprite.x;
+        sprite.startY = sprite.y;
         if (sprite.createTrigger != null) {
-            sprite.startX = sprite.x;
-            sprite.startY = sprite.y;
             for (var i in sprite.createTrigger.events) {
                 sprite.createTrigger.events[i].execute();
+                
             }
         }  
+    },
+    
+    resetLevel: function() {
+        BALL.timer.reset();
+        this.resurrectObjs();
     },
     
     destroyObject: function(sprite) {
@@ -153,6 +159,15 @@ BALL.gameState = {
     resurrectObjs: function() {
         for (var i in this.deadObjs) {
             this.restoreObject(this.deadObjs[i]);
+        }
+        for (var i in this.objects) {
+            for (var j in this.objects[i].triggers) {
+                this.objects[i].triggers[j].done = false;
+            }
+            if (this.objects[i].alive == false & this.objects[i].startsDead != true) {
+                console.log("rezzing object #" + this.objects[i].ID + ", " + this.objects[i].key);
+                this.restoreObject(this.objects[i]);
+            }
         }
     }
     

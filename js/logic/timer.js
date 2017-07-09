@@ -1,5 +1,6 @@
 BALL.timer = {
     tEvents: [],
+    startEvents: [],
     started: false,
     
     start: function() {
@@ -9,12 +10,8 @@ BALL.timer = {
     pushEvent: function(func, parent, interval, repeat, args) {
         if (typeof func == "string") {
             func = BALL.EventFuncs[func];
-            console.log("STRING EVENT FUNC: ", func);
         }
         this.tEvents.push(new BALL.TimerEvent(func, parent, interval, repeat, args));
-        console.log(parent.key + " args: ");
-        console.log(args);
-        console.log(this.tEvents[this.tEvents.length - 1]);
     },
     
     removeEvent: function(ev) {
@@ -25,6 +22,18 @@ BALL.timer = {
         for (var i in this.tEvents) {
             this.tEvents[i].update(game.time.elapsed);
         }
+    },
+    
+    init: function() {
+        //copy all timer events into startEvents var when initialized.
+        //when level is restarted, tEvents can be set to startEvents to remove timer events triggered midlevel.
+        //Need to find simple way to track default object state, so e.g a toggling sprite won't be toggled off when lvl resets.
+        this.startEvents = this.tEvents.slice(); //copy all timer events into startEvents var when initialized.
+        
+    },
+    
+    reset: function() {
+        this.tEvents = this.startEvents.slice();
     }
 }
 

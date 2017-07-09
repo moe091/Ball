@@ -24,6 +24,8 @@ BALL.Trigger = function(parent, name) {
     this.event = null;
     this.eventFunc = null;
     
+    this.done = false;
+    
     
 
 }
@@ -51,7 +53,11 @@ BALL.Trigger.prototype.addEvent = function(event) {
 
 BALL.Trigger.prototype.callEvent = function() {
     console.log("trigger trig, ", this);
-    for (var i in this.events) {
-        this.events[i].execute(this);
+    console.log("done?" + this.done);
+    if (!this.done) {
+        this.done = true;
+        for (var i in this.events) {
+            this.events[i].execute(this);
+        }
     }
 }

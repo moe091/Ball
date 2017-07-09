@@ -85,6 +85,10 @@ BALL.gameState = {
                 
             }
         }  
+        if (sprite.movePaths != null && sprite.movePaths[0] != null) {
+            console.log("Starting movepath ", sprite + ", path: ", sprite.movePaths[0]);
+            sprite.movePaths[0].start();
+        }
     },
     
     resetLevel: function() {

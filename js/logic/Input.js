@@ -1,3 +1,5 @@
+//NOTE / TODO: Cursor keys for gameplay(spin left/right, jump) call an event in BALL.editor. Obviously this is dumb, #REMEMBER to fix this before amputating the editor and making real game.
+
 BALL.input = {
     downTime: 0,
     downX: 0,
@@ -20,6 +22,7 @@ BALL.input = {
 
                 } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
                     //jump
+                    //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
                     this.ball.body.velocity.y-= 600;
                     BALL.gameState.jumpTime = game.time.now;
                 }
@@ -70,7 +73,8 @@ BALL.input = {
         this.m.onDown.add(BALL.editor.enterEditMode, this);
         this.n.onDown.add(BALL.editor.exitEditMode, this);
         
-        
+        //NOTE: these functions(BALL.editor.selectedUp/Left/Right) also control ball character when BALL.editor.editMode == false. Obviously have to fix this before release/when separating editor from actual game.
+        //FIX::::::::::::::::::::::::::::::
         this.UP.onDown.add(BALL.editor.selectedUp, this);
         this.LEFT.onDown.add(BALL.editor.selectedLeft, this);
         this.DOWN.onDown.add(BALL.editor.selectedDown, this);

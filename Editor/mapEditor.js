@@ -267,48 +267,69 @@ BALL.editor = {
     
     //______________________________________________SELECTION MOVEMENT__________________________________________\\
 
-    selectedUp: function() { 
-        if (BALL.editor.pathSpriteSelected == false) {
-            if (BALL.editor.selected.body != null) {
-                BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+    selectedUp: function() {
+        if (BALL.editor.editMode) {
+            if (BALL.editor.pathSpriteSelected == false) {
+                if (BALL.editor.selected.body != null) {
+                    BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+                } else {
+                    BALL.editor.selected.y -= BALL.editor.spriteSpeed;
+                }
             } else {
-                BALL.editor.selected.y -= BALL.editor.spriteSpeed;
+            
             }
         } else {
-            
+            if (BALL.gameState.jumpTime < game.time.now - 1000) {
+                //jump
+                //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
+                BALL.play.ball.body.velocity.y-= 600;
+                BALL.gameState.jumpTime = game.time.now;
+            }
         }
     },
     selectedLeft: function() {
-        if (BALL.editor.pathSpriteSelected == false) {
-            if (BALL.editor.selected.body != null) {
-                BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+        if (BALL.editor.editMode) {
+            if (BALL.editor.pathSpriteSelected == false) {
+                if (BALL.editor.selected.body != null) {
+                    BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+                } else {
+                    BALL.editor.selected.x -= BALL.editor.spriteSpeed;
+                }
             } else {
-                BALL.editor.selected.x -= BALL.editor.spriteSpeed;
+            
             }
         } else {
-            
+            BALL.play.ball.body.angularVelocity-= 12;
         }
     },
     selectedDown: function() {
-        if (BALL.editor.pathSpriteSelected == false) {
-            if (BALL.editor.selected.body != null) {
-                BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+        if (BALL.editor.editMode) {
+            if (BALL.editor.pathSpriteSelected == false) {
+                if (BALL.editor.selected.body != null) {
+                    BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+                } else {
+                    BALL.editor.selected.y += BALL.editor.spriteSpeed;
+                }
             } else {
-                BALL.editor.selected.y += BALL.editor.spriteSpeed;
+            
             }
         } else {
             
         }
     },
     selectedRight: function() {
-        if (BALL.editor.pathSpriteSelected == false) {
-            if (BALL.editor.selected.body != null) {
-                BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+        if (BALL.editor.editMode) {
+            if (BALL.editor.pathSpriteSelected == false) {
+                if (BALL.editor.selected.body != null) {
+                    BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+                } else {
+                    BALL.editor.selected.x += BALL.editor.spriteSpeed;
+                }
             } else {
-                BALL.editor.selected.x += BALL.editor.spriteSpeed;
+                
             }
         } else {
-            
+            BALL.play.ball.body.angularVelocity+= 12;
         }
     },
 
@@ -399,7 +420,7 @@ BALL.editor = {
     saveLevel: function() {
         var level = {};
         level.objs = [];
-        
+        console.log(level);
         for (var i in BALL.gameState.objects) {
             var o = {};
             o.key = BALL.gameState.objects[i].key;
@@ -420,8 +441,8 @@ BALL.editor = {
                     path.points = [];
                     for (var pt in BALL.gameState.objects[i].movePaths[p].points) {
                         var point = {};
-                        point.x = BALL.gameState.objects[i].movePaths[p].points[pt].x;
-                        point.y = BALL.gameState.objects[i].movePaths[p].points[pt].y;
+                        point.x = BALL.gameState.objects[i].movePaths[p].points[pt].pSprite.x;
+                        point.y = BALL.gameState.objects[i].movePaths[p].points[pt].pSprite.y;
                         point.speed = BALL.gameState.objects[i].movePaths[p].points[pt].speed;
                         path.points.push(point);
                     }//point loop
@@ -476,7 +497,26 @@ BALL.editor = {
             }
             
             
+            //MOVEPATHS
+            if (level.objs[i].movePaths != null) {
+                j.movePaths = [];
+                
+                for (var p in level.objs[i].movePaths) {
+                    j.movePaths[p] = new BALL.MovePath(j, p);
+                    j.movePaths[p].startX = level.objs[i].movePaths[p].startX;
+                    j.movePaths[p].startY = level.objs[i].movePaths[p].startY;
+                    
+                    j.movePaths[p].points = [];
+                    for (var pt in level.objs[i].movePaths[p].points) {
+                        j.movePaths[p].addPoint(new BALL.PathPoint(level.objs[i].movePaths[p].points[pt].x, level.objs[i].movePaths[p].points[pt].y, level.objs[i].movePaths[p].points[pt].speed, 0, j.movePaths[p]));
+                    }
+                }
+            } //movePath?
             
+            
+            
+            
+            //TRIGGERS/EVENTS
             if (level.objs[i].triggers != null) {
                 j.triggers = [];
                 for (var a in level.objs[i].triggers) {
@@ -494,9 +534,9 @@ BALL.editor = {
                         //SET TYPE LAST, SET TYPE CREATES/UPDATES EVENT FUNC
                         j.triggers[a].events[b].setType(level.objs[i].triggers[a].events[b].type);
                         
-                    }
-                }
-            }
+                    }//events
+                }//triggers
+            }//trigger?
             
             j.angle = level.objs[i].angle;
             j.rotation = level.objs[i].angle * (Math.PI / 180);

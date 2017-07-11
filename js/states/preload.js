@@ -4,7 +4,7 @@ BALL.preload = {
         
         //:::::::::::::::::::::::::================--- CURRENT ASSETS ---===============::::::::::::::::::::::::::::::\\
         //background
-        game.load.image("graybg", "assets/graphics/world1/graybg.png");
+        game.load.image("graybg", "assets/graphics/world1/bg3.png");
         
         //ball
         game.load.image("ball", "assets/graphics/char-wheel.png");

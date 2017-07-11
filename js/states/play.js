@@ -15,7 +15,6 @@ BALL.play = {
         game.physics.p2.friction = 42;
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
-        game.physics.p2.useElapsedTime = true;
         
         game.camera.scale.setTo(0.75);
         

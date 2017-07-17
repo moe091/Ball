@@ -282,7 +282,7 @@ BALL.editor = {
             if (BALL.gameState.jumpTime < game.time.now - 1000) {
                 //jump
                 //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
-                BALL.play.ball.body.velocity.y-= 600;
+                BALL.play.ball.body.velocity.y-= 850;
                 BALL.gameState.jumpTime = game.time.now;
             }
         }
@@ -366,7 +366,7 @@ BALL.editor = {
         BALL.play.ball_back.reset(0, 0);
         BALL.play.ball_face.reset(0, 0);
         game.camera.follow(BALL.play.ball);
-        game.camera.scale.setTo(0.6);
+        game.camera.scale.setTo(0.5);
         
     },
     
@@ -374,7 +374,9 @@ BALL.editor = {
         //plats
         this.gObjs.push("w1-plat1");
         this.gObjs.push("w1-platbreak");
+        this.gObjs.push("w1-branch");
         this.gObjs.push("bigplat");
+        this.gObjs.push("w1-tree-plat")
 
         //special
         this.gObjs.push("k01-dublaser");
@@ -488,12 +490,18 @@ BALL.editor = {
     
     loadLevel: function(level) {
         console.log(level);
+        console.log("\n\n\n\n\n\n\n\n------\n" + level.objs.length + "\n----------\n\n\n");
         for (var i in level.objs) {
+            if (level.objs[i].key == "w1-plat1") {
+                level.objs[i].key = "w1-branch";
+            }
+            console.log(level.objs[i].key);
             var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
             j.rotSpeed = level.objs[i].rotSpeed;
             if (j.rotSpeed != 0) {
                 j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
                 j.updateFuncs.push(j.rotateUpdate);
+                level.objs[i].angle = 0;
             }
             
             

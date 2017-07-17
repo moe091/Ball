@@ -106,7 +106,8 @@ BALL.gameState = {
     },
     
     killCallback: function(obj, ball) {
-        console.log(obj.sprite.key);
+        if (obj != null)
+            console.log(obj.sprite.key);
         BALL.play.ball.kill();
         BALL.play.ball_back.kill();
         BALL.play.ball_face.kill();

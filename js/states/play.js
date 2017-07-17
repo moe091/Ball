@@ -8,25 +8,26 @@ BALL.play = {
     create: function() {
         
             
-        game.world.setBounds(0, 0, 8000, 4300);
+        game.world.setBounds(0, 0, 8000, 3300);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
-        game.physics.p2.gravity.y = 900;
+        game.physics.p2.gravity.y = 1650;
         game.physics.p2.friction = 42;
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
         
-        game.camera.scale.setTo(0.75);
+        game.camera.scale.setTo(1);
         
-        this.bg = game.add.tileSprite(0, 0, 8000, 4300, "graybg")
-        //this.bg.fixedToCamera = true;
-        this.bg.scale.setTo(1);
+        this.bg = game.add.sprite(0, 0, "graybg")
+        this.bg.fixedToCamera = true;
+        this.bg.scale.x = 1.5;
+        this.bg.scale.y = 1.2;
+        
+        
         
         //this.bg2 = game.add.tileSprite(0, 0, 256, 256, "bg2");
         //this.bg2.fixedToCamera = true;
         //this.bg2.scale.setTo(1);
-        
-        
         
         
         //BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
@@ -50,14 +51,26 @@ BALL.play = {
         
         game.physics.p2.enable(this.ball, false);
         this.ball.body.setCircle(32);
-        this.ball.body.gravity.y = 500;
+        //this.ball.body.gravity.y = 1000;
         
         
         this.ball_face.body.destroy();
         this.ball_back.body.destroy();
         
-        BALL.editor.createEditor(game);
+                
         
+        
+        
+        BALL.editor.createEditor(game);
+        /**
+        this.tree1 = game.add.sprite(1600, 2105, "tree2");
+        this.tree1.scale.setTo(1);
+        this.tree1.anchor.y = 1;
+        
+        this.tree2 = game.add.sprite(4720, 1610, "tree1");
+        this.tree2.scale.setTo(1);
+        this.tree2.anchor.y = 1;
+        **/
         
         BALL.input.createRegions();
         
@@ -69,8 +82,12 @@ BALL.play = {
         //game.camera.follow(this.ball);
         
         
+
+        
+        
+        
         this.follow();
-        game.camera.scale.setTo(0.6);
+        game.camera.scale.setTo(0.5);
         
         
         
@@ -82,16 +99,23 @@ BALL.play = {
     
     
     update: function() {
+        if (this.ball.y > 3250) {
+            BALL.gameState.killCallback();
+        }
         BALL.timer.update();
         //update BG POSITION:::
-        //this.bg.cameraOffset.x = this.ball.x * -0.10;
-        //this.bg.cameraOffset.y = this.ball.y * -0.15 + 45;
+        this.bg.cameraOffset.x = this.ball.x * -0.05;
+        this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;
         
        // this.bg2.cameraOffset.x = this.ball.x * -0.16;
         //this.bg2.cameraOffset.y = this.ball.y * -0.15 + 188;
         
         //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
         //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];
+        
+        //this.tree1.x = 1600 + (this.ball.x - 1750) * -0.015;
+        //this.tree2.x = 4200 + (this.ball.x - 1750) * -0.015;
+        
         this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
         if (this.ball.body.angularVelocity > 35) {
             this.ball_face.angle+= 35;

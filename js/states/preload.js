@@ -4,7 +4,7 @@ BALL.preload = {
         
         //:::::::::::::::::::::::::================--- CURRENT ASSETS ---===============::::::::::::::::::::::::::::::\\
         //background
-        game.load.image("graybg", "assets/graphics/world1/bg3.png");
+        game.load.image("graybg", "assets/graphics/world1/background.png");
         
         //ball
         game.load.image("ball", "assets/graphics/char-wheel.png");
@@ -14,6 +14,12 @@ BALL.preload = {
         game.load.image("w1-plat1", "assets/graphics/world1/w1-plat1.png");
         game.load.image("w1-platbreak", "assets/graphics/world1/w1-platbreak.png");
         game.load.image("bigplat", "assets/graphics/world1/bigplat.png");
+        game.load.image("w1-branch", "assets/graphics/world1/w1-branch.png");
+        
+        //sprites
+        game.load.image("tree1", "assets/graphics/world1/tree5.png");
+        game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
+        game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
         
         //special/obstacles
         game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");
@@ -86,8 +92,8 @@ BALL.preload = {
         game.scale.refresh(); //In case you want limitations to your scaling! 
         game.scale.minWidth = 400; 
         game.scale.minHeight = 220; 
-        game.scale.maxWidth = 800; 
-        game.scale.maxHeight = 480;
+        //game.scale.maxWidth = 800; 
+        //game.scale.maxHeight = 480;
         game.state.start('play');
         
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;  

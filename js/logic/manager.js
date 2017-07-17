@@ -1,0 +1,4 @@
+BALL.manager = {
+    
+    
+}

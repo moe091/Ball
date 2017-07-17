@@ -23,7 +23,7 @@ BALL.input = {
                 } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
                     //jump
                     //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
-                    this.ball.body.velocity.y-= 600;
+                    this.ball.body.velocity.y-= 850;
                     BALL.gameState.jumpTime = game.time.now;
                 }
             }

@@ -20,6 +20,8 @@ BALL.preload = {
         game.load.image("tree1", "assets/graphics/world1/tree5.png");
         game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
         game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
+        game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
+        game.load.image("shroom2", "assets/graphics/world1/shroom2.png");
         
         //special/obstacles
         game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");

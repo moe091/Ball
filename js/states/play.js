@@ -8,7 +8,7 @@ BALL.play = {
     create: function() {
         
             
-        game.world.setBounds(0, 0, 8000, 3300);
+        game.world.setBounds(0, 0, 7860, 2500);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 1650;
@@ -23,7 +23,13 @@ BALL.play = {
         this.bg.scale.x = 1.5;
         this.bg.scale.y = 1.2;
         
+        this.shroom1 = game.add.sprite(1600, 2500, "shroom1");
+        this.shroom1.anchor.setTo(0.5, 1);
+        this.shroom1.scale.setTo(2);
         
+        this.shroom2 = game.add.sprite(3100, 2480, "shroom2");
+        this.shroom2.anchor.setTo(0.5, 1);
+        this.shroom2.scale.setTo(2);
         
         //this.bg2 = game.add.tileSprite(0, 0, 256, 256, "bg2");
         //this.bg2.fixedToCamera = true;
@@ -99,7 +105,7 @@ BALL.play = {
     
     
     update: function() {
-        if (this.ball.y > 3250) {
+        if (this.ball.y > 2450) {
             BALL.gameState.killCallback();
         }
         BALL.timer.update();
@@ -113,8 +119,10 @@ BALL.play = {
         //this.ball_face.x = this.ball.x + this.ball.body.velocity.destination[0];
         //this.ball_face.y = this.ball.y - this.ball.body.velocity.destination[1];
         
-        //this.tree1.x = 1600 + (this.ball.x - 1750) * -0.015;
-        //this.tree2.x = 4200 + (this.ball.x - 1750) * -0.015;
+        this.shroom1.x = 1260 + (this.ball.x - 1750) * -0.075;
+        this.shroom2.x = 4200 + (this.ball.x - 1750) * -0.075;
+        this.shroom1.y = 2500 + (this.ball.y - 2072) * 0.2;
+        this.shroom2.y = 2480 + (this.ball.y - 2072) * 0.2;
         
         this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
         if (this.ball.body.angularVelocity > 35) {

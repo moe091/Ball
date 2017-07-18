@@ -96,7 +96,7 @@ BALL.play = {
         game.camera.scale.setTo(0.5);
         
         
-        this.endGame();
+        //this.endGame();
     },
     
     follow: function() {
@@ -104,7 +104,6 @@ BALL.play = {
     },
     
     endGame: function() {
-        console.log("\n\n\nENDGAME\n\n\n\n");
         this.overBtn = game.add.button(290, 190, "overBtn", BALL.play.restartGame, this);    
         this.overBtn.fixedToCamera = true;
         this.overBtn.anchor.setTo(0.5);

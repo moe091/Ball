@@ -43,6 +43,7 @@ BALL.MovePath = function(parent, name) {
     
     
     this.start();
+    this.hideSprites();
 }
 
 BALL.MovePath.prototype.start = function() {

@@ -45,6 +45,8 @@ BALL.Event.prototype.setType = function(t) {
                 BALL.timer.pushEvent(BALL.EventFuncs.killTarget(this.target), this, this.delay, false);
             }
         }
+    } else if (t == BALL.E_SPAWN) {
+        this.func = BALL.play.endGame;
     } else if (t == BALL.E_START_MOVEPATH) {
         this.func = BALL.EventFuncs.startMovepath();
         this.execute();

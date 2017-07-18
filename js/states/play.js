@@ -96,13 +96,25 @@ BALL.play = {
         game.camera.scale.setTo(0.5);
         
         
-        
+        this.endGame();
     },
     
     follow: function() {
         game.camera.follow(this.ball);
     },
     
+    endGame: function() {
+        console.log("\n\n\nENDGAME\n\n\n\n");
+        this.overBtn = game.add.button(290, 190, "overBtn", BALL.play.restartGame, this);    
+        this.overBtn.fixedToCamera = true;
+        this.overBtn.anchor.setTo(0.5);
+    },
+    
+    restartGame: function() {
+        console.log("CLICKED");
+        BALL.gameState.killCallback(null, BALL.play.ball);
+        this.overBtn.destroy();
+    },
     
     update: function() {
         if (this.ball.y > 2450) {
@@ -138,7 +150,6 @@ BALL.play = {
             BALL.editor.update();
         }
         BALL.gameState.update();
-        console.log(game.time.fps);
         //game.debug.renderRectangle(floor,'#0fffff');
     },
     

@@ -17,8 +17,9 @@ BALL.preload = {
         game.load.image("w1-branch", "assets/graphics/world1/w1-branch.png");
         
         //sprites
-        game.load.image("tree1", "assets/graphics/world1/tree5.png");
-        game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
+        game.load.image("overBtn", "assets/graphics/world1/overBtn.png");
+        //game.load.image("tree1", "assets/graphics/world1/tree5.png");
+        //game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
         game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
         game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
         game.load.image("shroom2", "assets/graphics/world1/shroom2.png");

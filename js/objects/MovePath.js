@@ -33,7 +33,6 @@ BALL.MovePath = function(parent, name) {
     if (parent.movePathFunc == null) {
         
         parent.movePathFunc = function() {
-            console.log("movepath func - ", this);
             if (this.curPath != null) {
                 this.curPath.update();
             } 

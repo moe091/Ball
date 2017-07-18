@@ -209,8 +209,10 @@ BALL.PathPoint = function(x, y, speed, angle, path) {
     this.angle = angle;
     this.speed = speed; 
     console.log("added point: ", this);
-    
+    this.pSprite.visible = false;
     this.update = function() {
+        if (this.pSprite.visible == true) 
+            this.pSprite.visible = false;
         if (this.origin) {
             this.x = Math.round(this.path.startX);
             this.y = Math.round(this.path.startY);
@@ -218,6 +220,5 @@ BALL.PathPoint = function(x, y, speed, angle, path) {
             this.x = this.pSprite.x;
             this.y = this.pSprite.y;
         }
-        console.log("update point:", this.x, this.y);
     }
 }

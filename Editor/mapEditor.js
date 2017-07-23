@@ -372,11 +372,14 @@ BALL.editor = {
     
     populategObjs: function() {
         //plats
-        this.gObjs.push("w1-plat1");
-        this.gObjs.push("w1-platbreak");
-        this.gObjs.push("w1-branch");
+        //this.gObjs.push("w1-plat1");
+        //this.gObjs.push("w1-platbreak");
+        //this.gObjs.push("w1-branch");
         this.gObjs.push("bigplat");
-        this.gObjs.push("w1-tree-plat")
+        //this.gObjs.push("w1-tree-plat")
+        this.gObjs.push("w1-iceplat");
+        this.gObjs.push("chalkplat");
+        this.gObjs.push("chalkbreak");
 
         //special
         this.gObjs.push("k01-dublaser");
@@ -492,8 +495,11 @@ BALL.editor = {
         console.log(level);
         console.log("\n\n\n\n\n\n\n\n------\n" + level.objs.length + "\n----------\n\n\n");
         for (var i in level.objs) {
-            if (level.objs[i].key == "w1-plat1") {
-                level.objs[i].key = "w1-branch";
+            if (level.objs[i].key == "w1-iceplat") {
+                level.objs[i].key = "chalkplat";
+                console.log("ICEPLAT\nICEPLAT\nICEPLAT!");
+            } else if (level.objs[i].key == "w1-platbreak") {
+                level.objs[i].key = "chalkbreak";
             }
             console.log(level.objs[i].key);
             var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);

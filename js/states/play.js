@@ -18,10 +18,10 @@ BALL.play = {
         
         game.camera.scale.setTo(1);
         
-        this.bg = game.add.sprite(0, 0, "graybg")
-        this.bg.fixedToCamera = true;
-        this.bg.scale.x = 1.5;
-        this.bg.scale.y = 1.2;
+        //this.bg = game.add.sprite(0, 0, "graybg")
+        //this.bg.fixedToCamera = true;
+        //this.bg.scale.x = 1.5;
+        //this.bg.scale.y = 1.2;
         
         this.shroom1 = game.add.sprite(1600, 2500, "shroom1");
         this.shroom1.anchor.setTo(0.5, 1);
@@ -31,9 +31,7 @@ BALL.play = {
         this.shroom2.anchor.setTo(0.5, 1);
         this.shroom2.scale.setTo(2);
         
-        //this.bg2 = game.add.tileSprite(0, 0, 256, 256, "bg2");
-        //this.bg2.fixedToCamera = true;
-        //this.bg2.scale.setTo(1);
+        this.bg2 = game.add.tileSprite(0, 0, 7860, 2500, "chalkbg");
         
         
         //BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
@@ -121,8 +119,8 @@ BALL.play = {
         }
         BALL.timer.update();
         //update BG POSITION:::
-        this.bg.cameraOffset.x = this.ball.x * -0.05;
-        this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;
+        //this.bg.cameraOffset.x = this.ball.x * -0.05;
+        //this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;
         
        // this.bg2.cameraOffset.x = this.ball.x * -0.16;
         //this.bg2.cameraOffset.y = this.ball.y * -0.15 + 188;

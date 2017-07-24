@@ -12,23 +12,33 @@ BALL.input = {
     
     
     inputDown: function(event) {
-        if (!BALL.editor.editMode) {
+        console.log("INPUTDOWN");
+        
+        if (BALL.editor != null && !BALL.editor.editMode) {
             if (BALL.gameState.touchDown == false) {
                 BALL.gameState.downX = event.screenX;
                 if (BALL.input.left.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    this.ball.body.angularVelocity-= 12;
+                    BALL.gameState.moveLeft();
                 } else if (BALL.input.right.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    this.ball.body.angularVelocity+= 12;
+                    BALL.gameState.moveRight();
+
+                } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
+                    BALL.gameState.jump();
+                }
+            }
+        } else {
+            console.log("SHOULD BE JUMPING..");
+            if (BALL.input.left.contains(event.x + game.camera.x, event.y + game.camera.y)) {
+                    BALL.gameState.moveLeft();
+                } else if (BALL.input.right.contains(event.x + game.camera.x, event.y + game.camera.y)) {
+                    BALL.gameState.moveRight();
 
                 } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
                     //jump
                     //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
-                    this.ball.body.velocity.y-= 850;
-                    BALL.gameState.jumpTime = game.time.now;
+                    BALL.gameState.jump();
                 }
-            }
         }
-        
         BALL.gameState.touchDown = true;
     },
     
@@ -70,15 +80,18 @@ BALL.input = {
     
     createBindings: function() {
         //editMode on/off
-        this.m.onDown.add(BALL.editor.enterEditMode, this);
-        this.n.onDown.add(BALL.editor.exitEditMode, this);
         
         //NOTE: these functions(BALL.editor.selectedUp/Left/Right) also control ball character when BALL.editor.editMode == false. Obviously have to fix this before release/when separating editor from actual game.
         //FIX::::::::::::::::::::::::::::::
-        this.UP.onDown.add(BALL.editor.selectedUp, this);
-        this.LEFT.onDown.add(BALL.editor.selectedLeft, this);
-        this.DOWN.onDown.add(BALL.editor.selectedDown, this);
-        this.RIGHT.onDown.add(BALL.editor.selectedRight, this);
+        this.UP.onDown.add(BALL.gameState.jump, this);
+        this.LEFT.onDown.add(BALL.gameState.moveLeft, this);
+        this.RIGHT.onDown.add(BALL.gameState.moveRight, this);
+        
+        this.m.onDown.add(BALL.manager.enterEditMode, this);
+        this.n.onDown.add(BALL.manager.exitEditMode, this);
+        
+        game.input.onDown.add(BALL.input.inputDown, this);
+        game.input.onUp.add(BALL.input.inputUp, this);
     }
 }
 

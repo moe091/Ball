@@ -198,9 +198,6 @@ BALL.PathPoint = function(x, y, speed, angle, path) {
     this.pSprite.inputEnabled = true;
     this.pSprite.input.useHandCursor = true;
     this.pSprite.input.enableDrag(true);
-    this.pSprite.events.onInputDown.add(BALL.editFuncs.clickPathSprite, this);
-    this.pSprite.events.onInputOver.add(BALL.editor.spriteHover, this);
-    this.pSprite.events.onInputOut.add(BALL.editor.spriteUnhover, this);
     
 
     

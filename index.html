@@ -23,12 +23,12 @@
         <script src="js/logic/gameState.js"></script>
         <script src="js/logic/gObject.js"></script>
         <script src="js/logic/timer.js"></script>
+        <script src="js/logic/manager.js"></script>
         <!-- objects -->
         <script src="js/objects/MovePath.js"></script>
         <script src="js/objects/Trigger.js"></script>
         <script src="js/objects/Event.js"></script>
         
-        <!----------------------Editor--------------------------->
         <script src="Editor/mapEditor.js"></script>
         <script src="Editor/editorUI.js"></script>
         <script src="Editor/editorFunctions.js"></script>
@@ -49,9 +49,11 @@
             game.scale.refresh();
         }
 
+        /**
         $( window ).resize(function() {
             resizeGame();
         });
+        **/
         window.onload = function() {
             BALL.W = 600;
             BALL.H = 360;

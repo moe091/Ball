@@ -58,7 +58,7 @@ BALL.editor = {
     //::::::::::::::::::::::::::::::.............::::::::::::::::::::::::::::\\
     inputDown: function(pointer) {
         if (BALL.editor.editMode) {
-                
+            console.log("editor inputdown");
             BALL.editor.downX = game.input.worldX;
             BALL.editor.downY = game.input.worldY;
             BALL.editor.isDown = true;
@@ -66,6 +66,7 @@ BALL.editor = {
 
             BALL.editor.dragging = false;
             if (BALL.editor.hovering) { //hovering
+                console.log("editor hovering");
                 BALL.editor.dragObj = true;
                 this.lastPX = Math.round(game.input.worldX);
                 this.lastPY = Math.round(game.input.worldY);
@@ -184,6 +185,7 @@ BALL.editor = {
         scrollCamera: function() {
         //CAMERA MOVEMENT
         if (BALL.input.W.isDown) {
+            console.log("WWWW");
             game.camera.y-= 5;
         }
         if (BALL.input.A.isDown) {
@@ -270,7 +272,7 @@ BALL.editor = {
     selectedUp: function() {
         if (BALL.editor.editMode) {
             if (BALL.editor.pathSpriteSelected == false) {
-                if (BALL.editor.selected.body != null) {
+                if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
                 } else {
                     BALL.editor.selected.y -= BALL.editor.spriteSpeed;
@@ -290,7 +292,7 @@ BALL.editor = {
     selectedLeft: function() {
         if (BALL.editor.editMode) {
             if (BALL.editor.pathSpriteSelected == false) {
-                if (BALL.editor.selected.body != null) {
+                if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
                 } else {
                     BALL.editor.selected.x -= BALL.editor.spriteSpeed;
@@ -305,7 +307,7 @@ BALL.editor = {
     selectedDown: function() {
         if (BALL.editor.editMode) {
             if (BALL.editor.pathSpriteSelected == false) {
-                if (BALL.editor.selected.body != null) {
+                if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
                 } else {
                     BALL.editor.selected.y += BALL.editor.spriteSpeed;
@@ -320,7 +322,7 @@ BALL.editor = {
     selectedRight: function() {
         if (BALL.editor.editMode) {
             if (BALL.editor.pathSpriteSelected == false) {
-                if (BALL.editor.selected.body != null) {
+                if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
                 } else {
                     BALL.editor.selected.x += BALL.editor.spriteSpeed;
@@ -390,8 +392,8 @@ BALL.editor = {
     createEditor: function(g) {
         this.game = g;
         BALL.editorUI.editor = this;
-        this.sprites = this.game.add.group();
-        this.sprites.inputEnableChildren = true;
+        this.sprites = this.game.add.group();//
+        this.sprites.inputEnableChildren = true;//
         this.populategObjs();
         for (var i in this.gObjs) {
             console.log(this.gObjs[i]);

@@ -4,34 +4,34 @@ BALL.preload = {
         
         //:::::::::::::::::::::::::================--- CURRENT ASSETS ---===============::::::::::::::::::::::::::::::\\
         //background
-        game.load.image("graybg", "assets/graphics/world1/background.png");
+        //game.load.image("graybg", "assets/graphics/world1/background.png");
         game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         
         //ball
         game.load.image("ball", "assets/graphics/char-wheel.png");
         game.load.image("ball_face", "assets/graphics/char-face.png");
-        game.load.image("purpChar", "assets/graphics/purpchar.png");
+        //game.load.image("purpChar", "assets/graphics/purpchar.png");
     
         //normal plats
-        game.load.image("w1-plat1", "assets/graphics/world1/w1-plat1.png");
+        //game.load.image("w1-plat1", "assets/graphics/world1/w1-plat1.png");
         
         
         game.load.image("chalkplat", "assets/graphics/world1/chalkplat.png");
         game.load.image("chalkbreak", "assets/graphics/world1/chalkbreak.png");
         
         
-        game.load.image("w1-iceplat", "assets/graphics/world1/w1-iceplat.png");
-        game.load.image("w1-platbreak", "assets/graphics/world1/w1-platbreak.png");
+        //game.load.image("w1-iceplat", "assets/graphics/world1/w1-iceplat.png");
+        //game.load.image("w1-platbreak", "assets/graphics/world1/w1-platbreak.png");
         game.load.image("bigplat", "assets/graphics/world1/bigplat.png");
-        game.load.image("w1-branch", "assets/graphics/world1/w1-branch.png");
+        //game.load.image("w1-branch", "assets/graphics/world1/w1-branch.png");
         
         //sprites
         game.load.image("overBtn", "assets/graphics/world1/overBtn.png");
         //game.load.image("tree1", "assets/graphics/world1/tree5.png");
         //game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
-        game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
-        game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
-        game.load.image("shroom2", "assets/graphics/world1/shroom2.png");
+        //game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
+        //game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
+        //game.load.image("shroom2", "assets/graphics/world1/shroom2.png");
         
         //special/obstacles
         game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");

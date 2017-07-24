@@ -13,6 +13,35 @@ BALL.gameState = {
     
     curID: 0,
     
+    selected: null,
+    
+    ballSpeed: 12,
+    ballJump: 850,
+    jumpInterval: 900,
+    
+    jump: function() {
+        console.log("JUMP");
+        if (BALL.gameState.jumpTime < game.time.now - BALL.gameState.jumpInterval) {
+            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump;
+            BALL.gameState.jumpTime = game.time.now;
+        }
+    },
+    
+    moveLeft: function() {
+        BALL.play.ball.body.angularVelocity-= BALL.gameState.ballSpeed;
+    },
+    
+    moveRight: function() {
+        BALL.play.ball.body.angularVelocity+= BALL.gameState.ballSpeed;
+    },
+    
+    initGame: function() {
+        this.sprites = game.add.group();
+        this.sprites.inputEnableChildren = true;
+        
+        BALL.manager.loadLevel(game.cache.getJSON('level'));
+        
+    },
     
     update: function() {
         for (var i in this.updateObjs) {
@@ -34,46 +63,44 @@ BALL.gameState = {
         if (key == "double-laser") {
             key = "k01-dublaser";
         }
-        BALL.editor.select(BALL.editor.sprites.create(x, y, key));
-        BALL.editor.selected.anchor.setTo(0.5, 0.5);
+        BALL.gameState.selected = BALL.gameState.sprites.create(x, y, key);
+        BALL.gameState.selected.anchor.setTo(0.5, 0.5);
         if (id == undefined) {
-            BALL.editor.selected.ID = this.nextID();
-            console.log("no id provided, setting id to: " + BALL.editor.selected.ID);
+            BALL.gameState.selected.ID = this.nextID();
+            console.log("no id provided, setting id to: " + BALL.gameState.selected.ID);
         } else {
-            BALL.editor.selected.ID = id;
+            BALL.gameState.selected.ID = id;
         }
         
         
-        BALL.editor.selected.inputEnabled = true;
-        BALL.editor.selected.input.useHandCursor = true;
-        BALL.editor.selected.input.enableDrag(true);
+        BALL.gameState.selected.inputEnabled = true;
+        BALL.gameState.selected.input.useHandCursor = true;
+        BALL.gameState.selected.input.enableDrag(true);
         
-            game.physics.p2.enable(BALL.editor.selected, false);
-            BALL.editor.selected.body.clearShapes();
-            BALL.editor.selected.body.loadPolygon("plat_bodies", key);
-            BALL.editor.selected.body.static = true;
-            BALL.editor.selected.input.pixelPerfectOver = true;
+            game.physics.p2.enable(BALL.gameState.selected, false);
+            BALL.gameState.selected.body.clearShapes();
+            BALL.gameState.selected.body.loadPolygon("plat_bodies", key);
+            BALL.gameState.selected.body.static = true;
+            BALL.gameState.selected.input.pixelPerfectOver = true;
+            BALL.gameState.selected.body.data.ccdIterations = 2;
         
             if (key.substr(0, 4) == "k01-") {
-                //BALL.editor.selected.input.pixelPerfectOver = true;
-               // BALL.editor.selected.body.data.shapes[0].sensor=true;
+                //BALL.gameState.selected.input.pixelPerfectOver = true;
+               // BALL.gameState.selected.body.data.shapes[0].sensor=true;
                 
-                BALL.editor.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+                BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
             }
         
             if (key == "k01-electricity") {
-                BALL.editor.selected.animations.add("play");
-                BALL.editor.selected.animations.play("play", 20, true);
+                BALL.gameState.selected.animations.add("play");
+                BALL.gameState.selected.animations.play("play", 20, true);
             }
         
-        BALL.editor.selected.updateFuncs = [];
-        this.updateObjs.push(BALL.editor.selected);
+        BALL.gameState.selected.updateFuncs = [];
+        this.updateObjs.push(BALL.gameState.selected);
         
-        BALL.editor.selected.events.onInputDown.add(BALL.editor.clickObj, this);
-        BALL.editor.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
-        BALL.editor.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
-        BALL.gameState.objects.push(BALL.editor.selected);
-        return BALL.editor.selected;
+        BALL.gameState.objects.push(BALL.gameState.selected);
+        return BALL.gameState.selected;
     },
     
     initObject: function(sprite) {
@@ -112,7 +139,7 @@ BALL.gameState = {
         BALL.play.ball_back.kill();
         BALL.play.ball_face.kill();
         
-        BALL.editor.exitEditMode();
+        BALL.manager.resetLevel();
     },
     
     moveObject: function(sprite, x, y) {

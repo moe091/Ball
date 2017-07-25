@@ -15,12 +15,21 @@ BALL.gameState = {
     
     selected: null,
     
-    ballSpeed: 12,
+    ballSpeed: 1,
+    boopSpeed: 12,
     ballJump: 850,
     jumpInterval: 900,
+    sideJumpInterval: 500,
+    sideJumpTime: 0,
+    
+    bounceMaterial: null,
+    ballMaterial: null,
+    wallrideMaterial: null,
+    
+    
+    special: null,
     
     jump: function() {
-        console.log("JUMP");
         if (BALL.gameState.jumpTime < game.time.now - BALL.gameState.jumpInterval) {
             BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump;
             BALL.gameState.jumpTime = game.time.now;
@@ -35,12 +44,53 @@ BALL.gameState = {
         BALL.play.ball.body.angularVelocity+= BALL.gameState.ballSpeed;
     },
     
+    boopLeft: function() {
+        console.log('boopleft');
+        BALL.play.ball.body.angularVelocity-= BALL.gameState.boopSpeed;
+    },
+    
+    boopRight: function() {
+        console.log('boopright');
+        BALL.play.ball.body.angularVelocity+= BALL.gameState.boopSpeed;
+    },
+    
+    jumpLeft: function() {
+        if (game.time.now < BALL.gameState.jumpTime + BALL.gameState.sideJumpInterval && game.time.now > BALL.gameState.sideJumpTime + BALL.gameState.sideJumpInterval) {
+            BALL.play.ball.body.velocity.x-= BALL.gameState.ballJump;
+            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump * 0.2;
+            BALL.gameState.sideJumpTime = game.time.now;
+        }
+    },
+    
+    jumpRight: function() {
+        if (game.time.now < BALL.gameState.jumpTime + BALL.gameState.sideJumpInterval && game.time.now > BALL.gameState.sideJumpTime + BALL.gameState.sideJumpInterval) {
+            BALL.play.ball.body.velocity.x+= BALL.gameState.ballJump;
+            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump * 0.2;
+            BALL.gameState.sideJumpTime = game.time.now;
+        }
+    },
+    
     initGame: function() {
+        this.special = game.add.group();
+        
         this.sprites = game.add.group();
         this.sprites.inputEnableChildren = true;
         
+        
+        this.bounceMaterial = game.physics.p2.createMaterial();
+        this.wallrideMaterial = game.physics.p2.createMaterial();
+            
         BALL.manager.loadLevel(game.cache.getJSON('level'));
         
+        game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 99 , restitution: 1.25 }); 
+        game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
+        
+        
+        //this.boulder = game.add.sprite(3000, 1660, "");
+        //game.physics.p2.enable(this.boulder, true);
+        //this.boulder.body.setCircle(120);
+        
+        BALL.editor.createEditor();
     },
     
     update: function() {
@@ -79,22 +129,33 @@ BALL.gameState = {
         
             game.physics.p2.enable(BALL.gameState.selected, false);
             BALL.gameState.selected.body.clearShapes();
-            BALL.gameState.selected.body.loadPolygon("plat_bodies", key);
+            BALL.gameState.selected.body.loadPolygon("newbods", key);
             BALL.gameState.selected.body.static = true;
             BALL.gameState.selected.input.pixelPerfectOver = true;
-            BALL.gameState.selected.body.data.ccdIterations = 2;
         
             if (key.substr(0, 4) == "k01-") {
                 //BALL.gameState.selected.input.pixelPerfectOver = true;
-               // BALL.gameState.selected.body.data.shapes[0].sensor=true;
+                //BALL.gameState.selected.body.data.shapes[0].sensor=true;
                 
                 BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+            } else if (key.substr(0, 4) == "k03-") { 
+                BALL.gameState.selected.body.setMaterial(this.bounceMaterial)
+            } else {
+                BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
             }
         
             if (key == "k01-electricity") {
                 BALL.gameState.selected.animations.add("play");
                 BALL.gameState.selected.animations.play("play", 20, true);
+            } else if (key == "s01-launcher") {
+                console.log("creating launcher");
+        
+                BALL.gameState.selected.tEvent = BALL.timer.pushEvent(BALL.effects.launcherShot(BALL.gameState.selected), null, 3000, true, null);
             }
+        
+        BALL.gameState.selected.events.onInputDown.add(BALL.editor.clickObj, this);
+        BALL.gameState.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
+        BALL.gameState.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
         
         BALL.gameState.selected.updateFuncs = [];
         this.updateObjs.push(BALL.gameState.selected);

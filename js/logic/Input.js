@@ -11,40 +11,54 @@ BALL.input = {
     middle: null,
     
     
-    inputDown: function(event) {
+    update: function(pointer) {
+        if (pointer.isDown) {
+            console.log("input", pointer);
+            if (BALL.input.left.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                BALL.gameState.moveLeft();
+            } else if (BALL.input.right.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                BALL.gameState.moveRight();
+            }
+        }
+    },
+    
+    
+    inputDown: function(pointer) {
         console.log("INPUTDOWN");
-        
-        if (BALL.editor != null && !BALL.editor.editMode) {
+        this.downTime = game.time.now;
+        if (!BALL.manager.editMode) {
             if (BALL.gameState.touchDown == false) {
-                BALL.gameState.downX = event.screenX;
-                if (BALL.input.left.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    BALL.gameState.moveLeft();
-                } else if (BALL.input.right.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    BALL.gameState.moveRight();
-
-                } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
+                BALL.gameState.downX = pointer.x;
+                console.log("touch down");
+                if (BALL.input.middle.contains(pointer.x, pointer.y)) {
                     BALL.gameState.jump();
                 }
             }
-        } else {
-            console.log("SHOULD BE JUMPING..");
-            if (BALL.input.left.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    BALL.gameState.moveLeft();
-                } else if (BALL.input.right.contains(event.x + game.camera.x, event.y + game.camera.y)) {
-                    BALL.gameState.moveRight();
-
-                } else if (BALL.input.middle.contains(event.x, event.y) && BALL.gameState.jumpTime < game.time.now - 1000) {
-                    //jump
-                    //NOTE / TODO: just make a jump function already. also spinLeft/spinRight functions. In fact just make a characterController type object.
-                    BALL.gameState.jump();
-                }
+            
         }
         BALL.gameState.touchDown = true;
     },
     
     inputUp: function(pointer) {
-        this.dX = pointer.screenX - this.downX;
-        this.dY = pointer.screenY - this.downY;
+        this.dX = pointer.x - BALL.gameState.downX;
+        
+        if (BALL.gameState.touchDown) {
+            if (this.dX > 100) {
+                BALL.gameState.jumpRight();
+            } else if (this.dX < -100) {
+                BALL.gameState.jumpLeft();
+            } 
+            
+            if (game.time.now - this.downTime < 120) {
+                if (BALL.input.left.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                    BALL.gameState.boopLeft();
+                    console.log("left touch");
+                } else if (BALL.input.right.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                    BALL.gameState.boopRight();
+                }
+            }
+        }
+        
         BALL.gameState.touchDown = false;
     },
     
@@ -84,14 +98,14 @@ BALL.input = {
         //NOTE: these functions(BALL.editor.selectedUp/Left/Right) also control ball character when BALL.editor.editMode == false. Obviously have to fix this before release/when separating editor from actual game.
         //FIX::::::::::::::::::::::::::::::
         this.UP.onDown.add(BALL.gameState.jump, this);
-        this.LEFT.onDown.add(BALL.gameState.moveLeft, this);
-        this.RIGHT.onDown.add(BALL.gameState.moveRight, this);
+        this.LEFT.onDown.add(BALL.gameState.boopLeft, this);
+        this.RIGHT.onDown.add(BALL.gameState.boopRight, this);
         
         this.m.onDown.add(BALL.manager.enterEditMode, this);
         this.n.onDown.add(BALL.manager.exitEditMode, this);
         
-        game.input.onDown.add(BALL.input.inputDown, this);
-        game.input.onUp.add(BALL.input.inputUp, this);
+        //game.input.onDown.add(BALL.input.inputDown, this);
+        //game.input.onUp.add(BALL.input.inputUp, this);
     }
 }
 

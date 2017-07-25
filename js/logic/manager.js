@@ -8,9 +8,8 @@ BALL.manager = {
         BALL.manager.editor = BALL.editor;
         BALL.manager.editMode = true;
         BALL.editor.editMode = true;
-        game.camera.target = null;
-        BALL.editor.createEditor;
         
+        BALL.editor.camScale = game.camera.scale.x;
         
         BALL.input.UP.onDown.removeAll();
         BALL.input.LEFT.onDown.removeAll();
@@ -30,9 +29,12 @@ BALL.manager = {
         game.input.onUp.add(BALL.editor.inputUp, this);
         
         for (var i in BALL.gameState.objects) {
+            BALL.gameState.objects[i].events.onInputDown.add(BALL.editor.clickObj, this);
             BALL.gameState.objects[i].events.onInputOver.add(BALL.editor.spriteHover, this);
             BALL.gameState.objects[i].events.onInputOut.add(BALL.editor.spriteUnhover, this);
         }
+        game.camera.target = BALL.play.ball;
+        game.camera.target = null;
         
     },
     
@@ -69,9 +71,11 @@ BALL.manager = {
     resetLevel: function() {
         BALL.gameState.resetLevel();
         
-        BALL.play.ball.reset(1750, 2000);
+        BALL.play.ball.reset(1750, 1700);
         BALL.play.ball_back.reset(0, 0);
         BALL.play.ball_face.reset(0, 0);
+        
+        //BALL.gameState.boulder.reset(3030, 1660);
         game.camera.follow(BALL.play.ball);
         game.camera.scale.setTo(0.5);  
     },
@@ -150,11 +154,12 @@ BALL.manager = {
         console.log(level);
         console.log("\n\n\n\n\n\n\n\n------\n" + level.objs.length + "\n----------\n\n\n");
         for (var i in level.objs) {
-            if (level.objs[i].key == "w1-iceplat") {
-                level.objs[i].key = "chalkplat";
-                console.log("ICEPLAT\nICEPLAT\nICEPLAT!");
+            if (level.objs[i].key == "chalkplat" || level.objs[i].key == "w1-iceplat") {
+                level.objs[i].key = "chalkbig";
             } else if (level.objs[i].key == "w1-platbreak") {
                 level.objs[i].key = "chalkbreak";
+            } else if (level.objs[i].key == "k01-dublaser") {
+                level.objs[i].key = "k01-redline";
             }
             console.log(level.objs[i].key);
             var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);

@@ -16,10 +16,12 @@ BALL.editorUI = {
         if (this.selected != sprite) {
             BALL.eventEditor.hideEditor();
         }
-        this.selected = sprite;
-        $("#angleVal").val(sprite.angle);
-        if (this.selected.triggers != null && this.selected.triggers.length > 0) {
-            BALL.trigEditor.select(this.selected);
+        if (sprite.angle != null && sprite.angle != NaN) {
+            this.selected = sprite;
+            $("#angleVal").val(sprite.angle);
+            if (this.selected.triggers != null && this.selected.triggers.length > 0) {
+                BALL.trigEditor.select(this.selected);
+            }
         }
     },
     
@@ -129,6 +131,9 @@ BALL.editorUI = {
     curPath: null,
     setupUI: function() {
         $("#delSelectedBtn").click(function(event) {
+            console.log("delete selected:");
+            console.log(BALL.editor.getSelectedObj());
+            console.log(BALL.editor.selected);
             BALL.gameState.destroyObject(BALL.editor.getSelectedObj()); 
             BALL.editor.selected = null;
         });
@@ -245,7 +250,7 @@ BALL.editorUI = {
         
         $("#saveLvlBtn").click( function() {
             
-            var lvlStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(BALL.editor.saveLevel()));
+            var lvlStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(BALL.manager.saveLevel()));
             var dLink = document.getElementById('downloadLevel');
             dLink.setAttribute("href", lvlStr);
             dLink.setAttribute("download", "level.json");

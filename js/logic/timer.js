@@ -11,7 +11,9 @@ BALL.timer = {
         if (typeof func == "string") {
             func = BALL.EventFuncs[func];
         }
-        this.tEvents.push(new BALL.TimerEvent(func, parent, interval, repeat, args));
+        var e = new BALL.TimerEvent(func, parent, interval, repeat, args);
+        this.tEvents.push(e);
+        return e;
     },
     
     removeEvent: function(ev) {
@@ -58,6 +60,14 @@ BALL.TimerEvent = function(func, parent, interval, repeat, args) {
         this.offset = 0;
     }
     this.countDown = interval;
+    
+    if (parent != null) {
+        if (parent.tEvents == null) {
+            parent.tEvents = [];
+        }
+        parent.tEvents.push(this);
+        console.log("TEVENT", parent);
+    }
 }
 
 //interval = 600, offset = 200

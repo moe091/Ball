@@ -24,6 +24,7 @@
         <script src="js/logic/gObject.js"></script>
         <script src="js/logic/timer.js"></script>
         <script src="js/logic/manager.js"></script>
+        <script src="js/logic/effects.js"></script>
         <!-- objects -->
         <script src="js/objects/MovePath.js"></script>
         <script src="js/objects/Trigger.js"></script>
@@ -303,7 +304,22 @@
                     </div><!-- event edit div -->
                 </div>
                 
+                <div id="launcherPropDiv">
+                    <label class="center" id="spriteNameLbl">Launcher</label>
+
+                    <div class="smallDiv center">
+                        <label class="editorLbl" id="launcherDelayLbl">Delay: </label>
+                        <input type="number" class="sPropInput" id="launcherDelayVal">
+                    </div>
+
+                    <div class="smallDiv center">
+                        <label class="editorLbl" id="launcherIntervalLbl">Delay: </label>
+                        <input type="number" class="sPropInput" id="launcherIntervalVal">
+                    </div>
+
+                </div>
             </div><!-----------------::: EDITOR PANEL :::-------------->
+            
             
 
         </div>

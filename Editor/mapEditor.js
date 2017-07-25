@@ -12,6 +12,8 @@ BALL.editor = {
     camSpeed: 10,
     spriteSpeed: 10,
     
+    scaleFactor: 25,
+    
     selected: null,
     pathSpriteSelected: false,
     
@@ -101,6 +103,8 @@ BALL.editor = {
     },
     
     clickObj: function(s) {
+        console.log("clicked this obj:");
+        console.log(s);
         BALL.editor.select(s);
         BALL.editor.pathSpriteSelected = false;
     },
@@ -201,16 +205,31 @@ BALL.editor = {
     
     scaleCamera: function() {
         //CAMERA SCALING
+        var lastX = game.camera.x;
+        var lastY = game.camera.y;
         if (BALL.input.t.isDown) {
+            this.camScale += 0.01;
             console.log(game.camera.scale.x);
-            this.camScale += 0.02;
         }
-        if (BALL.input.g.isDown) {
-            this.camScale -= 0.02;
+        if (BALL.input.g.isDown && this.camScale > 0.25) {
+            this.camScale -= 0.01;
+            console.log(game.camera.scale.x);
         }
-        if (this.camScale < 0.5)
-            this.camScale = 0.5;
+        if (this.camScale < 0.25)
+            this.camScale = 0.25;
+        
         game.camera.scale.setTo(this.camScale);
+        
+        this.scaleFactor = this.camScale * 100;
+        
+        if (BALL.input.t.isDown) {
+            game.camera.x = lastX + ((1 / this.scaleFactor) * game.camera.x + game.camera.view.width / 100);
+            game.camera.y = lastY + ((1 / this.scaleFactor) * game.camera.y + game.camera.view.height / 100);
+        }
+        if (BALL.input.g.isDown && this.camScale > 0.25) {
+            game.camera.x = lastX - ((1 / (this.scaleFactor)) * game.camera.x + game.camera.view.width / 100);
+            game.camera.y = lastY - ((1 / this.scaleFactor) * game.camera.y + game.camera.view.height / 100);
+        }
     },
     
     //_________________________________________________________________________\\
@@ -379,22 +398,27 @@ BALL.editor = {
         //this.gObjs.push("w1-branch");
         this.gObjs.push("bigplat");
         //this.gObjs.push("w1-tree-plat")
-        this.gObjs.push("w1-iceplat");
-        this.gObjs.push("chalkplat");
+        this.gObjs.push("chalkbig");
+        this.gObjs.push("chalksmall");
         this.gObjs.push("chalkbreak");
+        this.gObjs.push("launcher-stop");
 
         //special
-        this.gObjs.push("k01-dublaser");
+        this.gObjs.push("k01-redline");
         this.gObjs.push("k01-electricity");
         this.gObjs.push("k02-button");
+        this.gObjs.push("k03-trampoline");
+        
+        this.gObjs.push("s01-launcher");
     },
     
     createEditor: function(g) {
         this.game = g;
         BALL.editorUI.editor = this;
-        this.sprites = this.game.add.group();//
+        this.sprites = game.add.group();//
         this.sprites.inputEnableChildren = true;//
         this.populategObjs();
+        console.log("\n\n\n\n\nimages:");
         for (var i in this.gObjs) {
             console.log(this.gObjs[i]);
             
@@ -419,7 +443,6 @@ BALL.editor = {
             **/
         }
         BALL.editorUI.setupUI();
-        BALL.editor.loadLevel(game.cache.getJSON('level'));
     },
     
     

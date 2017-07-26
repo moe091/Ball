@@ -1,3 +1,4 @@
+//RANDO: PM 'netsrak' on reddit a demo of game https://www.reddit.com/r/IndieGaming/comments/6pfwlf/does_anyone_have_any_insight_or_ideas_on_why_the/
 BALL.gameState = {
     touchDown: false,
     jumpTime: 0,
@@ -16,80 +17,70 @@ BALL.gameState = {
     selected: null,
     
     ballSpeed: 1,
-    boopSpeed: 12,
+    boopSpeed: 11,
     ballJump: 850,
     jumpInterval: 900,
     sideJumpInterval: 500,
     sideJumpTime: 0,
     
     bounceMaterial: null,
+    platMaterial: null,
     ballMaterial: null,
     wallrideMaterial: null,
+    
+    wallrideGroup: null,
+    ballGroup: null,
+    killGroup: null,
+    platGroup: null,
+    
+    dynamicGroup: null,
     
     
     special: null,
     
-    jump: function() {
-        if (BALL.gameState.jumpTime < game.time.now - BALL.gameState.jumpInterval) {
-            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump;
-            BALL.gameState.jumpTime = game.time.now;
-        }
-    },
-    
-    moveLeft: function() {
-        BALL.play.ball.body.angularVelocity-= BALL.gameState.ballSpeed;
-    },
-    
-    moveRight: function() {
-        BALL.play.ball.body.angularVelocity+= BALL.gameState.ballSpeed;
-    },
-    
-    boopLeft: function() {
-        console.log('boopleft');
-        BALL.play.ball.body.angularVelocity-= BALL.gameState.boopSpeed;
-    },
-    
-    boopRight: function() {
-        console.log('boopright');
-        BALL.play.ball.body.angularVelocity+= BALL.gameState.boopSpeed;
-    },
-    
-    jumpLeft: function() {
-        if (game.time.now < BALL.gameState.jumpTime + BALL.gameState.sideJumpInterval && game.time.now > BALL.gameState.sideJumpTime + BALL.gameState.sideJumpInterval) {
-            BALL.play.ball.body.velocity.x-= BALL.gameState.ballJump;
-            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump * 0.2;
-            BALL.gameState.sideJumpTime = game.time.now;
-        }
-    },
-    
-    jumpRight: function() {
-        if (game.time.now < BALL.gameState.jumpTime + BALL.gameState.sideJumpInterval && game.time.now > BALL.gameState.sideJumpTime + BALL.gameState.sideJumpInterval) {
-            BALL.play.ball.body.velocity.x+= BALL.gameState.ballJump;
-            BALL.play.ball.body.velocity.y-= BALL.gameState.ballJump * 0.2;
-            BALL.gameState.sideJumpTime = game.time.now;
-        }
-    },
+
     
     initGame: function() {
+        
         this.special = game.add.group();
         
         this.sprites = game.add.group();
         this.sprites.inputEnableChildren = true;
         
         
+        
+        
+        
         this.bounceMaterial = game.physics.p2.createMaterial();
+        this.platMaterial = game.physics.p2.createMaterial();
         this.wallrideMaterial = game.physics.p2.createMaterial();
-            
+        
+        this.wallrideGroup = game.physics.p2.createCollisionGroup();
+        this.ballGroup = game.physics.p2.createCollisionGroup();
+        this.killGroup = game.physics.p2.createCollisionGroup();
+        this.dynamicGroup = game.physics.p2.createCollisionGroup();
+        
+        BALL.play.ball.body.setCollisionGroup(this.ballGroup);
+        console.log("LOAD LEVEL");
         BALL.manager.loadLevel(game.cache.getJSON('level'));
         
-        game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 99 , restitution: 1.25 }); 
+        game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 0.9 , restitution: 0.6 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
+        
+        
+        BALL.play.ball.body.collides(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
+        BALL.play.ball.body.collides(BALL.gameState.killGroup, BALL.gameState.killCallback, this);
+        BALL.play.ball.body.collides(BALL.gameState.dynamicGroup);
+                    //BALL.play.ball.body.createGroupCallback(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
+        
+       
+        
         
         
         //this.boulder = game.add.sprite(3000, 1660, "");
         //game.physics.p2.enable(this.boulder, true);
         //this.boulder.body.setCircle(120);
-        
+       
         BALL.editor.createEditor();
     },
     
@@ -117,7 +108,6 @@ BALL.gameState = {
         BALL.gameState.selected.anchor.setTo(0.5, 0.5);
         if (id == undefined) {
             BALL.gameState.selected.ID = this.nextID();
-            console.log("no id provided, setting id to: " + BALL.gameState.selected.ID);
         } else {
             BALL.gameState.selected.ID = id;
         }
@@ -126,31 +116,74 @@ BALL.gameState = {
         BALL.gameState.selected.inputEnabled = true;
         BALL.gameState.selected.input.useHandCursor = true;
         BALL.gameState.selected.input.enableDrag(true);
+        BALL.gameState.selected.input.pixelPerfectOver = true;
         
-            game.physics.p2.enable(BALL.gameState.selected, false);
-            BALL.gameState.selected.body.clearShapes();
+        game.physics.p2.enable(BALL.gameState.selected, false);
+        BALL.gameState.selected.body.clearShapes();
+        if (key == "d01-boulder") {
+            console.log("BOULDER");
+            
+            
+            
+            
+            BALL.gameState.selected.body.setCircle(102); 
+            
+            //BALL.gameState.selected.body.collides([BALL.gameState.ballGroup, BALL.gameState.wallrideGroup, BALL.gameState.platGroup]);
+            
+                    BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
+            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+            BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
+            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
+            BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
+            BALL.gameState.selected.body.collides(BALL.gameState.killGroup);
+            
+            BALL.gameState.selected.startX = BALL.gameState.selected.x;
+            BALL.gameState.selected.startY = BALL.gameState.selected.y;
+            BALL.gameState.buryObject(BALL.gameState.selected);
+            
+            
+            
+        } else {
             BALL.gameState.selected.body.loadPolygon("newbods", key);
             BALL.gameState.selected.body.static = true;
-            BALL.gameState.selected.input.pixelPerfectOver = true;
+        }
         
             if (key.substr(0, 4) == "k01-") {
                 //BALL.gameState.selected.input.pixelPerfectOver = true;
                 //BALL.gameState.selected.body.data.shapes[0].sensor=true;
+                //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
                 
-                BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
+                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
+                
             } else if (key.substr(0, 4) == "k03-") { 
-                BALL.gameState.selected.body.setMaterial(this.bounceMaterial)
+                BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
             } else {
-                BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
+                //BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
+                
+                if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak") {
+                    //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, function() {console.log("second callback----------"); }, this);
+                    //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball.body, this.wallrideCallback, this);
+                    
+                    BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
+                    BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.wallrideGroup);
+                    BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
+                    BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
+                } else {
+                    console.log(BALL.gameState.selected.key);
+                    
+                    BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                    BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
+                    BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
+                    BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
+                }
             }
         
             if (key == "k01-electricity") {
                 BALL.gameState.selected.animations.add("play");
                 BALL.gameState.selected.animations.play("play", 20, true);
             } else if (key == "s01-launcher") {
-                console.log("creating launcher");
-        
-                BALL.gameState.selected.tEvent = BALL.timer.pushEvent(BALL.effects.launcherShot(BALL.gameState.selected), null, 3000, true, null);
+                BALL.gameState.selected.tEvent = BALL.timer.pushEvent(BALL.effects.launcherShot(BALL.gameState.selected), BALL.gameState.selected, 3000, true, null);
             }
         
         BALL.gameState.selected.events.onInputDown.add(BALL.editor.clickObj, this);
@@ -160,7 +193,10 @@ BALL.gameState = {
         BALL.gameState.selected.updateFuncs = [];
         this.updateObjs.push(BALL.gameState.selected);
         
+        BALL.editor.select(BALL.gameState.selected);
+        
         BALL.gameState.objects.push(BALL.gameState.selected);
+        BALL.gameState.initObject(BALL.gameState.selected);
         return BALL.gameState.selected;
     },
     
@@ -194,6 +230,9 @@ BALL.gameState = {
     },
     
     killCallback: function(obj, ball) {
+        console.log("KILL CALLBACK");
+        console.log("obj: ", obj);
+        console.log("ball: ", ball);
         if (obj != null)
             console.log(obj.sprite.key);
         BALL.play.ball.kill();
@@ -201,6 +240,24 @@ BALL.gameState = {
         BALL.play.ball_face.kill();
         
         BALL.manager.resetLevel();
+    },
+    
+    wallrideCallback: function(wall, ball) {
+        if (ball.wallride == null && game.time.now > ball.wallrideTime);
+            if (wall.angle == 90 && (wall.rideTime == null || wall.rideTime < game.time.now - 2000)) {
+                if (ball.velocity.y < -100) {
+                    console.log("RIDING THE WALL");
+                    BALL.bController.ball.body.curWall = wall;
+                    if (wall.x < ball.x) {
+                        BALL.bController.addUpdateFunc("wallride", BALL.ballFuncs.wallride, 800, -1, BALL.ballFuncs.wallrideFinish);
+                    } else if (wall.x > ball.x) {
+                        BALL.bController.addUpdateFunc("wallride", BALL.ballFuncs.wallride, 800, 1, BALL.ballFuncs.wallrideFinish);
+                    }
+                    console.log(wall);
+                } else {
+                    console.log("LOW VEL");
+                }
+            }
     },
     
     moveObject: function(sprite, x, y) {
@@ -243,6 +300,16 @@ BALL.gameState = {
     
     restoreObject: function(sprite) {
         sprite.reset(sprite.startX, sprite.startY);
+        if (sprite.key == "chalkbig" || sprite.key == "chalksmall" || sprite.key == "chalkbreak") {
+            if (sprite.angle == 90) {
+                console.log(sprite.body._bodyCallbacks);
+                console.log(sprite);
+                //sprite.body.createBodyCallback(BALL.play.ball, this.wallrideCallback, this);
+                console.log("made callback");
+                console.log(sprite.body._bodyCallbacks);
+                console.log(sprite);
+            }
+        }
     },
     
     buryObject: function(sprite) {
@@ -258,7 +325,6 @@ BALL.gameState = {
                 this.objects[i].triggers[j].done = false;
             }
             if (this.objects[i].alive == false & this.objects[i].startsDead != true) {
-                console.log("rezzing object #" + this.objects[i].ID + ", " + this.objects[i].key);
                 this.restoreObject(this.objects[i]);
             }
         }
@@ -266,5 +332,3 @@ BALL.gameState = {
     
     
 }
-
-BALL.Obstacle = function(sprite) {}

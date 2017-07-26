@@ -5,7 +5,9 @@ BALL.preload = {
         //:::::::::::::::::::::::::================--- CURRENT ASSETS ---===============::::::::::::::::::::::::::::::\\
         //background
         //game.load.image("graybg", "assets/graphics/world1/background.png");
-        game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
+        
+        
+        //game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         
         //ball
         game.load.image("ball", "assets/graphics/char-wheel.png");
@@ -34,6 +36,7 @@ BALL.preload = {
         //game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
         //game.load.image("shroom2", "assets/graphics/world1/shroom2.png");
         
+        game.load.image("d01-boulder", "assets/graphics/world1/d01-boulder.png");
         //special/obstacles
         game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");
         game.load.image("k01-redline", "assets/graphics/world1/k01-redline.png");

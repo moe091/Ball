@@ -15,9 +15,9 @@ BALL.input = {
         if (pointer.isDown) {
             console.log("input", pointer);
             if (BALL.input.left.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
-                BALL.gameState.moveLeft();
+                //BALL.bController.moveLeft();
             } else if (BALL.input.right.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
-                BALL.gameState.moveRight();
+                //BALL.bController.moveRight();
             }
         }
     },
@@ -31,7 +31,12 @@ BALL.input = {
                 BALL.gameState.downX = pointer.x;
                 console.log("touch down");
                 if (BALL.input.middle.contains(pointer.x, pointer.y)) {
-                    BALL.gameState.jump();
+                    BALL.bController.jump();
+                } else if (BALL.input.left.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                    BALL.bController.boopLeft();
+                    console.log("left touch");
+                } else if (BALL.input.right.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
+                    BALL.bController.boopRight();
                 }
             }
             
@@ -43,20 +48,22 @@ BALL.input = {
         this.dX = pointer.x - BALL.gameState.downX;
         
         if (BALL.gameState.touchDown) {
-            if (this.dX > 100) {
-                BALL.gameState.jumpRight();
-            } else if (this.dX < -100) {
-                BALL.gameState.jumpLeft();
+            if (this.dX > 80) {
+                BALL.bController.jumpRight();
+            } else if (this.dX < -80) {
+                BALL.bController.jumpLeft();
             } 
             
+            /**
             if (game.time.now - this.downTime < 120) {
                 if (BALL.input.left.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
-                    BALL.gameState.boopLeft();
+                    BALL.bController.boopLeft();
                     console.log("left touch");
                 } else if (BALL.input.right.contains(pointer.x + game.camera.x, pointer.y + game.camera.y)) {
-                    BALL.gameState.boopRight();
+                    BALL.bController.boopRight();
                 }
             }
+            **/
         }
         
         BALL.gameState.touchDown = false;
@@ -97,9 +104,9 @@ BALL.input = {
         
         //NOTE: these functions(BALL.editor.selectedUp/Left/Right) also control ball character when BALL.editor.editMode == false. Obviously have to fix this before release/when separating editor from actual game.
         //FIX::::::::::::::::::::::::::::::
-        this.UP.onDown.add(BALL.gameState.jump, this);
-        this.LEFT.onDown.add(BALL.gameState.boopLeft, this);
-        this.RIGHT.onDown.add(BALL.gameState.boopRight, this);
+        this.UP.onDown.add(BALL.bController.jump, this);
+        this.LEFT.onDown.add(BALL.bController.boopLeft, this);
+        this.RIGHT.onDown.add(BALL.bController.boopRight, this);
         
         this.m.onDown.add(BALL.manager.enterEditMode, this);
         this.n.onDown.add(BALL.manager.exitEditMode, this);

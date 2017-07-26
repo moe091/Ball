@@ -16,12 +16,12 @@ BALL.editorUI = {
         if (this.selected != sprite) {
             BALL.eventEditor.hideEditor();
         }
-        if (sprite.angle != null && sprite.angle != NaN) {
-            this.selected = sprite;
-            $("#angleVal").val(sprite.angle);
-            if (this.selected.triggers != null && this.selected.triggers.length > 0) {
-                BALL.trigEditor.select(this.selected);
-            }
+            
+        
+        $("#angleVal").val(sprite.angle);
+        this.selected = sprite;
+        if (this.selected.triggers != null && this.selected.triggers.length > 0) {
+            BALL.trigEditor.select(this.selected);
         }
     },
     
@@ -30,7 +30,7 @@ BALL.editorUI = {
         
         if (BALL.editor.getSelectedObj() != null) {
             BALL.editor.getSelectedObj().rotSpeed = this.rotValue;
-            this.bodyUpdate();
+            //this.bodyUpdate();
         } else {
             console.log("NULL SELECTED");
         }
@@ -217,6 +217,21 @@ BALL.editorUI = {
         $("#eParam1").change(function(event) {
             BALL.eventEditor.updateParam1(Number($("#eParam1").val()));
         });
+        
+        
+        //EFFECTS
+        $("#launcherDelayVal").change(function(event) {
+            console.log("changedelay");
+            BALL.effectEditor.changeDelay(BALL.editor.getSelectedObj(), Number($("#launcherDelayVal").val()));
+        });
+        
+        $("#launcherIntervalVal").change(function(event) {
+            console.log("change INTERVAL");
+            BALL.effectEditor.changeInterval(BALL.editor.getSelectedObj(), Number($("#launcherIntervalVal").val())); 
+        });
+        
+        
+        
         
         
         

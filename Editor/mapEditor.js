@@ -36,11 +36,11 @@ BALL.editor = {
     
     select: function(sprite) {
         if (this.targetSelect == null) {
-            this.selected = sprite;
             BALL.editorUI.select(sprite);
             if (this.curEditor != null) {
                 this.curEditor.select(sprite);
             }
+            this.selected = sprite;
         } else {
             this.targetSelect.selectTarget(sprite);
             this.targetSelect = null;
@@ -402,6 +402,7 @@ BALL.editor = {
         this.gObjs.push("chalksmall");
         this.gObjs.push("chalkbreak");
         this.gObjs.push("launcher-stop");
+        this.gObjs.push("d01-boulder");
 
         //special
         this.gObjs.push("k01-redline");

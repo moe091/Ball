@@ -94,6 +94,14 @@ BALL.manager = {
             o.angle = BALL.gameState.objects[i].angle;
             o.ID = BALL.gameState.objects[i].ID;
             
+            if (o.key == "s01-launcher") {
+                if (BALL.gameState.objects[i].tEvent != null) {
+                    o.tEvent = {};
+                    o.tEvent.interval = BALL.gameState.objects[i].tEvent.interval;
+                    o.tEvent.offset = BALL.gameState.objects[i].tEvent.offset;
+                }
+            }
+            
             if (BALL.gameState.objects[i].movePaths != null) {
                 o.movePaths = [];
                 
@@ -161,13 +169,19 @@ BALL.manager = {
             } else if (level.objs[i].key == "k01-dublaser") {
                 level.objs[i].key = "k01-redline";
             }
-            console.log(level.objs[i].key);
             var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
             j.rotSpeed = level.objs[i].rotSpeed;
             if (j.rotSpeed != 0) {
                 j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
                 j.updateFuncs.push(j.rotateUpdate);
                 level.objs[i].angle = 0;
+            }
+            
+            //EFFECTS
+            if (j.key == "s01-launcher" && level.objs[i].tEvent != null) {
+                console.log(j);
+                j.tEvent.interval = level.objs[i].tEvent.interval;
+                j.tEvent.offset = level.objs[i].tEvent.offset;
             }
             
             
@@ -211,7 +225,10 @@ BALL.manager = {
                     }//events
                 }//triggers
             }//trigger?
-            
+            if (level.objs[i].angle == null) {
+                console.log("NULL ANGLE: " + level.objs[i].angle);
+                level.objs[i].angle = 0;
+            }
             j.angle = level.objs[i].angle;
             j.rotation = level.objs[i].angle * (Math.PI / 180);
             
@@ -220,7 +237,7 @@ BALL.manager = {
             }
 
             
-            BALL.gameState.initObject(j);
+            
         }
         BALL.timer.init();
     }

@@ -18,7 +18,6 @@ BALL.play = {
         
         game.camera.scale.setTo(1);
         
-        game.time.suggestedFps = 120;
         //this.bg = game.add.sprite(0, 0, "graybg")
         //this.bg.fixedToCamera = true;
         //this.bg.scale.x = 1.5;
@@ -33,10 +32,11 @@ BALL.play = {
         this.shroom2.anchor.setTo(0.5, 1);
         this.shroom2.scale.setTo(2);
         **/
-        this.bg2 = game.add.tileSprite(0, 0, 7860, 2500, "chalkbg");
         
         
-        //BALL.timer.pushEvent("destroyParent", this.bg, 1600, false);
+        //this.bg2 = game.add.tileSprite(0, 0, 7860, 2500, "chalkbg");
+        
+        
         
         
         this.ball_face = game.add.sprite(0, 0, "ball_face");
@@ -51,7 +51,7 @@ BALL.play = {
         this.ball.addChild(this.ball_face);
         this.ball.addChild(this.ball_back);
         
-
+        BALL.bController.ball = this.ball;
         
         
         
@@ -115,12 +115,18 @@ BALL.play = {
         if (this.ball.y > 2450) {
             BALL.gameState.killCallback();
         }
+        
+        BALL.bController.update(game.time.elapsed);
+        
         if (BALL.manager.editMode) {
             BALL.editor.update();
         } else {
             BALL.input.update(game.input.activePointer);
         }
         BALL.timer.update();
+        
+            
+        
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.05;
         //this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;

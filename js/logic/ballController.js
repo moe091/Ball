@@ -103,12 +103,37 @@ BALL.bController = {
     
     boopLeft: function() {
         console.log('boopleft');
-        BALL.bController.ball.body.angularVelocity-= BALL.gameState.boopSpeed;
+        if (BALL.bController.ball.body.wallride > 0) { //left wall, jump right
+            BALL.bController.ball.body.velocity.x-= BALL.gameState.ballJump * BALL.bController.ball.body.wallride * 0.7;
+            
+            BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * 0.5;
+            BALL.bController.ball.body.wallride = null;
+            
+            BALL.bController.removeFunc("wallride");
+            BALL.bController.addUpdateFunc("wallJump", BALL.ballFuncs.wallJump, 200, BALL.bController.ball.body.angularVelocity * -1, null);
+        } else if (BALL.bController.ball.body.wallride < 0) {
+            BALL.bController.ball.body.angularVelocity-= BALL.gameState.boopSpeed * 1.5;
+        } else {
+            BALL.bController.ball.body.angularVelocity-= BALL.gameState.boopSpeed;
+        }
     },
     
     boopRight: function() {
         console.log('boopright');
-        BALL.bController.ball.body.angularVelocity+= BALL.gameState.boopSpeed;
+        if (BALL.bController.ball.body.wallride < 0) { //left wall, jump right
+            BALL.bController.ball.body.velocity.x-= BALL.gameState.ballJump * BALL.bController.ball.body.wallride * 0.7;
+            
+            BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * 0.5;
+            BALL.bController.ball.body.wallride = null;
+            
+            BALL.bController.removeFunc("wallride");
+            BALL.bController.addUpdateFunc("wallJump", BALL.ballFuncs.wallJump, 200, BALL.bController.ball.body.angularVelocity * -1, null);
+            console.log('boopright------------');
+        } else if (BALL.bController.ball.body.wallride > 0) {
+            BALL.bController.ball.body.angularVelocity+= BALL.gameState.boopSpeed * 1.5;
+        } else {
+            BALL.bController.ball.body.angularVelocity+= BALL.gameState.boopSpeed;
+        }
     },
     
     jumpLeft: function() {
@@ -149,6 +174,9 @@ BALL.ballFuncs = {
     },
     
     wallJump: function(ball, elapsed, args) {
+        console.log("before - " + ball.body.angularVelocity);
+        console.log("args - " + args);
         ball.body.angularVelocity = args;
+        console.log("after - " + ball.body.angularVelocity);
     }
 }

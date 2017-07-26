@@ -66,6 +66,7 @@ BALL.manager = {
         BALL.input.createBindings();
         
         
+        game.camera.scale.setTo(0.5);
     },
     
     resetLevel: function() {
@@ -76,8 +77,7 @@ BALL.manager = {
         BALL.play.ball_face.reset(0, 0);
         
         //BALL.gameState.boulder.reset(3030, 1660);
-        game.camera.follow(BALL.play.ball);
-        game.camera.scale.setTo(0.5);  
+        game.camera.follow(BALL.play.ball);  
     },
 
     
@@ -237,7 +237,7 @@ BALL.manager = {
             }
 
             
-            
+            BALL.gameState.initObject(j);
         }
         BALL.timer.init();
     }

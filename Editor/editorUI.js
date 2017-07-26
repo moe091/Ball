@@ -138,6 +138,17 @@ BALL.editorUI = {
             BALL.editor.selected = null;
         });
         
+        $("#angleVal").change(function() {
+            console.log("angle");
+            if (BALL.editor.selected.body != null) {
+                console.log("body");
+                BALL.editor.selected.body.angle = $("#angleVal").val();
+            } else {
+                console.log("null");
+                BALL.editor.selected.angle = $("#angleVal").val();
+            }
+        });
+        
         //--------------------- MovePaths -------------------\\
         $("#mPathSelect").change(function(event) {
             //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);

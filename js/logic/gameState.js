@@ -130,7 +130,6 @@ BALL.gameState = {
             
             //BALL.gameState.selected.body.collides([BALL.gameState.ballGroup, BALL.gameState.wallrideGroup, BALL.gameState.platGroup]);
             
-                    BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
             BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
             BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
             BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
@@ -155,6 +154,8 @@ BALL.gameState = {
                 
                 BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
                 BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
+                
+                BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
                 
             } else if (key.substr(0, 4) == "k03-") { 
                 BALL.gameState.selected.body.setMaterial(this.bounceMaterial);

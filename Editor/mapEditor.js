@@ -270,9 +270,11 @@ BALL.editor = {
         if (this.selected != null && !this.pathSpriteSelected) {
             
             if (BALL.editorUI.rotValue != null) {
-                this.selected.rotSpeed = BALL.editorUI.rotValue;
+                //this.selected.rotSpeed = Number($("#rotSpeedVal"));
                 
                 if (this.selected.rotateUpdate == null) {
+                    console.log("adding rotateUpdate function");
+                    console.log(this.selected);
                     this.selected.rotateUpdate = BALL.gObject.rotateUpdate(BALL.editorUI.rotValue, this.selected);
                     this.selected.updateFuncs.push(this.selected.rotateUpdate);
                 }

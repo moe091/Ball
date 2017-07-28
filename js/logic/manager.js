@@ -66,18 +66,16 @@ BALL.manager = {
         BALL.input.createBindings();
         
         
-        game.camera.scale.setTo(0.5);
     },
     
     resetLevel: function() {
         BALL.gameState.resetLevel();
         
         BALL.play.ball.reset(1750, 1700);
-        BALL.play.ball_back.reset(0, 0);
-        BALL.play.ball_face.reset(0, 0);
         
         //BALL.gameState.boulder.reset(3030, 1660);
-        game.camera.follow(BALL.play.ball);  
+        game.camera.follow(BALL.play.ball);
+        game.camera.scale.setTo(0.5);  
     },
 
     
@@ -169,8 +167,14 @@ BALL.manager = {
             } else if (level.objs[i].key == "k01-dublaser") {
                 level.objs[i].key = "k01-redline";
             }
-            var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
-            j.rotSpeed = level.objs[i].rotSpeed;
+            console.log(level.objs[i].key);
+            if (level.objs[i].xScale < 0) {
+                var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, "flip-" + level.objs[i].key, level.objs[i].ID);
+                j.scale.x = level.objs[i].xScale;
+            } else {
+                var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
+            }
+                j.rotSpeed = level.objs[i].rotSpeed;
             if (j.rotSpeed != 0) {
                 j.rotateUpdate = BALL.gObject.rotateUpdate(j.rotSpeed, j);
                 j.updateFuncs.push(j.rotateUpdate);
@@ -180,6 +184,7 @@ BALL.manager = {
             //EFFECTS
             if (j.key == "s01-launcher" && level.objs[i].tEvent != null) {
                 console.log(j);
+                console.log(level.objs[i].tEvent);
                 j.tEvent.interval = level.objs[i].tEvent.interval;
                 j.tEvent.offset = level.objs[i].tEvent.offset;
             }
@@ -225,10 +230,7 @@ BALL.manager = {
                     }//events
                 }//triggers
             }//trigger?
-            if (level.objs[i].angle == null) {
-                console.log("NULL ANGLE: " + level.objs[i].angle);
-                level.objs[i].angle = 0;
-            }
+            
             j.angle = level.objs[i].angle;
             j.rotation = level.objs[i].angle * (Math.PI / 180);
             

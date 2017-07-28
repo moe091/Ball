@@ -104,7 +104,12 @@ BALL.gameState = {
         if (key == "double-laser") {
             key = "k01-dublaser";
         }
-        BALL.gameState.selected = BALL.gameState.sprites.create(x, y, key);
+        if (key.substr(0, 5) == "flip-") {
+            BALL.gameState.selected = BALL.gameState.sprites.create(x, y, key.substring(5));
+        } else {
+            BALL.gameState.selected = BALL.gameState.sprites.create(x, y, key);
+        }
+        
         BALL.gameState.selected.anchor.setTo(0.5, 0.5);
         if (id == undefined) {
             BALL.gameState.selected.ID = this.nextID();
@@ -143,49 +148,52 @@ BALL.gameState = {
             
             
         } else {
+            
             BALL.gameState.selected.body.loadPolygon("newbods", key);
+            
             BALL.gameState.selected.body.static = true;
         }
         
-            if (key.substr(0, 4) == "k01-") {
-                //BALL.gameState.selected.input.pixelPerfectOver = true;
-                //BALL.gameState.selected.body.data.shapes[0].sensor=true;
-                //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
-                
-                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
-                
+        if (key.substr(0, 4) == "k01-") {
+            //BALL.gameState.selected.input.pixelPerfectOver = true;
+            //BALL.gameState.selected.body.data.shapes[0].sensor=true;
+            //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, this.killCallback, this);
+
+            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
+            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
+
+            BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
+
+        } else if (key.substr(0, 4) == "k03-") { 
+            BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
+        } else {
+            //BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
+
+            if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak") {
+                //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, function() {console.log("second callback----------"); }, this);
+                //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball.body, this.wallrideCallback, this);
+
+                BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
+                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.wallrideGroup);
+                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
                 BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-                
-            } else if (key.substr(0, 4) == "k03-") { 
-                BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
+                BALL.gameState.selected.body.collides(BALL.gameState.killGroup);
             } else {
-                //BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
-                
-                if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak") {
-                    //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball, function() {console.log("second callback----------"); }, this);
-                    //BALL.gameState.selected.body.createBodyCallback(BALL.play.ball.body, this.wallrideCallback, this);
-                    
-                    BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
-                    BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.wallrideGroup);
-                    BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
-                    BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-                } else {
-                    console.log(BALL.gameState.selected.key);
-                    
-                    BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
-                    BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
-                    BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
-                    BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-                }
+                console.log(BALL.gameState.selected.key);
+
+                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
+                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
+                BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
             }
-        
-            if (key == "k01-electricity") {
-                BALL.gameState.selected.animations.add("play");
-                BALL.gameState.selected.animations.play("play", 20, true);
-            } else if (key == "s01-launcher") {
-                BALL.gameState.selected.tEvent = BALL.timer.pushEvent(BALL.effects.launcherShot(BALL.gameState.selected), BALL.gameState.selected, 3000, true, null);
-            }
+        }
+
+        if (key == "k01-electricity") {
+            BALL.gameState.selected.animations.add("play");
+            BALL.gameState.selected.animations.play("play", 20, true);
+        } else if (key == "s01-launcher" || key == "flip-s01-launcher") {
+            BALL.gameState.selected.tEvent = BALL.timer.pushEvent(BALL.effects.launcherShot(BALL.gameState.selected), BALL.gameState.selected, 3000, true, null);
+        }
         
         BALL.gameState.selected.events.onInputDown.add(BALL.editor.clickObj, this);
         BALL.gameState.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
@@ -231,14 +239,9 @@ BALL.gameState = {
     },
     
     killCallback: function(obj, ball) {
-        console.log("KILL CALLBACK");
-        console.log("obj: ", obj);
-        console.log("ball: ", ball);
         if (obj != null)
             console.log(obj.sprite.key);
         BALL.play.ball.kill();
-        BALL.play.ball_back.kill();
-        BALL.play.ball_face.kill();
         
         BALL.manager.resetLevel();
     },

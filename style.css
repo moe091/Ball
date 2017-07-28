@@ -1,7 +1,7 @@
 #editorDiv { 
     border: 1px black solid;
     background-color: #999;
-    padding: 6px;
+    padding: 3px;
     border-radius: 3px;
     margin-left: 20px;
     width: 1280px;
@@ -276,14 +276,14 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* Launcher */
 #launcherPropDiv {
-    width: 300px;
+    width: 280px;
     height: 350px;
     background-color: #f2f2f2;
     border: 1px black solid;
     display: inline-block;
     visibility: visible;
     text-align: center;
-    margin: 5px;
+    margin: 4px;
 }
 
 .sPropInput {
@@ -291,16 +291,13 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .center {
-    margin: 3px auto;
+    margin: 2px auto;
     text-align: center;
 }
 
 
 
 
-canvas {
-    background-color: #888;
-}
 
 
 

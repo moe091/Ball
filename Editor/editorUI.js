@@ -23,17 +23,16 @@ BALL.editorUI = {
         if (this.selected.triggers != null && this.selected.triggers.length > 0) {
             BALL.trigEditor.select(this.selected);
         }
+        
+        if (this.selected.tEvent != null) {
+            BALL.effectEditor.selectEffect(this.selected);
+        }
     },
     
     update: function() {
         this.updateRotSpeedInput();
         
-        if (BALL.editor.getSelectedObj() != null) {
-            BALL.editor.getSelectedObj().rotSpeed = this.rotValue;
-            //this.bodyUpdate();
-        } else {
-            console.log("NULL SELECTED");
-        }
+       
     },
     
     bodyUpdate: function() {
@@ -130,6 +129,14 @@ BALL.editorUI = {
     //:::::::::::::::::::::::::::::--- UI CALLBACKS ---::::::::::::::::::::::::::\\
     curPath: null,
     setupUI: function() {
+        
+        $("#rotSpeedVal").change(function(event) {
+            if (Number($("#rotSpeedVal").val()) != null) {
+                console.log("changing rotSpeed - " + Number($("#rotSpeedVal").val()));
+                BALL.editor.getSelectedObj().rotSpeed = Number($("#rotSpeedVal").val());
+            }
+        });
+            
         $("#delSelectedBtn").click(function(event) {
             console.log("delete selected:");
             console.log(BALL.editor.getSelectedObj());

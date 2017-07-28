@@ -25,7 +25,7 @@ Phaser.Sprite.prototype.addUpdateFunc = function(f) {
 }
 
 Phaser.Sprite.prototype.update = function() {
-    if (this.updateFuncs != null) {;
+    if (this.updateFuncs != null) {
         for (var i in this.updateFuncs) {
             //console.log("sprite update context:");
             //console.log(this);

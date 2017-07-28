@@ -10,8 +10,9 @@ BALL.preload = {
         //game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         
         //ball
-        game.load.image("ball", "assets/graphics/char-wheel.png");
-        game.load.image("ball_face", "assets/graphics/char-face.png");
+        //game.load.image("ball", "assets/graphics/char-wheel.png");
+        //game.load.image("ball_face", "assets/graphics/char-face.png");
+        game.load.image("chalkball", "assets/graphics/chalkball.png");
         //game.load.image("purpChar", "assets/graphics/purpchar.png");
     
         //normal plats
@@ -104,7 +105,7 @@ BALL.preload = {
         game.state.start('play');
         **/
         
-        button = game.add.button(game.world.centerX - 30, game.world.centerY - 30, 'ball', this.goFullScreen, this, 2, 1, 0);
+        button = game.add.button(game.world.centerX - 30, game.world.centerY - 30, 'chalkball', this.goFullScreen, this, 2, 1, 0);
     },
     
     goFullScreen: function() {  

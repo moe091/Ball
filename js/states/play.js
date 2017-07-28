@@ -39,17 +39,11 @@ BALL.play = {
         
         
         
-        this.ball_face = game.add.sprite(0, 0, "ball_face");
-        this.ball_face.anchor.setTo(0.5, 0.5);
         
-        this.ball_back = game.add.sprite(0, 0, "ball");
-        this.ball_back.anchor.setTo(0.5, 0.5);
         
-        this.ball = game.add.sprite(1750, 1700, "");
+        this.ball = game.add.sprite(1750, 1700, "chalkball");
         this.ball.anchor.setTo(0.5, 0.5);
         
-        this.ball.addChild(this.ball_face);
-        this.ball.addChild(this.ball_back);
         
         BALL.bController.ball = this.ball;
         
@@ -60,8 +54,6 @@ BALL.play = {
         //this.ball.body.gravity.y = 1000;
         
         
-        this.ball_face.body.destroy();
-        this.ball_back.body.destroy();
         
         BALL.gameState.ballMaterial = game.physics.p2.createMaterial('ballMat', this.ball.body);
         
@@ -143,7 +135,7 @@ BALL.play = {
         this.shroom2.y = 2480 + (this.ball.y - 2072) * 0.2;
         **/
         
-        
+        /**
         this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
         if (this.ball.body.angularVelocity > 35) {
             this.ball_face.angle+= 35;
@@ -153,6 +145,8 @@ BALL.play = {
             this.ball_face.angle = (this.ball.body.angle * -1) - this.ball.body.angularVelocity;
             this.ball_face.angle+= this.ball.body.angularVelocity;
         }
+        **/
+        
         
         if (BALL.editor != null && BALL.editor.editMode) {
             //BALL.editor.update();

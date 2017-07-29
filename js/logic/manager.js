@@ -71,7 +71,7 @@ BALL.manager = {
     resetLevel: function() {
         BALL.gameState.resetLevel();
         
-        BALL.play.ball.reset(1750, 1700);
+        BALL.play.ball.reset(1750 / 2, 1700 / 2);
         
         //BALL.gameState.boulder.reset(3030, 1660);
         game.camera.follow(BALL.play.ball);
@@ -167,6 +167,8 @@ BALL.manager = {
             } else if (level.objs[i].key == "k01-dublaser") {
                 level.objs[i].key = "k01-redline";
             }
+            //level.objs[i].x = level.objs[i].x / 2;
+            //level.objs[i].y = level.objs[i].y / 2;
             console.log(level.objs[i].key);
             if (level.objs[i].xScale < 0) {
                 var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, "flip-" + level.objs[i].key, level.objs[i].ID);
@@ -210,26 +212,7 @@ BALL.manager = {
             
             
             //TRIGGERS/EVENTS
-            if (level.objs[i].triggers != null) {
-                j.triggers = [];
-                for (var a in level.objs[i].triggers) {
-                    j.triggers[a] = new BALL.Trigger(BALL.gameState.getSpriteById(level.objs[i].triggers[a].parentID), level.objs[i].triggers[a].name);
-                    j.triggers[a].setType(level.objs[i].triggers[a].type);
-                    j.triggers[a].params = level.objs[i].triggers[a].params;
-                    j.triggers[a].events = [];
-                    for (var b in level.objs[i].triggers[a].events) {
-                        j.triggers[a].events[b] = new BALL.Event(null, level.objs[i].triggers[a].events[b].name, null, 0);
-                        j.triggers[a].events[b].setTarget(BALL.gameState.getSpriteById(level.objs[i].triggers[a].events[b].targetID));
-                        j.triggers[a].events[b].setDelay(level.objs[i].triggers[a].events[b].delay);
-                        if (level.objs[i].triggers[a].events[b].args != null && level.objs[i].triggers[a].events[b].args[0] != null) {
-                            j.triggers[a].events[b].setParam1(level.objs[i].triggers[a].events[b].args[0]);
-                        }
-                        //SET TYPE LAST, SET TYPE CREATES/UPDATES EVENT FUNC
-                        j.triggers[a].events[b].setType(level.objs[i].triggers[a].events[b].type);
-                        
-                    }//events
-                }//triggers
-            }//trigger?
+
             
             j.angle = level.objs[i].angle;
             j.rotation = level.objs[i].angle * (Math.PI / 180);
@@ -241,6 +224,30 @@ BALL.manager = {
             
             BALL.gameState.initObject(j);
         }
+        
+        
+            for (var i in level.objs) {
+                if (level.objs[i].triggers != null) {
+                    j.triggers = [];
+                    for (var a in level.objs[i].triggers) {
+                        j.triggers[a] = new BALL.Trigger(BALL.gameState.getSpriteById(level.objs[i].triggers[a].parentID), level.objs[i].triggers[a].name);
+                        j.triggers[a].setType(level.objs[i].triggers[a].type);
+                        j.triggers[a].params = level.objs[i].triggers[a].params;
+                        j.triggers[a].events = [];
+                        for (var b in level.objs[i].triggers[a].events) {
+                            j.triggers[a].events[b] = new BALL.Event(null, level.objs[i].triggers[a].events[b].name, null, 0);
+                            j.triggers[a].events[b].setTarget(BALL.gameState.getSpriteById(level.objs[i].triggers[a].events[b].targetID));
+                            j.triggers[a].events[b].setDelay(level.objs[i].triggers[a].events[b].delay);
+                            if (level.objs[i].triggers[a].events[b].args != null && level.objs[i].triggers[a].events[b].args[0] != null) {
+                                j.triggers[a].events[b].setParam1(level.objs[i].triggers[a].events[b].args[0]);
+                            }
+                            //SET TYPE LAST, SET TYPE CREATES/UPDATES EVENT FUNC
+                            j.triggers[a].events[b].setType(level.objs[i].triggers[a].events[b].type);
+
+                        }//events
+                    }//triggers
+                }//trigger?
+            }
         BALL.timer.init();
     }
     

@@ -58,9 +58,12 @@ BALL.Event.prototype.setType = function(t) {
 }
 
 BALL.Event.prototype.setTarget = function(sprite) {
+    
     this.target = sprite;
     this.targetID = sprite.ID;
     this.setType(this.type);
+    
+        console.log(sprite);
     
     console.log("setting target to sprite id#-" + this.targetID + ": ");
     console.log(this.target);

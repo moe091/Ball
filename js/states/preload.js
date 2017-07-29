@@ -12,43 +12,49 @@ BALL.preload = {
         //ball
         //game.load.image("ball", "assets/graphics/char-wheel.png");
         //game.load.image("ball_face", "assets/graphics/char-face.png");
-        game.load.image("chalkball", "assets/graphics/chalkball.png");
+        game.load.image("bg", "assets/graphics/world2/bg.png");
+        game.load.image("front", "assets/graphics/world2/front.png");
+        game.load.image("pillars", "assets/graphics/world2/pillars.png");
+        game.load.image("stalags", "assets/graphics/world2/stalags.png");
+        
+        game.load.image("chalkball", "assets/graphics/crappyball.png");
         //game.load.image("purpChar", "assets/graphics/purpchar.png");
     
         //normal plats
         //game.load.image("w1-plat1", "assets/graphics/world1/w1-plat1.png");
         
         
-        game.load.image("chalkbig", "assets/graphics/world1/chalkbig.png");
-        game.load.image("chalksmall", "assets/graphics/world1/chalksmall.png");
-        game.load.image("chalkbreak", "assets/graphics/world1/chalkbreak.png");
+        game.load.image("chalkbig", "assets/graphics/world2/chalkbig.png");
+        game.load.image("chalksmall", "assets/graphics/world2/chalksmall.png");
+        game.load.image("chalkbreak", "assets/graphics/world2/chalkbreak.png");
         
         
-        //game.load.image("w1-iceplat", "assets/graphics/world1/w1-iceplat.png");
+        //game.load.image("w1-iceplat", "assets/graphics/world2/w1-iceplat.png");
         //game.load.image("w1-platbreak", "assets/graphics/world1/w1-platbreak.png");
-        game.load.image("bigplat", "assets/graphics/world1/bigplat.png");
+        game.load.image("bigplat", "assets/graphics/world2/bigplat.png");
         //game.load.image("w1-branch", "assets/graphics/world1/w1-branch.png");
         
         //sprites
-        game.load.image("overBtn", "assets/graphics/world1/overBtn.png");
+        game.load.image("overBtn", "assets/graphics/world2/overBtn.png");
         //game.load.image("tree1", "assets/graphics/world1/tree5.png");
         //game.load.image("tree2", "assets/graphics/world1/tree-plat.png");
         //game.load.image("w1-tree-plat", "assets/graphics/world1/w1-tree-plat.png");
         //game.load.image("shroom1", "assets/graphics/world1/shroom1.png");
         //game.load.image("shroom2", "assets/graphics/world1/shroom2.png");
         
-        game.load.image("d01-boulder", "assets/graphics/world1/d01-boulder.png");
+        game.load.image("d01-boulder", "assets/graphics/world2/d01-boulder.png");
+        game.load.image("d01-killboulder", "assets/graphics/world2/d01-killboulder.png");
         //special/obstacles
-        game.load.image("k01-dublaser", "assets/graphics/world1/k01-dublaser.png");
-        game.load.image("k01-redline", "assets/graphics/world1/k01-redline.png");
-        game.load.image("k01-rocket", "assets/graphics/world1/k01-rocket.png");
-        game.load.image("k02-button", "assets/graphics/world1/k02-button.png");
-        game.load.image("k03-trampoline", "assets/graphics/world1/k03-trampoline.png");
+        //game.load.image("k01-dublaser", "assets/graphics/world2/k01-dublaser.png");
+        game.load.image("k01-redline", "assets/graphics/world2/k01-redline.png");
+        game.load.image("k01-rocket", "assets/graphics/world2/k01-rocket.png");
+        game.load.image("k02-button", "assets/graphics/world2/k02-button.png");
+        game.load.image("k03-trampoline", "assets/graphics/world2/k03-trampoline.png");
         
-        game.load.image("s01-launcher", "assets/graphics/world1/s01-launcher.png");
-        game.load.image("launcher-stop", "assets/graphics/world1/launcher-stop.png");
+        game.load.image("s01-launcher", "assets/graphics/world2/s01-launcher.png");
+        game.load.image("launcher-stop", "assets/graphics/world2/launcher-stop.png");
         
-        game.load.spritesheet("k01-electricity", "assets/graphics/world1/k01-electricity.png", 260, 39);
+        game.load.spritesheet("k01-electricity", "assets/graphics/world2/k01-electricity.png", 260, 39);
         
         /**
         //:::::::::::::::::::::::::================---################---===============::::::::::::::::::::::::::::::\\
@@ -83,6 +89,7 @@ BALL.preload = {
         
         
         game.load.physics("newbods", "assets/physics/newbods.json");
+        game.load.physics("newbods2", "assets/physics/newbods2.json");
         
         game.load.json("level", "assets/levels/level.json");
         game.load.json("level2", "assets/levels/level2.json");

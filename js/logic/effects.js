@@ -22,12 +22,12 @@ BALL.effects = {
                 //hypotenuse = 120. cos(parent.rotation) = dY/120. cos(rot) * 120
                 //sin(rot) = dX/120. sin(rot) * 120 = dX
                 console.log("rotation: " + parent.rotation);
-                BALL.effects.cur = BALL.gameState.special.create(parent.x + ((Math.cos(parent.rotation) * 120)), parent.y + ((Math.sin(parent.rotation) * 120)), "k01-rocket");
+                BALL.effects.cur = BALL.gameState.special.create(parent.x + ((Math.cos(parent.rotation) * 54)), parent.y + ((Math.sin(parent.rotation) * 54)), "k01-rocket");
                 BALL.effects.cur.anchor.setTo(0.5);
 
                 game.physics.p2.enable(BALL.effects.cur, false);
                 BALL.effects.cur.body.clearShapes();
-                BALL.effects.cur.body.loadPolygon("newbods", "k01-rocket");
+                BALL.effects.cur.body.loadPolygon("newbods2", "k01-rocket");
                 
                 BALL.effects.cur.body.rotation = parent.rotation;
                 if (parent.scale.x < 0) { 
@@ -38,11 +38,14 @@ BALL.effects = {
                 BALL.effects.cur.body.setCollisionGroup(BALL.gameState.killGroup);
                 BALL.effects.cur.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
                 BALL.effects.cur.body.collides(BALL.gameState.wallrideGroup, BALL.effects.killRocket, this);
+                BALL.effects.cur.body.collides(BALL.gameState.dynamicGroup, BALL.effects.killRocket, this);
 
                 BALL.effects.cur.body.data.gravityScale = 0;
+                BALL.effects.cur.body.mass = 0.02;
+                BALL.effects.cur.body.data.damping = 0;
                 //multiply by parent scale.x, automatically takes care of velocity for rockets shot from flipped launchers
-                BALL.effects.cur.body.velocity.x = 450 * Math.cos(parent.rotation);
-                BALL.effects.cur.body.velocity.y = 450 * Math.sin(parent.rotation);
+                BALL.effects.cur.body.velocity.x = 220 * Math.cos(parent.rotation);
+                BALL.effects.cur.body.velocity.y = 220 * Math.sin(parent.rotation);
                 BALL.effects.cur.body.parent = parent;
                 BALL.effects.cur.body.dead = false;
 
@@ -54,10 +57,10 @@ BALL.effects = {
             } else {
                 console.log("\n\n\n\n\nRECYCLE ROCKET: ", BALL.effects.recycleRocket);
                 BALL.effects.recycleRocket.dead = false;
-                BALL.effects.recycleRocket.x = parent.x + ((Math.cos(parent.rotation) * 120))
-                BALL.effects.recycleRocket.y = parent.y + ((Math.sin(parent.rotation) * 120));
-                BALL.effects.recycleRocket.velocity.x = 450 * Math.cos(parent.rotation);
-                BALL.effects.recycleRocket.velocity.y = 450 * Math.sin(parent.rotation);
+                BALL.effects.recycleRocket.x = parent.x + ((Math.cos(parent.rotation) * 54))
+                BALL.effects.recycleRocket.y = parent.y + ((Math.sin(parent.rotation) * 54));
+                BALL.effects.recycleRocket.velocity.x = 220 * Math.cos(parent.rotation);
+                BALL.effects.recycleRocket.velocity.y = 220 * Math.sin(parent.rotation);
                 BALL.effects.recycleRocket.angularVelocity = 0;
                 BALL.effects.recycleRocket.rotation = parent.rotation;
             }

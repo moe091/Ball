@@ -406,6 +406,8 @@ BALL.editor = {
         this.gObjs.push("launcher-stop");
         this.gObjs.push("d01-boulder");
         this.gObjs.push("d01-killboulder");
+        this.gObjs.push("hanging-plank");
+        this.gObjs.push("rope");
 
         //special
         this.gObjs.push("k01-redline");

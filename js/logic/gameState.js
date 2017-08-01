@@ -64,7 +64,7 @@ BALL.gameState = {
         
         BALL.play.ball.body.setCollisionGroup(this.ballGroup);
         console.log("LOAD LEVEL");
-        BALL.manager.loadLevel(game.cache.getJSON('level'));
+        //BALL.manager.loadLevel(game.cache.getJSON('level'));
         
         game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 3 , restitution: 0.6 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
@@ -174,7 +174,7 @@ BALL.gameState = {
             
         } else {
             if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak" || key == "woodbig") {
-                if (key != "woodbig") {
+                if (key != "woodbig" && key != "chalkbreak") {
                     BALL.gameState.selected.visible = false;
                 }
                 BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);

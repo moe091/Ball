@@ -37,6 +37,11 @@ Phaser.Sprite.prototype.update = function() {
 
 
 
+BALL.objDefs = {
+    
+}
+
+
 
 //:::::::::::::: MOVEPATH FUNCS :::::::::::::::::\\
 Phaser.Sprite.prototype.setPath = function(path) {

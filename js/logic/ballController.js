@@ -152,31 +152,41 @@ BALL.bController = {
         }
     },
     
+    endContact: function(b1, b2) {
+        console.log("END CONTACT");
+        if (b1 == BALL.play.ball.body.curWall || b2 == BALL.play.ball.body.curWall) {
+            BALL.play.ball.body.curWall = null;
+            BALL.play.ball.body.wallride = null;
+            BALL.play.ball.body.wallrideTime = game.time.now + 150;
+            BALL.bController.removeFunc("wallride");
+            console.log("END WALLRIDE NOW");   
+            console.log("END WALLRIDE NOW");   
+            console.log("END WALLRIDE NOW");   
+        }
+    }
+    
     
 }
 
-
+  //sadfwadfawd
 BALL.ballFuncs = {
     wallride: function(ball, elapsed, args) {
         if (BALL.bController.ball.body.curWall.sprite.alive) {
             ball.body.velocity.x+= (elapsed * 1.5) * args;
             ball.body.wallride = args;
-            console.log(ball.body.curWall);
         }
     },
     
     wallrideFinish: function(ball, elapsed, args) {
-        if (BALL.bController.ball.body.curWall.sprite.alive) {
+        if (BALL.bController.ball.body.curWall != null && BALL.bController.ball.body.curWall.sprite.alive) {
             ball.body.velocity.x-= 150 * args;
             ball.body.wallride = null;
             ball.body.wallrideTime = game.time.now + 150;
+            ball.body.curWall = null;
         }
     },
     
     wallJump: function(ball, elapsed, args) {
-        console.log("before - " + ball.body.angularVelocity);
-        console.log("args - " + args);
         ball.body.angularVelocity = args;
-        console.log("after - " + ball.body.angularVelocity);
     }
 }

@@ -7,7 +7,7 @@ BALL.play = {
     
     create: function() {
         
-        
+        game.stage.backgroundColor = '#ffffff';
         game.world.setBounds(0, 0, 7860, 2500);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
@@ -34,11 +34,16 @@ BALL.play = {
         **/
         
         
-        this.bg = game.add.tileSprite(0, 0, 7860, 2500, "bg");
-        this.bg.fixedToCamera = true;
+        //this.bg = game.add.tileSprite(0, 0, 7860, 2500, "bg");
+        //this.bg.fixedToCamera = true;
         
         
-        
+        this.sky = game.add.sprite(0, 0, "sky");
+        this.sky.scale.setTo(3.5);
+        this.water = game.add.sprite(0, 880, "water");
+        this.water.scale.setTo(3.5);
+        this.shipBG = game.add.sprite(-289, -560, "shipBG");
+        this.shipBG.scale.setTo(3.35);
         
         this.ball = game.add.sprite(1750 / 2, 1700 / 2, "chalkball");
         this.ball.anchor.setTo(0.5, 0.5);
@@ -83,10 +88,10 @@ BALL.play = {
         this.follow();
         game.camera.scale.setTo(0.5);
         
+        this.ball.body.onEndContact.add(BALL.bController.endContact, this);
         
         
-        
-        
+        this.startTime = game.time.now;
         
         //this.endGame();
     },
@@ -96,9 +101,21 @@ BALL.play = {
     },
     
     endGame: function() {
-        this.overBtn = game.add.button(290, 190, "overBtn", BALL.play.restartGame, this);    
+        this.overBtn = game.add.button(300, 250, "overBtn", BALL.play.restartGame, this);    
         this.overBtn.fixedToCamera = true;
         this.overBtn.anchor.setTo(0.5);
+        console.log("Time: " + ((game.time.now - BALL.play.startTime) / 1000) + "s");
+        if (this.endText != null) {
+            this.endText.destroy();
+        }
+        this.endText = game.add.text(BALL.play.ball.x, BALL.play.ball.y - 10, "Time: " + ((game.time.now - BALL.play.startTime) / 1000) + "s", {
+            font: "24px Arial",
+            fill: "#ff0044",
+            align: "center"
+        });
+
+        this.endText.anchor.setTo(0.5, 0.5);
+        console.log(this.endText);
     },
     
     restartGame: function() {

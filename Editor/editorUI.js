@@ -6,8 +6,6 @@ BALL.editorUI = {
     selected: null,
     pathSprite: null, //currently selected pathSprite
     editor: null,
-    rotValue: 0,
-    angleValue: 0,
     
     
     
@@ -16,8 +14,11 @@ BALL.editorUI = {
         if (this.selected != sprite) {
             BALL.eventEditor.hideEditor();
         }
-            
-        
+        if (isNaN(sprite.rotSpeed)) {
+            $("#rotSpeedVal").val(0);
+        } else {
+            $("#rotSpeedVal").val(sprite.rotSpeed);
+        }
         $("#angleVal").val(sprite.angle);
         this.selected = sprite;
         if (this.selected.triggers != null && this.selected.triggers.length > 0) {
@@ -30,32 +31,13 @@ BALL.editorUI = {
     },
     
     update: function() {
-        this.updateRotSpeedInput();
+        if (BALL.editor.selected != null && Number($("#rotSpeedVal").val()) != BALL.editor.selected.rotSpeed) {
+            BALL.editor.selected.rotSpeed = Number($("#rotSpeedVal").val());
+        }
         
        
     },
-    
-    bodyUpdate: function() {
-        if (parseFloat($("#rotSpeedVal").val()) != null) {
-            this.rotValue = parseFloat($("#rotSpeedVal").val());
-        } else {
-            this.rotValue = 0;
-            console.log("ROTVAL NULL, setting to 0");
-        }
-        
 
-        if (parseFloat($("#angleVal").val()) != null) {
-            this.angleValue = parseFloat($("#angleVal").val());
-        }
-        if (BALL.editor.getSelectedObj().rotSpeed == null || BALL.editor.getSelectedObj().rotSpeed == 0) {
-            BALL.editor.getSelectedObj().bodyAngle = this.angleValue;
-            if (BALL.editor.getSelectedObj().body != null) {
-                BALL.editor.getSelectedObj().body.angle = this.angleValue;
-            } else {
-                BALL.editor.getSelectedObj().angle = this.angleValue;
-            }
-        }
-    },
     
     
     
@@ -75,47 +57,17 @@ BALL.editorUI = {
         
     },
     
-    updateSelected: function(sel) {
+    updateSelected: function(sel) { //CLEAN - pretty sure this can be removed completely
         console.log("updating selected");
         BALL.gameState.hidePathSprites();
         if (sel != null) {
-            this.selected = sel;
-            $("#curSelectionImg").attr("src", "assets/plats/" + sel.key + ".png");
-
-            //if sprite has a rotSpeed, set rotSpeed input val to sprites rotSpeed
-            //else set it to 0
-
-            if (!isNaN(this.selected.rotSpeed) && this.selected.rotSpeed != null) {
-                console.log(this.selected.rotSpeed);
-                $("#rotSpeedVal").val(this.selected.rotSpeed);
-            } else {
-                $("#rotSpeedVal").val(0);
-            }
-
-            //Same as rotSpeed above but with angle
-            if (this.selected.bodyAngle != null) {
-                $("#angleVal").val(this.selected.bodyAngle);
-            } else {
-                $("#angleVal").val(0);
-            }
-
             this.updateTriggers();
-            console.log(sel.movePaths);
         }
     },
     
     selectPathSprite: function(sprite) {
         console.log("SELECT PATH SPRITE");
         this.pathSprite = sprite;
-    },
-    
-    
-    updateRotSpeedInput: function() {
-        if (isNaN($("#rotSpeedVal").val()) || $("#rotSpeedVal").val() == null || $("#rotSpeedVal").val() == "") {
-            $("#rotSpeedVal").val(0);
-            this.rotValue = 0;
-        } else {
-        }
     },
     
     updateMovePaths: function(selID) {
@@ -129,13 +81,6 @@ BALL.editorUI = {
     //:::::::::::::::::::::::::::::--- UI CALLBACKS ---::::::::::::::::::::::::::\\
     curPath: null,
     setupUI: function() {
-        
-        $("#rotSpeedVal").change(function(event) {
-            if (Number($("#rotSpeedVal").val()) != null) {
-                console.log("changing rotSpeed - " + Number($("#rotSpeedVal").val()));
-                BALL.editor.getSelectedObj().rotSpeed = Number($("#rotSpeedVal").val());
-            }
-        });
             
         $("#delSelectedBtn").click(function(event) {
             console.log("delete selected:");
@@ -148,10 +93,8 @@ BALL.editorUI = {
         $("#angleVal").change(function() {
             console.log("angle");
             if (BALL.editor.selected.body != null) {
-                console.log("body");
                 BALL.editor.selected.body.angle = $("#angleVal").val();
             } else {
-                console.log("null");
                 BALL.editor.selected.angle = $("#angleVal").val();
             }
         });

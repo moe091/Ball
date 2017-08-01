@@ -189,7 +189,6 @@ BALL.editor = {
         scrollCamera: function() {
         //CAMERA MOVEMENT
         if (BALL.input.W.isDown) {
-            console.log("WWWW");
             game.camera.y-= 5;
         }
         if (BALL.input.A.isDown) {
@@ -269,8 +268,8 @@ BALL.editor = {
     updateRotation: function() {
         if (this.selected != null && !this.pathSpriteSelected) {
             
-            if (BALL.editorUI.rotValue != null) {
-                //this.selected.rotSpeed = Number($("#rotSpeedVal"));
+            if (BALL.editor.selected.rotSpeed != null && BALL.editor.selected.rotSpeed != 0) {
+                
                 
                 if (this.selected.rotateUpdate == null) {
                     console.log("adding rotateUpdate function");
@@ -401,6 +400,7 @@ BALL.editor = {
         this.gObjs.push("bigplat");
         //this.gObjs.push("w1-tree-plat")
         this.gObjs.push("chalkbig");
+        this.gObjs.push("woodbig");
         this.gObjs.push("chalksmall");
         this.gObjs.push("chalkbreak");
         this.gObjs.push("launcher-stop");

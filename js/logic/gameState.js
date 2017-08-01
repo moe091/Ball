@@ -173,7 +173,10 @@ BALL.gameState = {
             BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
             
         } else {
-            if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak") {
+            if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak" || key == "woodbig") {
+                if (key != "woodbig") {
+                    BALL.gameState.selected.visible = false;
+                }
                 BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
                 BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.wallrideGroup);
                 BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);

@@ -72,10 +72,12 @@ BALL.manager = {
         BALL.gameState.resetLevel();
         
         BALL.play.ball.reset(1750 / 2, 1700 / 2);
+        BALL.play.ball.wallride = null;
         
         //BALL.gameState.boulder.reset(3030, 1660);
         game.camera.follow(BALL.play.ball);
         game.camera.scale.setTo(0.5);  
+        BALL.play.startTime = game.time.now;
     },
 
     

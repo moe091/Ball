@@ -41,9 +41,16 @@ BALL.editor = {
                 this.curEditor.select(sprite);
             }
             this.selected = sprite;
+            console.log(sprite);
+            console.log(game.input);
+            console.log("sprite - " + sprite.x + ", " + sprite.y);
+            console.log("input - " + (game.input.worldX / game.camera.scale.x) + ", " + (game.input.worldY / game.camera.scale.y));
+            console.log(game.camera);
         } else {
-            this.targetSelect.selectTarget(sprite);
-            this.targetSelect = null;
+            console.log(game.input.activePointer);
+            var sel = this.targetSelect;
+            //this.targetSelect = null;
+            sel.selectTarget(sprite, game.input.activePointer.worldX, game.input.activePointer.worldY);
         }
     },
     

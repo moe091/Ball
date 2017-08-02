@@ -37,6 +37,7 @@
         <script src="Editor/pathEditor.js"></script>
         <script src="Editor/triggerEditor.js"></script>
         <script src="Editor/effectEditor.js"></script>
+        <script src="Editor/jointEditor.js"></script>
         
         
         
@@ -110,19 +111,11 @@
                         </div>
                     </div>
                     
-                    <label id="selectedLbl" class="editorLbl">Nothing Selected</label>
-                    
-                    <br />
-                    
-                    <div class="editorImg" id="curSelectionDiv">
-                        <img id="curSelectionImg" src="assets/plats/p1_flat.png">
-                    </div> 
-                    
                     <br />
                     
                     <span id="existsSpan" class="optionSpan">
-                        <label class="editorLbl">Exists?</label>
-                        <input type="checkBox" class="editorChk" text="exists: ">
+                        
+                        <button class="editorBtn" id="dConstraintBtn">Add Constraint</button>
                     </span>
                     
                     <br />

@@ -1,7 +1,7 @@
 BALL.manager = {
     editor: null,
     editMode: false,
-    
+    nonstaticObjs: [],
     
     enterEditMode: function() {
         console.log("EDITMODE");
@@ -10,6 +10,15 @@ BALL.manager = {
         BALL.editor.editMode = true;
         
         BALL.editor.camScale = game.camera.scale.x;
+        
+        console.log(BALL.manager.nonstaticObjs);
+        for (var i in BALL.manager.nonstaticObjs) {
+            if (BALL.manager.nonstaticObjs[i] != null && BALL.manager.nonstaticObjs[i].body != null) {
+                BALL.manager.nonstaticObjs[i].reset(BALL.manager.nonstaticObjs[i].startX, BALL.manager.nonstaticObjs[i].startY);
+                BALL.manager.nonstaticObjs[i].body.static = true;
+            }
+        }
+        
         
         BALL.input.UP.onDown.removeAll();
         BALL.input.LEFT.onDown.removeAll();
@@ -45,6 +54,16 @@ BALL.manager = {
         BALL.manager.resetLevel();
         game.camera.target = BALL.play.ball;
         
+        console.log(BALL.manager.nonstaticObjs);
+        for (var i in BALL.manager.nonstaticObjs) {
+            if (BALL.manager.nonstaticObjs[i] != null && BALL.manager.nonstaticObjs[i].body != null) {
+                console.log(BALL.manager.nonstaticObjs[i]);
+                BALL.manager.nonstaticObjs[i].reset(BALL.manager.nonstaticObjs[i].startX, BALL.manager.nonstaticObjs[i].startY);
+                BALL.manager.nonstaticObjs[i].body.static = false;
+                BALL.manager.nonstaticObjs[i].body.dynamic = true;
+                console.log(BALL.manager.nonstaticObjs[i]);
+            }
+        }
         //INPUT
         BALL.input.UP.onDown.removeAll();
         BALL.input.LEFT.onDown.removeAll();

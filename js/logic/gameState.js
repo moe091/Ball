@@ -33,9 +33,8 @@ BALL.gameState = {
     ballGroup: null,
     killGroup: null,
     platGroup: null,
-    
     dynamicGroup: null,
-    
+    staticGroup: null,
     
     special: null,
     
@@ -61,10 +60,9 @@ BALL.gameState = {
         this.ballGroup = game.physics.p2.createCollisionGroup();
         this.killGroup = game.physics.p2.createCollisionGroup();
         this.dynamicGroup = game.physics.p2.createCollisionGroup();
+        this.staticGroup = game.physics.p2.createCollisionGroup();
         
         BALL.play.ball.body.setCollisionGroup(this.ballGroup);
-        console.log("LOAD LEVEL");
-        //BALL.manager.loadLevel(game.cache.getJSON('level'));
         
         game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 3 , restitution: 0.6 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
@@ -77,9 +75,10 @@ BALL.gameState = {
         BALL.play.ball.body.collides(BALL.gameState.dynamicGroup);
                     //BALL.play.ball.body.createGroupCallback(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
         
-       
+        BALL.objDefs.init();
         
-        
+        console.log("LOAD LEVEL");
+        BALL.manager.loadLevel(game.cache.getJSON('level'));
         
         //this.boulder = game.add.sprite(3000, 1660, "");
         //game.physics.p2.enable(this.boulder, true);
@@ -129,68 +128,36 @@ BALL.gameState = {
         
         game.physics.p2.enable(BALL.gameState.selected, false);
         BALL.gameState.selected.body.clearShapes();
-        if (!(key.substr(0, 4) == "d01-")) { 
-            BALL.gameState.selected.body.loadPolygon("newbods2", key);
-            BALL.gameState.selected.body.static = true;
-        } else if (key == "d01-boulder") {
-            BALL.gameState.selected.body.setCircle(51); 
-            
-            BALL.gameState.selected.body.setMaterial(BALL.gameState.boulderMaterial);
-            
-            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.killGroup);
-            BALL.gameState.selected.body.data.angularDa
-            
-            BALL.gameState.selected.startX = BALL.gameState.selected.x;
-            BALL.gameState.selected.startY = BALL.gameState.selected.y;
-            BALL.gameState.buryObject(BALL.gameState.selected);
-        } else if (key == "d01-killboulder") {
-            BALL.gameState.selected.body.setCircle(62); 
-            
-            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
-            BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.killGroup);
-            
-            BALL.gameState.selected.startX = BALL.gameState.selected.x;
-            BALL.gameState.selected.startY = BALL.gameState.selected.y;
-            BALL.gameState.buryObject(BALL.gameState.selected);
+        
+        if (BALL.objDefs[key] != null) {
+            BALL.objDefs[key].init(BALL.gameState.selected);
+        } else {
+            BALL.objDefs.default.init(BALL.gameState.selected);
+        }
+        if (key == "chalkbig" || key == "chalksmall") {
+            BALL.gameState.selected.visible = false;
         }
         
-        if (key.substr(0, 4) == "k01-") {
-            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.killGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
-
-            BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-
-        } else if (key.substr(0, 4) == "k03-") { 
-            BALL.gameState.selected.body.setMaterial(this.bounceMaterial);
-            BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
-            BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
-            
-        } else {
-            if (key == "chalkbig" || key == "chalksmall" || key == "chalkbreak" || key == "woodbig") {
-                if (key != "woodbig" && key != "chalkbreak") {
-                    BALL.gameState.selected.visible = false;
-                }
-                BALL.gameState.selected.body.setMaterial(this.wallrideMaterial);
-                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.wallrideGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
-                BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.killGroup);
+        if (BALL.manager.editMode) {
+            console.log("EDITMODE!");
+            console.log("EDITMODE!");
+            console.log("EDITMODE!");
+            console.log("EDITMODE!");
+            console.log("EDITMODE!");
+            if (BALL.gameState.selected.body.static) {
+                BALL.gameState.selected.isStatic = true;
+                console.log("already static");
             } else {
-                console.log(BALL.gameState.selected.key);
-
-                BALL.gameState.selected.body.setCollisionGroup(BALL.gameState.dynamicGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.wallrideGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.ballGroup);
-                BALL.gameState.selected.body.collides(BALL.gameState.dynamicGroup);
+                console.log("making static!");
+                BALL.gameState.selected.isStatic = false;
+                BALL.gameState.selected.body.static = true;
+                BALL.gameState.selected.startX = BALL.gameState.selected.x;
+                BALL.gameState.selected.startY = BALL.gameState.selected.y;
+                BALL.manager.nonstaticObjs.push(BALL.gameState.selected);
             }
         }
+        
+        
 
         if (key == "k01-electricity") {
             BALL.gameState.selected.animations.add("play");

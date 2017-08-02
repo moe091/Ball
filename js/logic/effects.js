@@ -3,7 +3,6 @@ BALL.effects = {
     recycleRocket: null,
 
     launcherShot: function(parent, args) {
-        console.log("CREATING LAUNCHERSHOT FUNC", parent);
         return function() {
             BALL.effects.recycleRocket = null;
             for (var i in parent.rockets) {
@@ -14,14 +13,11 @@ BALL.effects = {
             }
             
             if (BALL.effects.recycleRocket == null) {
-                console.log(this);
-                console.log("\n\n\n\n\nMAKING NEW LAUNCHER SHOT---------------------------------", parent.position, args);
                 
                 //multiply starting x-position by scale.x of launcher, takes care of spawning rockets from flipped launchers automatically.
                 
                 //hypotenuse = 120. cos(parent.rotation) = dY/120. cos(rot) * 120
-                //sin(rot) = dX/120. sin(rot) * 120 = dX
-                console.log("rotation: " + parent.rotation);
+                //sin(rot) = dX/120. sin(rot) * 120 = dX=
                 BALL.effects.cur = BALL.gameState.special.create(parent.x + ((Math.cos(parent.rotation) * 54)), parent.y + ((Math.sin(parent.rotation) * 54)), "k01-rocket");
                 BALL.effects.cur.anchor.setTo(0.5);
 
@@ -53,9 +49,7 @@ BALL.effects = {
                     parent.rockets = [];
 
                 parent.rockets.push(BALL.effects.cur.body);
-                console.log(BALL.effects.cur.body);
             } else {
-                console.log("\n\n\n\n\nRECYCLE ROCKET: ", BALL.effects.recycleRocket);
                 BALL.effects.recycleRocket.dead = false;
                 BALL.effects.recycleRocket.x = parent.x + ((Math.cos(parent.rotation) * 54))
                 BALL.effects.recycleRocket.y = parent.y + ((Math.sin(parent.rotation) * 54));

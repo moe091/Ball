@@ -99,6 +99,12 @@ BALL.editorUI = {
             }
         });
         
+        $("#dConstraintBtn").click(function(event) {
+            if (!BALL.jointEditor.selecting) {
+                BALL.jointEditor.newJoint(BALL.editor.getSelectedObj());
+            }
+        });
+        
         //--------------------- MovePaths -------------------\\
         $("#mPathSelect").change(function(event) {
             //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);

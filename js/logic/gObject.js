@@ -55,9 +55,12 @@ BALL.objDefs = {
                 console.log("init: ", this);
                 console.log("obj = ", obj);
                 obj.body.setCircle(51);
+                obj.body.mass = 12;
+                obj.body.data.mass = 12;
+                obj.mass = 12;
+                
                 obj.startX = obj.x;
                 obj.startY = obj.y;
-                BALL.gameState.buryObject(obj);
                 
                 obj.body.setMaterial(BALL.gameState.material);
                 obj.body.setCollisionGroup(this.colGroup);
@@ -128,6 +131,30 @@ BALL.objDefs = {
             }
         };
         
+        this["woodbig"] = {
+            init: function(obj) {
+                obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.setMaterial(BALL.gameState.wallrideMaterial);
+                obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.killGroup);
+                obj.body.collides(BALL.gameState.wallrideGroup);
+            }
+        };
+        
+        this["staticball"] = {
+            init: function(obj) {
+                obj.body.setCircle(9);
+                obj.body.static = true;
+                obj.body.setCollisionGroup(BALL.gameState.wallrideGroup);
+                obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.killGroup);
+                
+            }
+        };
+        
         this["chalk"] = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
@@ -142,7 +169,7 @@ BALL.objDefs = {
         this["chalkbig"] = this["chalk"];
         this["chalkbreak"] = this["chalk"];
         this["chalksmall"] = this["chalk"];
-        this["woodbig"] = this["chalk"];
+        
         
         this["default"] = {
             init: function(obj) {

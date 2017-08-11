@@ -154,14 +154,21 @@ BALL.bController = {
     
     endContact: function(b1, b2) {
         console.log("END CONTACT");
+        if (BALL.play.ball.body.curWall != null) {
+            console.log("ball y: " + BALL.play.ball.y);
+            console.log("wall top: " + (BALL.play.ball.body.curWall.sprite.y + BALL.play.ball.body.curWall.sprite.width / 2));
+            console.log("wall bottom: " + (BALL.play.ball.body.curWall.sprite.y - BALL.play.ball.body.curWall.sprite.width / 2));
+        }
         if (b1 == BALL.play.ball.body.curWall || b2 == BALL.play.ball.body.curWall) {
-            BALL.play.ball.body.curWall = null;
-            BALL.play.ball.body.wallride = null;
-            BALL.play.ball.body.wallrideTime = game.time.now + 150;
-            BALL.bController.removeFunc("wallride");
-            console.log("END WALLRIDE NOW");   
-            console.log("END WALLRIDE NOW");   
-            console.log("END WALLRIDE NOW");   
+            if (BALL.play.ball.y < BALL.play.ball.body.curWall.sprite.y - BALL.play.ball.body.curWall.sprite.width / 2 || BALL.play.ball.y > BALL.play.ball.body.curWall.sprite.y + BALL.play.ball.body.curWall.sprite.width / 2) {
+                BALL.play.ball.body.curWall = null;
+                BALL.play.ball.body.wallride = null;
+                BALL.play.ball.body.wallrideTime = game.time.now + 150;
+                BALL.bController.removeFunc("wallride");
+                console.log("END WALLRIDE NOW");   
+                console.log("END WALLRIDE NOW");   
+                console.log("END WALLRIDE NOW");   
+            }
         }
     }
     
@@ -171,9 +178,18 @@ BALL.bController = {
   //sadfwadfawd
 BALL.ballFuncs = {
     wallride: function(ball, elapsed, args) {
-        if (BALL.bController.ball.body.curWall.sprite.alive) {
-            ball.body.velocity.x+= (elapsed * 1.5) * args;
-            ball.body.wallride = args;
+        
+        if (BALL.bController.ball.body.curWall != null && BALL.bController.ball.body.curWall.sprite.alive) {
+            console.log("curWall angle: " + (Math.abs(BALL.play.ball.body.curWall.angle - 90) % 90));
+            if (!(Math.abs(Math.abs(BALL.bController.ball.body.curWall.angle) - 90) < 8 || Math.abs(Math.abs(BALL.bController.ball.body.curWall.angle) - 270) < 8)) {
+                BALL.play.ball.body.curWall = null;
+                BALL.play.ball.body.wallride = null;
+                BALL.play.ball.body.wallrideTime = game.time.now + 150;
+                BALL.bController.removeFunc("wallride");
+            } else {
+                ball.body.velocity.x+= (elapsed * 1.5) * args;
+                ball.body.wallride = args;
+            }
         }
     },
     

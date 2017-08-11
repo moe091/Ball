@@ -68,6 +68,7 @@ BALL.gameState = {
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.wallrideMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
+        game.physics.p2.createContactMaterial(this.wallrideMaterial, this.wallrideMaterial, { friction: 1 , restitution: 0.5 }); 
         
         
         BALL.play.ball.body.collides(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
@@ -121,10 +122,7 @@ BALL.gameState = {
         }
         
         
-        BALL.gameState.selected.inputEnabled = true;
-        BALL.gameState.selected.input.useHandCursor = true;
-        BALL.gameState.selected.input.enableDrag(true);
-        BALL.gameState.selected.input.pixelPerfectOver = true;
+        
         
         game.physics.p2.enable(BALL.gameState.selected, false);
         BALL.gameState.selected.body.clearShapes();
@@ -134,8 +132,9 @@ BALL.gameState = {
         } else {
             BALL.objDefs.default.init(BALL.gameState.selected);
         }
+        BALL.gameState.selected.startAngle = BALL.gameState.selected.angle;
         if (key == "chalkbig" || key == "chalksmall") {
-            BALL.gameState.selected.visible = false;
+            //BALL.gameState.selected.visible = false;
         }
         
         if (BALL.manager.editMode) {
@@ -157,7 +156,10 @@ BALL.gameState = {
             }
         }
         
-        
+        BALL.gameState.selected.inputEnabled = true;
+        BALL.gameState.selected.input.useHandCursor = true;
+        BALL.gameState.selected.input.enableDrag(true);
+        BALL.gameState.selected.input.pixelPerfectOver = true;
 
         if (key == "k01-electricity") {
             BALL.gameState.selected.animations.add("play");
@@ -218,8 +220,12 @@ BALL.gameState = {
     },
     
     wallrideCallback: function(wall, ball) {
+        console.log("WALLRIDE CALLBACK - " + wall.sprite.key + ", angle:" + Math.abs(Math.abs(wall.angle) - 90));
         if (ball.wallride == null && game.time.now > ball.wallrideTime);
-            if (wall.angle == 90 && (wall.rideTime == null || wall.rideTime < game.time.now - 2000)) {
+            if ( (Math.abs(Math.abs(wall.angle) - 90) < 8 || Math.abs(Math.abs(wall.angle) - 270) < 8)  &&  (wall.rideTime == null || wall.rideTime < game.time.now - 2000) ) {
+                console.log("WALLRIDE ANGLE");
+                console.log("WALLRIDE ANGLE");
+                console.log("WALLRIDE ANGLE");
                 if (ball.velocity.y < -100) {
                     console.log("RIDING THE WALL");
                     BALL.bController.ball.body.curWall = wall;
@@ -240,6 +246,8 @@ BALL.gameState = {
             //sprite.body.static = false;
             sprite.body.x = Math.round(game.input.worldX * (1 / game.camera.scale.x));
             sprite.body.y = Math.round(game.input.worldY * (1 / game.camera.scale.y));
+            sprite.startX = sprite.body.x;
+            sprite.startY = sprite.body.y;
             //sprite.body.static = true;
         } else {
             if (BALL.editor.pathSpriteSelected) {
@@ -274,7 +282,14 @@ BALL.gameState = {
     },
     
     restoreObject: function(sprite) {
-        sprite.reset(sprite.startX, sprite.startY);
+        if (sprite.mass != null) {
+            sprite.body.mass = sprite.mass;
+        }
+        if (sprite.startX != null)
+            sprite.reset(sprite.startX, sprite.startY);
+        if (sprite.body != null && sprite.startAngle != null) {
+            sprite.body.angle = sprite.startAngle;
+        }
         if (sprite.key == "chalkbig" || sprite.key == "chalksmall" || sprite.key == "chalkbreak") {
             if (sprite.angle == 90) {
                 console.log(sprite.body._bodyCallbacks);
@@ -288,19 +303,20 @@ BALL.gameState = {
     },
     
     buryObject: function(sprite) {
+        sprite.startAngle = sprite.angle;
         this.deadObjs.push(sprite);
     },
     
     resurrectObjs: function() {
-        for (var i in this.deadObjs) {
-            this.restoreObject(this.deadObjs[i]);
+        for (var i in this.objects) {
+            this.restoreObject(this.objects[i]);
         }
         for (var i in this.objects) {
             for (var j in this.objects[i].triggers) {
                 this.objects[i].triggers[j].done = false;
             }
             if (this.objects[i].alive == false & this.objects[i].startsDead != true) {
-                this.restoreObject(this.objects[i]);
+                //this.restoreObject(this.objects[i]);
             }
         }
     }

@@ -90,7 +90,9 @@ BALL.manager = {
     resetLevel: function() {
         BALL.gameState.resetLevel();
         
-        BALL.play.ball.reset(1750 / 2, 1700 / 2);
+        BALL.play.ball.reset(1750 , 1700);
+        BALL.play.ballOuter.reset(0, 0);
+        BALL.play.ballInner.reset(0, 0);
         BALL.play.ball.wallride = null;
         
         //BALL.gameState.boulder.reset(3030, 1660);
@@ -111,6 +113,7 @@ BALL.manager = {
             o.y = BALL.gameState.objects[i].y;
             o.rotSpeed = BALL.gameState.objects[i].rotSpeed;
             o.angle = BALL.gameState.objects[i].angle;
+            o.mass = BALL.gameState.objects[i].mass;
             o.ID = BALL.gameState.objects[i].ID;
             
             if (o.key == "s01-launcher") {
@@ -173,6 +176,9 @@ BALL.manager = {
             
             level.objs.push(o);
         }//object loop
+        level.joints = [];
+        level.joints = level.joints.concat(BALL.jointEditor.revJoints);
+        //repeat above for other joint types.(joint type is stored in array elements, e.g type=1 for revolute joints)
         
         return level;
     },
@@ -196,6 +202,11 @@ BALL.manager = {
                 j.scale.x = level.objs[i].xScale;
             } else {
                 var j = BALL.gameState.createObj(level.objs[i].x, level.objs[i].y, level.objs[i].key, level.objs[i].ID);
+            }
+            
+            if (level.objs[i].mass != null) {
+                j.mass = level.objs[i].mass;
+                j.body.data.mass = level.objs[i];
             }
                 j.rotSpeed = level.objs[i].rotSpeed;
             if (j.rotSpeed != 0) {
@@ -236,6 +247,7 @@ BALL.manager = {
 
             
             j.angle = level.objs[i].angle;
+            j.startAngle = level.objs[i].angle;
             j.rotation = level.objs[i].angle * (Math.PI / 180);
             
             if (j.body != null) {
@@ -269,6 +281,11 @@ BALL.manager = {
                     }//triggers
                 }//trigger?
             }
+        
+        for (var i in level.joints) {
+            BALL.jointEditor.revJoints.push(level.joints[i]);
+            game.physics.p2.createRevoluteConstraint(BALL.gameState.getSpriteById(level.joints[i].id1).body, level.joints[i].pos1, BALL.gameState.getSpriteById(level.joints[i].id2).body, level.joints[i].pos2, level.joints[i].power);
+        }
         BALL.timer.init();
     }
     

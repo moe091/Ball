@@ -7,7 +7,7 @@ BALL.play = {
     
     create: function() {
         
-        game.stage.backgroundColor = '#ffffff';
+        game.stage.backgroundColor = '#000000';
         game.world.setBounds(0, 0, 7860, 2500);
         game.time.advancedTiming = true;
         game.physics.startSystem(Phaser.Physics.P2JS);
@@ -16,7 +16,7 @@ BALL.play = {
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
         
-        game.camera.scale.setTo(0.5);
+        //game.camera.scale.setTo(0.5);
         
         //this.bg = game.add.sprite(0, 0, "graybg")
         //this.bg.fixedToCamera = true;
@@ -34,30 +34,40 @@ BALL.play = {
         **/
         
         
-        //this.bg = game.add.tileSprite(0, 0, 7860, 2500, "bg");
+        this.bg2 = game.add.tileSprite(-1000, -500, 7860, 2500, "bg2");
+        this.bg = game.add.tileSprite(0, 0, 7860, 2500, "gbrick");
         //this.bg.fixedToCamera = true;
         
-        
+        /**
         this.sky = game.add.sprite(0, 0, "sky");
         this.sky.scale.setTo(3.5);
         this.water = game.add.sprite(0, 880, "water");
         this.water.scale.setTo(3.5);
         this.shipBG = game.add.sprite(-289, -560, "shipBG");
         this.shipBG.scale.setTo(3.35);
+        **/
+        this.ball = game.add.sprite(1750, 1700, "");
         
-        this.ball = game.add.sprite(1750 / 2, 1700 / 2, "chalkball");
-        this.ball.anchor.setTo(0.5, 0.5);
+        this.ballOuter = game.add.sprite(0, 0, "char-outer");
+        this.ballOuter.anchor.setTo(0.5);
+        this.ballOuter.scale.setTo(0.5);
         
+        this.ballInner = game.add.sprite(0, 0, "char-inner");
+        this.ballInner.anchor.setTo(0.5);
+        this.ballInner.scale.setTo(0.5);
         
         BALL.bController.ball = this.ball;
         
         
         
         game.physics.p2.enable(this.ball, false);
-        this.ball.body.setCircle(16);
+        this.ball.body.setCircle(14);
+        this.ball.body.mass = 0.3;
+        this.ball.body.data.mass = 0.3;
         
         //this.ball.body.gravity.y = 1000;
-        
+        this.ball.addChild(this.ballOuter, Phaser.CENTER);
+        this.ball.addChild(this.ballInner, Phaser.CENTER);
         
         
         BALL.gameState.ballMaterial = game.physics.p2.createMaterial('ballMat', this.ball.body);
@@ -92,6 +102,7 @@ BALL.play = {
         
         
         this.startTime = game.time.now;
+        BALL.manager.resetLevel();
         
         //this.endGame();
     },
@@ -125,6 +136,7 @@ BALL.play = {
     },
     
     update: function() {
+        this.ballInner.rotation = -this.ball.rotation;
         if (this.ball.y > 2450) {
             BALL.gameState.killCallback();
         }
@@ -138,7 +150,8 @@ BALL.play = {
         }
         BALL.timer.update();
         
-            
+        this.bg2.x = (this.ball.x - 1750) * 0.15;
+        this.bg2.x = (this.ball.x - 1750) * 0.15;
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.05;
         //this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;

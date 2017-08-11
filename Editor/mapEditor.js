@@ -122,6 +122,7 @@ BALL.editor = {
     
     update: function() {
         //EDITOR VARS
+        
         this.setMovespeeds();
         
         //OBJECT
@@ -301,6 +302,7 @@ BALL.editor = {
             if (BALL.editor.pathSpriteSelected == false) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
+                    BALL.editor.selected.startY = BALL.editor.selected.body.y;
                 } else {
                     BALL.editor.selected.y -= BALL.editor.spriteSpeed;
                 }
@@ -321,6 +323,7 @@ BALL.editor = {
             if (BALL.editor.pathSpriteSelected == false) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.x -= BALL.editor.spriteSpeed;
+                    BALL.editor.selected.startX = BALL.editor.selected.body.x;
                 } else {
                     BALL.editor.selected.x -= BALL.editor.spriteSpeed;
                 }
@@ -336,6 +339,7 @@ BALL.editor = {
             if (BALL.editor.pathSpriteSelected == false) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
+                    BALL.editor.selected.startY = BALL.editor.selected.body.y;
                 } else {
                     BALL.editor.selected.y += BALL.editor.spriteSpeed;
                 }
@@ -351,6 +355,7 @@ BALL.editor = {
             if (BALL.editor.pathSpriteSelected == false) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.x += BALL.editor.spriteSpeed;
+                    BALL.editor.selected.startX = BALL.editor.selected.body.x;
                 } else {
                     BALL.editor.selected.x += BALL.editor.spriteSpeed;
                 }
@@ -409,6 +414,7 @@ BALL.editor = {
         this.gObjs.push("chalkbig");
         this.gObjs.push("woodbig");
         this.gObjs.push("chalksmall");
+        this.gObjs.push("staticball");
         this.gObjs.push("chalkbreak");
         this.gObjs.push("launcher-stop");
         this.gObjs.push("d01-boulder");

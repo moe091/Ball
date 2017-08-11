@@ -97,6 +97,9 @@ BALL.editorUI = {
             } else {
                 BALL.editor.selected.angle = $("#angleVal").val();
             }
+            if (BALL.editor.selected.startAngle != null) {
+                BALL.editor.selected.startAngle = $("#angleVal").val();
+            }
         });
         
         $("#dConstraintBtn").click(function(event) {

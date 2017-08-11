@@ -9,6 +9,7 @@ BALL.jointEditor = {
     y2: null,
     click1: [],
     click2: [],
+    revJoints: [],
     
     newJoint: function(sprite) {
         if (sprite != null) {
@@ -56,7 +57,17 @@ BALL.jointEditor = {
             this.click2[1] = (game.input.worldY / game.camera.scale.y);
             
             var dist = Math.sqrt((this.click2[0] - this.click1[0]) * (this.click2[0] - this.click1[0]) + (this.click2[1] - this.click1[1]) * (this.click2[1] - this.click1[1]));
-            game.physics.p2.createDistanceConstraint(this.s1, this.s2, dist, [this.x1, this.y1], [this.x2, this.y2]);
+            //game.physics.p2.createDistanceConstraint(this.s1, this.s2, dist, [this.x1, this.y1], [this.x2, this.y2]);
+            var power = Number(prompt("Enter Constraint Strength:"));
+            game.physics.p2.createRevoluteConstraint(this.s1, [0, 0], this.s2, [0, 0], power);
+            BALL.jointEditor.revJoints.push({
+                type: 1,
+                id1: this.s1.ID, 
+                id2: this.s2.ID, 
+                pos1: [0, 0],
+                pos2: [0, 0],
+                pow: power,
+            });
             this.selecting = false;
             console.log("DIST: " + dist);
             console.log("DIST: " + dist);

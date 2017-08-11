@@ -60,7 +60,10 @@ BALL.Event.prototype.setType = function(t) {
 BALL.Event.prototype.setTarget = function(sprite) {
     
     this.target = sprite;
-    this.targetID = sprite.ID;
+    if (sprite != null)
+        this.targetID = sprite.ID;
+    else
+        this.targetID = -1;
     this.setType(this.type);
     
         console.log(sprite);
@@ -114,8 +117,11 @@ BALL.EventFuncs = {
                 BALL.gameState.buryObject(trigger.target);
                 trigger.target.kill();
             } else {
+                console.log("target: ", target);
+                console.log("this", this);
                 target.startX = target.x;
                 target.startY = target.y;
+                target.startAngle = target.angle;
                 BALL.gameState.buryObject(target);
                 target.kill();
             }

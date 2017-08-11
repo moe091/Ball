@@ -13,11 +13,14 @@ BALL.preload = {
         //game.load.image("ball", "assets/graphics/char-wheel.png");
         //game.load.image("ball_face", "assets/graphics/char-face.png");
         //game.load.image("bg", "assets/graphics/world2/bg.png");
-        game.load.image("water", "assets/graphics/world2/water.png");
-        game.load.image("sky", "assets/graphics/world2/sky.png");
-        game.load.image("shipBG", "assets/graphics/world2/shipBG.png");
+        game.load.image("gbrick", "assets/graphics/world2/greenbrick.png");
+        game.load.image("bg2", "assets/graphics/world2/bg2.png");
+        //game.load.image("sky", "assets/graphics/world2/sky.png");
+        //game.load.image("shipBG", "assets/graphics/world2/shipBG.png");
         
         game.load.image("chalkball", "assets/graphics/crappyball.png");
+        game.load.image("char-inner", "assets/graphics/char-inner.png");
+        game.load.image("char-outer", "assets/graphics/char-outer.png");
         //game.load.image("purpChar", "assets/graphics/purpchar.png");
     
         //normal plats
@@ -28,6 +31,7 @@ BALL.preload = {
         game.load.image("woodbig", "assets/graphics/world2/woodbig.png");
         game.load.image("chalksmall", "assets/graphics/world2/chalksmall.png");
         game.load.image("chalkbreak", "assets/graphics/world2/chalkbreak.png");
+        game.load.image("staticball", "assets/graphics/world2/staticball.png");
         
         
         game.load.image("hanging-plank", "assets/graphics/world2/hanging-plank.png");

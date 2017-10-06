@@ -5,7 +5,12 @@ BALL.preload = {
         //:::::::::::::::::::::::::================--- CURRENT ASSETS ---===============::::::::::::::::::::::::::::::\\
         //background
         //game.load.image("graybg", "assets/graphics/world1/background.png");
-        
+        game.load.image("g1-skybg", "assets/graphics/world2/g1-skybg.png");
+        game.load.image("g1-bgmountains", "assets/graphics/world2/g1-bgmountains.png");
+        game.load.image("g1-groundbg", "assets/graphics/world2/g1-groundbg.png");
+        game.load.image("g1-bgbuildings", "assets/graphics/world2/g1-bgbuildings.png");
+        game.load.image("g1-island-plat", "assets/graphics/world2/g1-island-plat.png");
+        game.load.image("g1-long-plat", "assets/graphics/world2/g1-long-plat.png");
         
         //game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         

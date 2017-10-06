@@ -16,36 +16,28 @@ BALL.play = {
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
         
-        //game.camera.scale.setTo(0.5);
-        
-        //this.bg = game.add.sprite(0, 0, "graybg")
-        //this.bg.fixedToCamera = true;
-        //this.bg.scale.x = 1.5;
-        //this.bg.scale.y = 1.2;
-        
-        /**
-        this.shroom1 = game.add.sprite(1600, 2500, "shroom1");
-        this.shroom1.anchor.setTo(0.5, 1);
-        this.shroom1.scale.setTo(2);
-        
-        this.shroom2 = game.add.sprite(3100, 2480, "shroom2");
-        this.shroom2.anchor.setTo(0.5, 1);
-        this.shroom2.scale.setTo(2);
-        **/
         
         
-        this.bg2 = game.add.tileSprite(-1000, -500, 7860, 2500, "bg2");
-        this.bg = game.add.tileSprite(0, 0, 7860, 2500, "gbrick");
+        //_________STEUP BG_________\\
+        //this.bg2 = game.add.tileSprite(-1000, -500, 7860, 2500, "bg2");
+        //this.bg = game.add.tileSprite(0, 0, 7860, 2500, "gbrick");
+        
         //this.bg.fixedToCamera = true;
         
-        /**
-        this.sky = game.add.sprite(0, 0, "sky");
-        this.sky.scale.setTo(3.5);
-        this.water = game.add.sprite(0, 880, "water");
-        this.water.scale.setTo(3.5);
-        this.shipBG = game.add.sprite(-289, -560, "shipBG");
-        this.shipBG.scale.setTo(3.35);
-        **/
+        this.bgsky = game.add.sprite(0, 0, "g1-skybg");
+        this.bgsky.fixedToCamera = true;
+        
+        this.bgBuildings = game.add.tileSprite(0, 0, 7860, 611, "g1-bgbuildings");
+        this.bgBuildings.fixedToCamera = true;
+        
+        this.bgMountains = game.add.tileSprite(0, 180, 7860, 364, "g1-bgmountains");
+        this.bgMountains.fixedToCamera = true;
+        
+        this.bgGround = game.add.tileSprite(0, 60, 7860, 625, "g1-groundbg");
+        this.bgGround.fixedToCamera = true;
+        
+        
+        
         this.ball = game.add.sprite(1750, 1700, "");
         
         this.ballOuter = game.add.sprite(0, 0, "char-outer");
@@ -91,7 +83,7 @@ BALL.play = {
         //game.camera.follow(this.ball);
         
         
-
+        BALL.gameState.createObj(1720, 1850, "g1-island-plat");
         
         
         
@@ -150,8 +142,12 @@ BALL.play = {
         }
         BALL.timer.update();
         
-        this.bg2.x = (this.ball.x - 1750) * 0.15;
-        this.bg2.x = (this.ball.x - 1750) * 0.15;
+        this.bgGround.cameraOffset.x = -1000 - (this.ball.x) * 0.5;
+        this.bgMountains.cameraOffset.x = -1000 - (this.ball.x) * 0.25;
+        this.bgBuildings.cameraOffset.x = -1000 - (this.ball.x) * 0.2;
+        //this.bg2.x = (this.ball.x - 1750) * 0.15;
+        //this.bg2.x = (this.ball.x - 1750) * 0.15;
+        
         //update BG POSITION:::
         //this.bg.cameraOffset.x = this.ball.x * -0.05;
         //this.bg.cameraOffset.y = this.ball.y * -0.05 - 20;

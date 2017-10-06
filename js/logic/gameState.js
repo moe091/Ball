@@ -79,7 +79,7 @@ BALL.gameState = {
         BALL.objDefs.init();
         
         console.log("LOAD LEVEL");
-        BALL.manager.loadLevel(game.cache.getJSON('level'));
+        //BALL.manager.loadLevel(game.cache.getJSON('level'));
         
         //this.boulder = game.add.sprite(3000, 1660, "");
         //game.physics.p2.enable(this.boulder, true);
@@ -122,7 +122,7 @@ BALL.gameState = {
         }
         
         
-        
+        //Make 'kill' events destroy body as well as sprite. wait i think they do
         
         game.physics.p2.enable(BALL.gameState.selected, false);
         BALL.gameState.selected.body.clearShapes();

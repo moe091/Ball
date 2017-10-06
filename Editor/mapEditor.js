@@ -405,10 +405,10 @@ BALL.editor = {
     },
     
     populategObjs: function() {
-        //plats
-        //this.gObjs.push("w1-plat1");
-        //this.gObjs.push("w1-platbreak");
-        //this.gObjs.push("w1-branch");
+        
+        this.gObjs.push("g1-island-plat");
+        this.gObjs.push("g1-long-plat");
+        /**
         this.gObjs.push("bigplat");
         //this.gObjs.push("w1-tree-plat")
         this.gObjs.push("chalkbig");
@@ -416,19 +416,21 @@ BALL.editor = {
         this.gObjs.push("chalksmall");
         this.gObjs.push("staticball");
         this.gObjs.push("chalkbreak");
+        **/
+        //special
         this.gObjs.push("launcher-stop");
         this.gObjs.push("d01-boulder");
         this.gObjs.push("d01-killboulder");
         this.gObjs.push("hanging-plank");
         this.gObjs.push("rope");
-
-        //special
+        
         this.gObjs.push("k01-redline");
         this.gObjs.push("k01-electricity");
         this.gObjs.push("k02-button");
         this.gObjs.push("k03-trampoline");
         
         this.gObjs.push("s01-launcher");
+        
     },
     
     createEditor: function(g) {

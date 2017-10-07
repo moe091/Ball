@@ -53,6 +53,16 @@ BALL.editor = {
             sel.selectTarget(sprite, game.input.activePointer.worldX, game.input.activePointer.worldY);
         }
     },
+    setTargetSelect: function(tEditor) {
+        this.targetSelect = tEditor;
+    },
+    
+    endTargetSelect: function(tEditor) {
+        if (tEditor != this.targetSelect) {
+            console.warn("end tar select, tEditors not equal", tEditor, this.targetSelect);
+        }
+        this.targetSelect = null;
+    },
     
     getSelectedObj: function() {
         if (this.pathSpriteSelected) {
@@ -299,7 +309,7 @@ BALL.editor = {
 
     selectedUp: function() {
         if (BALL.editor.editMode) {
-            if (BALL.editor.pathSpriteSelected == false) {
+            if (BALL.editor.pathSpriteSelected == false && BALL.editor.selected != null) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
                     BALL.editor.selected.startY = BALL.editor.selected.body.y;

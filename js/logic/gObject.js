@@ -172,6 +172,17 @@ BALL.objDefs = {
         //grassy mountains
         this["g1-brickwall"] = this["chalk"];
         this["g1-windmill"] = this["chalk"];
+        this["g1-fan"] = {
+            init: function(obj) {
+                obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.static = true;
+                obj.body.setMaterial(BALL.gameState.noBounceMaterial);
+                obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.killGroup);
+            }
+        };
         
         this["default"] = {
             init: function(obj) {

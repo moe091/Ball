@@ -84,9 +84,8 @@ BALL.play = {
         //game.camera.follow(this.ball);
         
         
-        BALL.gameState.createObj(1720, 1850, "g1-island-plat");
         
-        this.bgGround = game.add.tileSprite(0, 300, 7860, 225, "g1-groundbg");
+        this.bgGround = game.add.tileSprite(0, 300, 8860, 225, "g1-groundbg");
         this.bgGround.fixedToCamera = true;
         
         this.follow();
@@ -126,8 +125,8 @@ BALL.play = {
     
     restartGame: function() {
         console.log("CLICKED");
-        this.bgGround.fixedToCamera = true;
-        this.bgGround.y = 300;
+        //this.bgGround.fixedToCamera = true;
+        //this.bgGround.y = 300;
         BALL.gameState.killCallback(null, BALL.play.ball);
         this.overBtn.destroy();
     },

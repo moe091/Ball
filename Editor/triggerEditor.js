@@ -148,12 +148,13 @@ BALL.eventEditor = {
     
     
     selectTargetClick: function() {
-        console.log(this);
-        BALL.editor.targetSelect = this;
+        console.log("sel target click", this);
+        BALL.editor.setTargetSelect(this);
     },
     
     selectTarget: function(sprite) {
         this.curEvent.setTarget(sprite);
+        BALL.editor.endTargetSelect(this);
     },
     
     updateParam1: function(val) {

@@ -28,6 +28,7 @@ BALL.gameState = {
     ballMaterial: null,
     wallrideMaterial: null,
     boulderMaterial: null,
+    noBounceMaterial: null,
     
     wallrideGroup: null,
     ballGroup: null,
@@ -52,6 +53,7 @@ BALL.gameState = {
         
         
         this.bounceMaterial = game.physics.p2.createMaterial();
+        this.noBounceMaterial = game.physics.p2.createMaterial();
         this.platMaterial = game.physics.p2.createMaterial();
         this.wallrideMaterial = game.physics.p2.createMaterial();
         this.boulderMaterial = game.physics.p2.createMaterial();
@@ -65,6 +67,7 @@ BALL.gameState = {
         BALL.play.ball.body.setCollisionGroup(this.ballGroup);
         
         game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 3 , restitution: 0.6 }); 
+        game.physics.p2.createContactMaterial(this.ballMaterial, this.noBounceMaterial, { friction: 3 , restitution: 0.1 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.wallrideMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
@@ -79,7 +82,7 @@ BALL.gameState = {
         BALL.objDefs.init();
         
         console.log("LOAD LEVEL");
-        //BALL.manager.loadLevel(game.cache.getJSON('level'));
+        BALL.manager.loadLevel(game.cache.getJSON('level'));
         
         //this.boulder = game.add.sprite(3000, 1660, "");
         //game.physics.p2.enable(this.boulder, true);
@@ -220,12 +223,13 @@ BALL.gameState = {
     },
     
     wallrideCallback: function(wall, ball) {
+        if (ball.wallrideTime == undefined)
+            ball.wallrideTime = 0;
         console.log("WALLRIDE CALLBACK - " + wall.sprite.key + ", angle:" + Math.abs(Math.abs(wall.angle) - 90));
-        if (ball.wallride == null && game.time.now > ball.wallrideTime);
-            if ( (Math.abs(Math.abs(wall.angle) - 90) < 8 || Math.abs(Math.abs(wall.angle) - 270) < 8)  &&  (wall.rideTime == null || wall.rideTime < game.time.now - 2000) ) {
-                console.log("WALLRIDE ANGLE");
-                console.log("WALLRIDE ANGLE");
-                console.log("WALLRIDE ANGLE");
+        console.log("now: " + game.time.now + ".    wallride: " + ball.wallrideTime);
+        console.log(ball);
+        if (ball.wallride == null && game.time.now > ball.wallrideTime) {
+            if ( (Math.abs(Math.abs(wall.angle) - 90) < 8 || Math.abs(Math.abs(wall.angle) - 270) < 8 || Math.abs(wall.angle) < 8)  &&  (wall.rideTime == null || wall.rideTime < game.time.now - 2000) ) {
                 if (ball.velocity.y < -100) {
                     console.log("RIDING THE WALL");
                     BALL.bController.ball.body.curWall = wall;
@@ -239,6 +243,7 @@ BALL.gameState = {
                     console.log("LOW VEL");
                 }
             }
+        }
     },
     
     moveObject: function(sprite, x, y) {

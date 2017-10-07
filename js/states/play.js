@@ -33,8 +33,7 @@ BALL.play = {
         this.bgMountains = game.add.tileSprite(0, 180, 7860, 364, "g1-bgmountains");
         this.bgMountains.fixedToCamera = true;
         
-        this.bgGround = game.add.tileSprite(0, 60, 7860, 625, "g1-groundbg");
-        this.bgGround.fixedToCamera = true;
+        
         
         
         
@@ -49,6 +48,8 @@ BALL.play = {
         this.ballInner.scale.setTo(0.5);
         
         BALL.bController.ball = this.ball;
+        
+        
         
         
         
@@ -85,10 +86,12 @@ BALL.play = {
         
         BALL.gameState.createObj(1720, 1850, "g1-island-plat");
         
-        
+        this.bgGround = game.add.tileSprite(0, 300, 7860, 225, "g1-groundbg");
+        this.bgGround.fixedToCamera = true;
         
         this.follow();
         game.camera.scale.setTo(0.5);
+        game.camera.bounds.height = 2200;
         
         this.ball.body.onEndContact.add(BALL.bController.endContact, this);
         
@@ -123,6 +126,8 @@ BALL.play = {
     
     restartGame: function() {
         console.log("CLICKED");
+        this.bgGround.fixedToCamera = true;
+        this.bgGround.y = 300;
         BALL.gameState.killCallback(null, BALL.play.ball);
         this.overBtn.destroy();
     },

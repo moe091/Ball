@@ -9,8 +9,15 @@ BALL.preload = {
         game.load.image("g1-bgmountains", "assets/graphics/world2/g1-bgmountains.png");
         game.load.image("g1-groundbg", "assets/graphics/world2/g1-groundbg.png");
         game.load.image("g1-bgbuildings", "assets/graphics/world2/g1-bgbuildings.png");
+        
         game.load.image("g1-island-plat", "assets/graphics/world2/g1-island-plat.png");
         game.load.image("g1-long-plat", "assets/graphics/world2/g1-long-plat.png");
+        game.load.image("g1-breakplat", "assets/graphics/world2/g1-breakplat.png");
+        game.load.image("g1-brickwall", "assets/graphics/world2/g1-brickwall.png");
+        game.load.image("g1-fan", "assets/graphics/world2/g1-fan.png");
+        game.load.image("g1-short-breakplat", "assets/graphics/world2/g1-short-breakplat.png");
+        game.load.image("g1-short-plat", "assets/graphics/world2/g1-short-plat.png");
+        game.load.image("g1-windmill", "assets/graphics/world2/g1-windmill.png");
         
         //game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         

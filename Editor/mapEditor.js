@@ -408,6 +408,12 @@ BALL.editor = {
         
         this.gObjs.push("g1-island-plat");
         this.gObjs.push("g1-long-plat");
+        this.gObjs.push("g1-breakplat");
+        this.gObjs.push("g1-brickwall");
+        this.gObjs.push("g1-fan");
+        this.gObjs.push("g1-short-breakplat");
+        this.gObjs.push("g1-short-plat");
+        this.gObjs.push("g1-windmill");
         /**
         this.gObjs.push("bigplat");
         //this.gObjs.push("w1-tree-plat")

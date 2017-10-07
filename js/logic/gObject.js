@@ -169,7 +169,9 @@ BALL.objDefs = {
         this["chalkbig"] = this["chalk"];
         this["chalkbreak"] = this["chalk"];
         this["chalksmall"] = this["chalk"];
-        
+        //grassy mountains
+        this["g1-brickwall"] = this["chalk"];
+        this["g1-windmill"] = this["chalk"];
         
         this["default"] = {
             init: function(obj) {

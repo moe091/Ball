@@ -15,7 +15,7 @@ BALL.play = {
         game.physics.p2.friction = 42;
         game.physics.p2.restitution = 0.25;
         game.physics.p2.setImpactEvents(true);
-        
+        Phaser.Canvas.setImageRenderingCrisp(game.canvas);
         
         
         //_________STEUP BG_________\\

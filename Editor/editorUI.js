@@ -7,10 +7,12 @@ BALL.editorUI = {
     pathSprite: null, //currently selected pathSprite
     editor: null,
     
+    /**1. updateSelected(sprite) - delete old updateSelected function, as well as select().
+        should reset the editor UI, updating triggers, movepaths, etc. deselecting everything, and displaying properties/options appropriate based on the current sprites properties. 
+        ---Make a StateManager or something to manage UI state and what to display-- **/
     
     
-    
-    select: function(sprite) {
+    select: function(sprite) { //editorUI will not have it's own 'selected' var
         if (this.selected != sprite) {
             BALL.eventEditor.hideEditor();
         }
@@ -21,6 +23,29 @@ BALL.editorUI = {
         }
         $("#angleVal").val(sprite.angle);
         this.selected = sprite;
+        if (this.selected.triggers != null && this.selected.triggers.length > 0) {
+            BALL.trigEditor.select(this.selected);
+        }
+        
+        if (this.selected.tEvent != null) {
+            BALL.effectEditor.selectEffect(this.selected);
+        }
+    },
+    
+    updateSelected: function(sprite) { 
+        if (BALL.editor.selected != sprite) {
+            BALL.eventEditor.hideEditor();
+        }
+        
+        if (isNaN(sprite.rotSpeed)) {
+            $("rotSpeedVal").val(0);
+        } else {
+            $("#rotSpeedVal").val(sprite.rotSpeed);
+        }
+        
+        $("#angleVal").val(sprite.angle);
+        this.selected = sprite;
+        
         if (this.selected.triggers != null && this.selected.triggers.length > 0) {
             BALL.trigEditor.select(this.selected);
         }
@@ -57,13 +82,7 @@ BALL.editorUI = {
         
     },
     
-    updateSelected: function(sel) { //CLEAN - pretty sure this can be removed completely
-        console.log("updating selected");
-        BALL.gameState.hidePathSprites();
-        if (sel != null) {
-            this.updateTriggers();
-        }
-    },
+
     
     selectPathSprite: function(sprite) {
         console.log("SELECT PATH SPRITE");

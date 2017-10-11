@@ -73,6 +73,7 @@ BALL.manager = {
         game.input.onDown.removeAll();
         game.input.onUp.removeAll();
         
+        
         game.input.onDown.add(BALL.input.inputDown, this);
         game.input.onUp.add(BALL.input.inputUp, this);
         

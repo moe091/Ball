@@ -39,6 +39,7 @@
         <script src="Editor/triggerEditor.js"></script>
         <script src="Editor/effectEditor.js"></script>
         <script src="Editor/jointEditor.js"></script>
+        <script src="Editor/spriteEditor.js"></script>
         
         
         
@@ -105,160 +106,99 @@
         <div id="editorDiv">
             <div id="leftPanel" class="editorPanel">
                 
-                <div id="selectionDiv" class="editorSection">
-                    <div id="imgScroll">
-                        <div id="imgsDiv1" class="imgsDiv">
+                <div id="editorPanel1" class="editorSection">
+                    
+                    <!-- REMOVED --- selectionDiv --- -->
+                    
+                </div> <!-- editor panel 1 -->
+                
+                <div id="editorPanel2" class="editorSection">
+                    <div id="objDetailDiv" class="editModule">
+                        <!-- REMOVED
+                            THIS IS WHERE MOVEPATH DIV GOES
+                                                        -->
 
-                        </div>
-                    </div>
-                    
-                    <br />
-                    
-                    <span id="existsSpan" class="optionSpan">
-                        
-                        <button class="editorBtn" id="dConstraintBtn">Add Constraint</button>
-                    </span>
-                    
-                    <br />
-                    
-                    
-                    <span id="rotationSpan" class="optionSpan">
-                        <label class="editorLbl">Rot Speed:</label>
-                        <input type="number" step=5 value=0 class="editorNumInput" id="rotSpeedVal">
-                    </span>
-                    
-                    <span id="angleSpan" class="optionSpan">
-                        <label class="editorLbl">Angle:</label>
-                        <input type="number" step=5 value=0 class="editorNumInput" id="angleVal">
-                    </span>
-                    <a id="downloadLevel">Download Level</a>
-                    <button id="delSelectedBtn" class="botRightBtn btn">Delete</button>
-                    <button id="saveLvlBtn" class="botLeftBtn btn">Save Level</button>
-                </div>
-                
-                <div id="objDetailDiv" class="editorSection">
-                    
-                    <div id="movePathsDiv" class="propSelectDiv">
-                        
-                        <span class="groupSpan" id="mPathGroupSpan">
-                            <label class="editorLbL">Move Paths:</label>
-                            <button class="rightBtn btn" id="newPathBtn" onclick="BALL.editorUI.createMovePath()">New Path</button>
-                        </span>
-                        
-                        <select size=5 class="propSelectBox" id="mPathSelect">
-                            <option val=0>0__________Back and Forth[default]</option>
-                            <option val=1>1__________Sped Up</option>
-                            <option val=2>2__________Slowed Down</option>
-                        </select>
-                        
-                        <span class="groupSpan" id="mPathButtonsSpan">
-                            <button class="rightBtn btn" id="editPathBtn">Edit Path</button>
-                            <button class="leftBtn btn" id="delPathBtn">Delete Path</button>
-                        </span>
-                        
-                    </div><!-- MOVE PATHS DIV -->
-                    
-                    
-                    
-                    <div id="triggersDiv" class="propSelectDiv">
-                        
-                        <span class="groupSpan" id="triggersSpan">
-                            <label class="editorLbL">Triggers:</label>
-                            <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
-                        </span>
-                        
-                        <select size=5 class="propSelectBox" id="triggerSelect">
-                            <option val=0>0__________Back and Forth[default]</option>
-                            <option val=1>1__________Sped Up</option>
-                            <option val=2>2__________Slowed Down</option>
-                        </select>
-                        
-                        <span class="groupSpan" id="triggerButtonsSpan">
-                            <button class="rightBtn btn" id="editTriggerBtn">Edit Trigger</button>
-                            <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
-                        </span>
-                        
-                    </div><!-- TRIGGERS DIV -->
-                    
-                    
-                </div><!-- EDITOR SECTION DIV -->
-                
-                <div id="objEditorDiv" class="editorSection">
-                    <div class="propEditDiv" id="pathEditDiv">
-                        
-                        <div class="propSelectDiv">
-                            <span class="groupSpan" id="pathPointBtnSpan">
-                                <label class="editorLbL">Path Points: </label>
-                                <button class="rightBtn btn" id="createPointBtn">Add Point</button>
+
+
+                        <div id="triggersDiv" class="propSelectDiv">
+
+                            <span class="groupSpan" id="triggersSpan">
+                                <label class="editorLbL">Triggers:</label>
+                                <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
                             </span>
-                            <select size=5 class="propSelectBox" id="pathPointSelect">
+
+                            <select size=5 class="propSelectBox" id="triggerSelect">
                                 <option val=0>0__________Back and Forth[default]</option>
                                 <option val=1>1__________Sped Up</option>
-                                <option val=2>2__________Slowed Down</option> 
+                                <option val=2>2__________Slowed Down</option>
                             </select>
-                            <span class="groupSpan" id="pathPointBtnSpan"> 
-                                <button class="leftBtn btn" id="deletePointBtn">Delete Point</button>
-                                <button class="rightBtn btn" id="editPointBtn">Edit Point</button>
+
+                            <span class="groupSpan" id="triggerButtonsSpan">
+                                <button class="rightBtn btn" id="editTriggerBtn">Edit Trigger</button>
+                                <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
                             </span>
-                            <span class="groupSpan" id="startPathBtnSpan">
-                                <button class="leftBtn btn" id="startPathBtn">Start Path</button>
-                                <button class="rightBtn btn" id="stopPathBtn">Stop Path</button>
-                            </span>
-                        </div>
+
+                        </div><!-- TRIGGERS DIV -->
+
+                    </div><!-- obj detail div -->
+                </div><!-- EDITOR SECTION DIV -->
+                
+                
+                    <div id="editorPanel3" class="editorSection">
+                        <div id="objEditorDiv" class="editModule">
                         
-                    </div><!-- pathEditDiv -->
-
-
-                    <div class="propEditDiv" id="trigEditDiv">
-                        <div class="propSelectDiv">
-                            <span class="groupSpan">
-                                <b> <label class="editorLbl" id="trigNameLbl">NAME  -  </label></b>  <label class="editorLbL">  Trigger Type: </label>
-                            </span>
-                            <select size=4 class="propSelectBox" id="trigTypeSelect">
-                                <option value=1>1. On Contact</option>
-                                <option value=2>2. Path Complete</option>
-                                <option value=3>3. On Create</option> 
-                                <option value=4>4. On Destroy</option> 
-                            </select>
-                        </div>
-                        
-                        <div class="propSelectDiv">
-
-                            <div class="smallDiv" id="addEventDetDiv">
-                                <label class="editorLbL">Parameters:</label> 
-                                <br />
-                                <div class="smallDiv">
-                                    <label class="smLbl" id="tParamLbl1">param 1:</label><br />
-                                    <input type="number" class="evParamTxt" id="tParam1">
-                                </div>
-                                <div class="smallDiv">
-                                    <label class="smLbl" id="tParamLbl2">param 2:</label><br />
-                                    <input type="number" class="evParamTxt" id="tParam2">
-                                </div>
-                                
-                            </div>
-
+                            <!-- REMOVED ----- PATH POINT DIV ------- -->
                             
-                        </div>
-                        
-                        <div class="propSelectDiv">
-                           
-                            <select size=4 class="propSelectBox" id="trigEventsSelect">
-                                <option value=1>...NO EVENTS...</option>
-                            </select>
-                            
-                            <span class="groupSpan centered">
-                                <button class="btnleft btn" id="removeEventBtn">Delete</button>
-                                <button class="btnRight btn" id="addEventBtn">Add</button>
-                            </span>
-                        </div>
-                        
-                        
-                    </div><!-- trig edit div -->
-                    
+                            <div class="propEditDiv" id="trigEditDiv">
+                                <div class="propSelectDiv">
+                                    <span class="groupSpan">
+                                        <b> <label class="editorLbl" id="trigNameLbl">NAME  -  </label></b>  <label class="editorLbL">  Trigger Type: </label>
+                                    </span>
+                                    <select size=4 class="propSelectBox" id="trigTypeSelect">
+                                        <option value=1>1. On Contact</option>
+                                        <option value=2>2. Path Complete</option>
+                                        <option value=3>3. On Create</option> 
+                                        <option value=4>4. On Destroy</option> 
+                                    </select>
+                                </div>
 
-                        
-                </div><!--ObjEditorDiv -->
+                                <div class="propSelectDiv">
+
+                                    <div class="smallDiv" id="addEventDetDiv">
+                                        <label class="editorLbL">Parameters:</label> 
+                                        <br />
+                                        <div class="smallDiv">
+                                            <label class="smLbl" id="tParamLbl1">param 1:</label><br />
+                                            <input type="number" class="evParamTxt" id="tParam1">
+                                        </div>
+                                        <div class="smallDiv">
+                                            <label class="smLbl" id="tParamLbl2">param 2:</label><br />
+                                            <input type="number" class="evParamTxt" id="tParam2">
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="propSelectDiv">
+
+                                    <select size=4 class="propSelectBox" id="trigEventsSelect">
+                                        <option value=1>...NO EVENTS...</option>
+                                    </select>
+
+                                    <span class="groupSpan centered">
+                                        <button class="btnleft btn" id="removeEventBtn">Delete</button>
+                                        <button class="btnRight btn" id="addEventBtn">Add</button>
+                                    </span>
+                                </div>
+
+
+                            </div><!-- trig edit div -->
+
+
+                        </div><!-- objEditor module -->
+                    </div><!--ObjEditorDiv -->
                 
                 <div class="editorSection" id="eventEditorSection">
                     
@@ -319,6 +259,104 @@
             
 
         </div>
+        
+        
+        
+        <!---------------------------------------------------------------------
+        #######################################################################
+        ########################    EDITOR PANELS   ###########################
+        ####################################################################-->
+        
+        <!--Move Path Select module -->
+        <div id="pathSelectEditor" class="editModule">
+            <span class="groupSpan centered" id="pathDetailBtnsGroup">
+                <button id="triggerDetailBtn" class="btn sideMargin5">Triggers</button>
+                <button id="eventDetailBtn" class="btn sideMargin5">Events</button>
+            </span>
+            
+            <div id="movePathsDiv" class="propSelectDiv"> 
+                <span class="groupSpan" id="mPathGroupSpan">
+                    <label class="editorLbL">Move Paths:</label>
+                    <button class="rightBtn btn" id="newPathBtn" onclick="BALL.editorUI.createMovePath()">New Path</button>
+                </span>
+
+                <select size=5 class="propSelectBox" id="mPathSelect">
+                    <option val=0>0__________Back and Forth[default]</option>
+                    <option val=1>1__________Sped Up</option>
+                    <option val=2>2__________Slowed Down</option>
+                </select>
+
+                <span class="groupSpan" id="mPathButtonsSpan">
+                    <button class="rightBtn btn" id="editPathBtn">Edit Path</button>
+                    <button class="leftBtn btn" id="delPathBtn">Delete Path</button>
+                </span>
+            </div><!-- MOVE PATHS DIV -->
+            
+        </div><!-- pathSelectEditor / editModule -->
+        
+        
+        <!-- Path Point Edit Module -->
+        <div id="pathPointEditor" class="editModule">
+            <div class="propEditDiv" id="pathEditDiv">
+
+                <div class="propSelectDiv">
+                    <span class="groupSpan" id="pathPointBtnSpan">
+                        <label class="editorLbL">Path Points: </label>
+                        <button class="rightBtn btn" id="createPointBtn">Add Point</button>
+                    </span>
+                    <select size=5 class="propSelectBox" id="pathPointSelect">
+                        <option val=0>0__________Back and Forth[default]</option>
+                        <option val=1>1__________Sped Up</option>
+                        <option val=2>2__________Slowed Down</option> 
+                    </select>
+                    <span class="groupSpan" id="pathPointBtnSpan"> 
+                        <button class="leftBtn btn" id="deletePointBtn">Delete Point</button>
+                        <button class="rightBtn btn" id="editPointBtn">Edit Point</button>
+                    </span>
+                    <span class="groupSpan" id="startPathBtnSpan">
+                        <button class="leftBtn btn" id="startPathBtn">Start Path</button>
+                        <button class="rightBtn btn" id="stopPathBtn">Stop Path</button>
+                    </span>
+                </div>
+
+            </div><!-- pathEditDiv -->
+        </div> <!-- pathPointEditor module -->
+        
+        
+        
+        
+        <!-- selection edit module -->
+        <div id="selectionDiv" class="editModule">
+            <div id="imgScroll">
+                <div id="imgsDiv1" class="imgsDiv">
+
+                </div>
+            </div>
+
+            <br />
+
+            <span id="existsSpan" class="optionSpan">
+
+                <button class="editorBtn" id="dConstraintBtn">Add Constraint</button>
+            </span>
+
+            <br />
+
+
+            <span id="rotationSpan" class="optionSpan">
+                <label class="editorLbl">Rot Speed:</label>
+                <input type="number" step=5 value=0 class="editorNumInput" id="rotSpeedVal">
+            </span>
+
+            <span id="angleSpan" class="optionSpan">
+                <label class="editorLbl">Angle:</label>
+                <input type="number" step=5 value=0 class="editorNumInput" id="angleVal">
+            </span>
+            <a id="downloadLevel">Download Level</a>
+            <button id="delSelectedBtn" class="botRightBtn btn">Delete</button>
+            <button id="saveLvlBtn" class="botLeftBtn btn">Save Level</button>
+        </div><!-- selection Div -->
+        
         
         
     </body>

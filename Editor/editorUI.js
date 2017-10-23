@@ -100,7 +100,7 @@ BALL.editorUI = {
     //:::::::::::::::::::::::::::::--- UI CALLBACKS ---::::::::::::::::::::::::::\\
     curPath: null,
     setupUI: function() {
-            
+        
         $("#delSelectedBtn").click(function(event) {
             console.log("delete selected:");
             console.log(BALL.editor.getSelectedObj());
@@ -260,6 +260,8 @@ BALL.editorUI = {
             dLink.setAttribute("download", "level.json");
             dLink.click();
         });
+        
+        BALL.editUI.init();
     },
 
     selectMovePath: function(event) {

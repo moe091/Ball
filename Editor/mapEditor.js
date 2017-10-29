@@ -644,6 +644,8 @@ BALL.editor = {
     select: function(sprite) { //select a new sprite. assumes selMode = 0
         BALL.editorUI.updateSelected(sprite);
         this.selected = sprite;
+        console.log("setSprite-editUI");
+        BALL.editUI.setSprite(sprite);
     }, //TODO: setup updateSelected in editorUI(and eventually design some kind of state machine to handle UI state in editorUI)
     
     getSelectedObj: function() { //return current object. if a pathsprite is selected, return the parent. if null, log a warning

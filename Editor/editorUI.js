@@ -156,17 +156,18 @@ BALL.editorUI = {
         
         //-------------------- Triggers --------------------------\\
         $("#triggerSelect").change(function(event) {
-            BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
+            console.log("editorUI trigSelect code - SHOULDN'T BE HERE");
+            //BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
         });
         
         $("#triggerSelect").focus(function(event) {
-            if ($("#triggerSelect").val() != null) {
-                BALL.trigEditor.selectTrigger(BALL.editor.getSelectedObj().triggers[$("#triggerSelect").val()]);
-            }
+            console.log("editorUI trigSelect code - SHOULDN'T BE HERE");
+            //console.log("editorUI - triggerSelect Focus. THIS SHOULDN'T BE HERE");
         });
         
         $("#trigTypeSelect").change(function(event) {
-            BALL.trigEditor.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val()); 
+            console.log("editorUI trigSelect code - SHOULDN'T BE HERE");
+            //BALL.trigEditor.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val()); 
         });
         
         $("#addEventBtn").click(function(event) {
@@ -242,6 +243,7 @@ BALL.editorUI = {
         
         
         //___________Triggers_____________\\
+        /**
         $("#newTriggerBtn").click(function() {
             if (BALL.editor.getSelectedObj() != null) {
                 BALL.editor.setEditor(BALL.trigEditor);
@@ -249,7 +251,7 @@ BALL.editorUI = {
                 BALL.trigEditor.updateTriggerList(BALL.editor.getSelectedObj());
             }
         });
-        
+        **/
         
         
         $("#saveLvlBtn").click( function() {

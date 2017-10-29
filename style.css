@@ -1,14 +1,15 @@
 .editModule {
     display: none;
+    text-align: center;
 }
 
 #editorDiv { 
     border: 1px black solid;
     background-color: #999;
-    padding: 3px;
+    padding: 2px;
     border-radius: 3px;
-    margin-left: 20px;
-    width: 1280px;
+    margin-left: 5px;
+    width: 1260px;
     height: 360px;
     overflow: hidden;
     display: inline-block;
@@ -61,7 +62,7 @@
 }
 
 #leftPanel {
-    width: 1280px;
+    width: 1260px;
 }
 
 
@@ -160,7 +161,7 @@
     display: block;
     text-align: left;
     padding: 4px;
-    margin: 0 auto;
+    margin: 2px auto;
 }
 
 .groupSpan label {
@@ -202,8 +203,8 @@
 
 /**:::::::::::::--- CLASSES ---::::::::::::**/
 .centered {
-    text-align: center;
-    margin: 0 auto;
+    text-align: center; !important
+    margin: 0 auto; 
 }
 .sideMargin5 {
     margin-left: 5px;
@@ -227,6 +228,15 @@
     color: #fff;
     background-color: #868686;
     border: 2px #fff solid;
+}
+
+.btn-small {
+    color: #fff;
+    background-color: #868686;
+    border: 1px #fff solid;
+    font-size: 0.8em;
+    padding: 2px;
+    margin: 1px;
 }
 
 input[type=number]::-webkit-inner-spin-button {
@@ -255,7 +265,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .smallDiv {
     display: inline-block;
-    margin: 2px 5px;
+    margin: 6px 5px;
 }
 
 .eventGroupDiv {
@@ -270,7 +280,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .eParamInput {
-    width: 5em;
+    width: 4em;
 }
 
 #eventEditorSection {

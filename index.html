@@ -113,34 +113,7 @@
                 </div> <!-- editor panel 1 -->
                 
                 <div id="editorPanel2" class="editorSection">
-                    <div id="objDetailDiv" class="editModule">
-                        <!-- REMOVED
-                            THIS IS WHERE MOVEPATH DIV GOES
-                                                        -->
-
-
-
-                        <div id="triggersDiv" class="propSelectDiv">
-
-                            <span class="groupSpan" id="triggersSpan">
-                                <label class="editorLbL">Triggers:</label>
-                                <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
-                            </span>
-
-                            <select size=5 class="propSelectBox" id="triggerSelect">
-                                <option val=0>0__________Back and Forth[default]</option>
-                                <option val=1>1__________Sped Up</option>
-                                <option val=2>2__________Slowed Down</option>
-                            </select>
-
-                            <span class="groupSpan" id="triggerButtonsSpan">
-                                <button class="rightBtn btn" id="editTriggerBtn">Edit Trigger</button>
-                                <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
-                            </span>
-
-                        </div><!-- TRIGGERS DIV -->
-
-                    </div><!-- obj detail div -->
+                    
                 </div><!-- EDITOR SECTION DIV -->
                 
                 
@@ -200,45 +173,14 @@
                         </div><!-- objEditor module -->
                     </div><!--ObjEditorDiv -->
                 
-                <div class="editorSection" id="eventEditorSection">
+                <!-- REMOVED - event editor -->
+                
+                
+                <div id="editorPanel3" class="editorSection">
                     
-                    <div class="eventGroupDiv" id="eventEditDiv">
-                        <span class="groupSpan">
-                            <label class="editorLbL" id="eventNameLbl">Event Name</label>
-                            <label class="editorLbL rightBtn">Event Type:</label>
-                        </span>
-                        <select size=4 class="propSelectBox" id="eventTypeSelect">
-                            <option value=1>1. Kill</option>
-                            <option value=2>2. Spawn</option>
-                            <option value=3>3. Start Movepath</option> 
-                            <option value=4>4. Stop Movepath</option> 
-                            <option value=5>5. Apply Force</option> 
-                            <option value=6>6. Apply Torque</option> 
-                            <option value=7>7. Toggle</option>
-                        </select>
-                        <br />
-                        
-                         <!----------------SPACE UNDER SELECT EVENT TYPE------------------>
-                        <div class="smallDiv">
-                            <button class="selTarBtn" id="selectEventTargetBtn" disabled>Select Target</button>
-                        </div>
-
-                        <div class="smallDiv">
-                            <label class="editorLbl" id="eParamLbl1">Param 1</label>
-                            <input type="number" class="eParamInput" id="eParam1">
-                        </div>
-                        <div class="smallDiv">
-                            <label class="editorLbl" id="eParamLbl2">Param 1</label>
-                            <input type="number" class="eParamInput" id="eParam2">
-                        </div>
-                        
-                        <!----------------- ADD / REMOVE EVENT BTNS ----------------->
-                        <span class="groupSpan centered">
-                            <button class="rightBtn btn" id="createEventBtn">Create</button>
-                        </span>
-                        
-                    </div><!-- event edit div -->
                 </div>
+            
+            
                 
                 <div id="launcherPropDiv">
                     <label class="center" id="spriteNameLbl">Launcher</label><br>
@@ -266,12 +208,101 @@
         #######################################################################
         ########################    EDITOR PANELS   ###########################
         ####################################################################-->
+        <!-- trigger select module -->
+        <div id="triggerSelectEditor" class="editModule">
+            
+            <span class="groupSpan centered" id="triggerDetailBtnsGroup">
+                <button id="eventDetailBtnT" class="btn sideMargin5">Events</button>
+                <button id="movePathDetailBtnT" class="btn sideMargin5">Move Paths</button>
+            </span>
+            
+            <div id="triggersDiv" class="propSelectDiv">
+                <span class="groupSpan" id="triggersSpan">
+                    <label class="editorLbL">Triggers:</label>
+                    <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
+                </span>
+
+                <select size=5 class="propSelectBox" id="triggerSelect">
+                    <option val=0>0__________Back and Forth[default]</option>
+                    <option val=1>1__________Sped Up</option>
+                    <option val=2>2__________Slowed Down</option>
+                </select>
+
+                <span class="groupSpan" id="triggerButtonsSpan">
+                    <button class="rightBtn btn" id="editTriggerBtn">Edit Trigger</button>
+                    <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
+                </span>
+            </div><!-- TRIGGERS DIV -->
+            
+            <!-- List of events belonging to a trigger -->
+            <div id="trigEventListDiv" class="propSelectDiv">
+                <select size=4 class="propSelectBox" id="trigEventSelect">
+                    <option val=-1>........ No Events Yet ........</option>
+                </select>
+                
+                <span class="groupSpan centered" id="trigEventsBtnsSpan">
+                    <button class="btn-small" id="delEventBtnTrig">Delete Event</button>
+                    <button class="btn-small" id="editEventBtnTrig">Edit Event</button>
+                    <button class="btn-small" id="newEventBtnTrig">New Event</button>
+                </span>
+            
+            </div>
+
+        </div><!-- obj detail div -->
+        
+        
+        
+        <!-- event edit module -->
+        <div class="editModule" id="eventEditor">
+            
+            <span class="groupSpan centered" id="eventDetailBtnsGroup">
+                <button id="triggerDetailBtnE" class="btn sideMargin5">Triggers</button>
+                <button id="movePathDetailBtnE" class="btn sideMargin5">Move Paths</button>
+            </span>
+            
+            <span class="groupSpan">
+                <label class="editorLbL" id="eventNameLbl">Event Name</label>
+                <label class="editorLbL rightBtn">Event Type:</label>
+            </span>
+
+            <select size=4 class="propSelectBox" id="eventTypeSelect">
+                <option value=1>1. Kill</option>
+                <option value=2>2. Spawn</option>
+                <option value=3>3. Start Movepath</option> 
+                <option value=4>4. Stop Movepath</option> 
+                <option value=5>5. Apply Force</option> 
+                <option value=6>6. Apply Torque</option> 
+                <option value=7>7. Toggle</option>
+            </select>
+            <br />
+
+             <!----------------SPACE UNDER SELECT EVENT TYPE------------------>
+            <div class="smallDiv">
+                <button class="selTarBtn" id="selectEventTargetBtn" disabled>Select Target</button>
+            </div>
+
+            <div class="smallDiv">
+                <label class="editorLbl" id="eParamLbl1">Param 1</label>
+                <input type="number" class="eParamInput" id="eParam1">
+            
+                <label class="editorLbl" id="eParamLbl2">Param 1</label>
+                <input type="number" class="eParamInput" id="eParam2">
+            </div>
+
+            <!----------------- ADD / REMOVE EVENT BTNS ----------------->
+            <span class="groupSpan centered">
+                <button class="rightBtn btn" id="createEventBtn">Create</button>
+            </span>
+
+        </div><!-- event edit div -->
+        
+        
         
         <!--Move Path Select module -->
         <div id="pathSelectEditor" class="editModule">
             <span class="groupSpan centered" id="pathDetailBtnsGroup">
-                <button id="triggerDetailBtn" class="btn sideMargin5">Triggers</button>
-                <button id="eventDetailBtn" class="btn sideMargin5">Events</button>
+                <button id="triggerDetailBtnMp" class="btn sideMargin5">Triggers</button>
+                <button id="eventDetailBtnMp" class="btn sideMargin5">Events</button>
             </span>
             
             <div id="movePathsDiv" class="propSelectDiv"> 

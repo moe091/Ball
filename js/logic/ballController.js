@@ -3,6 +3,7 @@ BALL.bController = {
     REPEAT: -1,
     ball: null,
     funcs: [],
+    jumpStart: 0,
     
     addUpdateFunc: function(name, func, duration, args, finish) {
         console.log("ADD\nADD\nADD\nADD\nADD\nADD");
@@ -34,6 +35,18 @@ BALL.bController = {
     },
     
     update: function(elapsed) {
+        if (BALL.input.LEFT.isDown) {
+            BALL.bController.ball.body.angularVelocity-= BALL.gameState.ballSpeed * elapsed;
+        }
+        if (BALL.input.RIGHT.isDown) {
+            BALL.bController.ball.body.angularVelocity+= BALL.gameState.ballSpeed * elapsed;
+        }
+        if (BALL.input.UP.isDown) {
+            if (game.time.now - BALL.gameState.jumpTime < 400) {
+                //BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * (1400 / (game.time.now - BALL.gameState.jumpTime + 40)) * elapsed / 2500;
+            } //REMOVE VARIABLE JUMP HEIGHT
+        }
+        
         for (var i in this.funcs) {
             if (this.funcs[i].end < game.time.now) {
                 this.funcs[i].remove = true;
@@ -57,11 +70,16 @@ BALL.bController = {
     
     
     jump: function() {
-        console.log(BALL.bController.ball.body.wallride);
-        if (BALL.gameState.jumpTime < game.time.now - BALL.gameState.jumpInterval && BALL.bController.ball.body.wallride == null) {
-            console.log("\nnormal jump\n");
+        if (BALL.gameState.jumpTime < game.time.now - BALL.gameState.jumpInterval && BALL.bController.ball.body.wallride == null && BALL.gameState.canJump) {
             BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump;
             BALL.gameState.jumpTime = game.time.now;
+            BALL.gameState.dubJump = true;
+            BALL.gameState.canJump = false;
+        } else if (BALL.bController.ball.body.wallride == null) {
+            if (BALL.gameState.dubJump && BALL.gameState.jumpTime > game.time.now - BALL.gameState.dubJumpInt && BALL.gameState.jumpTime < game.time.now - 225) {
+                BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * 0.75;
+                BALL.gameState.dubJump = false;
+            }
         }
         if (BALL.bController.ball.body.wallride < 0 || BALL.bController.ball.body.wallride > 0) { //WALLJUMP
             console.log("\nwalljump\n");
@@ -105,35 +123,38 @@ BALL.bController = {
         console.log('boopleft');
         if (BALL.bController.ball.body.wallride > 0) { //left wall, jump right
             BALL.bController.ball.body.velocity.x-= BALL.gameState.ballJump * BALL.bController.ball.body.wallride * 0.7;
-            
+
             BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * 0.5;
             BALL.bController.ball.body.wallride = null;
-            
+
             BALL.bController.removeFunc("wallride");
             BALL.bController.addUpdateFunc("wallJump", BALL.ballFuncs.wallJump, 200, BALL.bController.ball.body.angularVelocity * -1, null);
-        } else if (BALL.bController.ball.body.wallride < 0) {
+        } else if (BALL.bController.ball.body.wallride < 0 && false) {
             BALL.bController.ball.body.angularVelocity-= BALL.gameState.boopSpeed * 1.5;
-        } else {
+        } else if (false) {
             BALL.bController.ball.body.angularVelocity-= BALL.gameState.boopSpeed;
         }
+        
     },
     
     boopRight: function() {
+    
         console.log('boopright');
         if (BALL.bController.ball.body.wallride < 0) { //left wall, jump right
             BALL.bController.ball.body.velocity.x-= BALL.gameState.ballJump * BALL.bController.ball.body.wallride * 0.7;
-            
+
             BALL.bController.ball.body.velocity.y-= BALL.gameState.ballJump * 0.5;
             BALL.bController.ball.body.wallride = null;
-            
+
             BALL.bController.removeFunc("wallride");
             BALL.bController.addUpdateFunc("wallJump", BALL.ballFuncs.wallJump, 200, BALL.bController.ball.body.angularVelocity * -1, null);
             console.log('boopright------------');
-        } else if (BALL.bController.ball.body.wallride > 0) {
+        } else if (BALL.bController.ball.body.wallride > 0 && false) {
             BALL.bController.ball.body.angularVelocity+= BALL.gameState.boopSpeed * 1.5;
-        } else {
+        } else if (false) {
             BALL.bController.ball.body.angularVelocity+= BALL.gameState.boopSpeed;
         }
+    
     },
     
     jumpLeft: function() {
@@ -153,7 +174,6 @@ BALL.bController = {
     },
     
     endContact: function(b1, b2) {
-        console.log("END CONTACT - " + game.time.now);
         if (BALL.play.ball.body.curWall != null) {
             console.log("ball y: " + BALL.play.ball.y);
             console.log("wall top: " + (BALL.play.ball.body.curWall.sprite.y + BALL.play.ball.body.curWall.sprite.width / 2));

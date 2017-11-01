@@ -3,6 +3,18 @@ BALL.manager = {
     editMode: false,
     nonstaticObjs: [],
     
+    setGameLabel: function(s) {
+        if (s == null) {
+            if (BALL.manager.editMode) {
+                $("#gameLabelDiv").html("Edit Mode - Normal");
+            } else {
+                $("#gameLabelDiv").html("Test Mode");
+            }
+        } else {
+            $("#gameLabelDiv").html(s);  
+        }
+    },
+    
     enterEditMode: function() {
         console.log("EDITMODE");
         BALL.manager.editor = BALL.editor;
@@ -38,9 +50,9 @@ BALL.manager = {
         game.input.onUp.add(BALL.editor.inputUp, this);
         
         for (var i in BALL.gameState.objects) {
-            BALL.gameState.objects[i].events.onInputDown.add(BALL.editor.clickObj, this);
-            BALL.gameState.objects[i].events.onInputOver.add(BALL.editor.spriteHover, this);
-            BALL.gameState.objects[i].events.onInputOut.add(BALL.editor.spriteUnhover, this);
+            //BALL.gameState.objects[i].events.onInputDown.add(BALL.editor.clickObj, this);
+            //BALL.gameState.objects[i].events.onInputOver.add(BALL.editor.spriteHover, this);
+            //BALL.gameState.objects[i].events.onInputOut.add(BALL.editor.spriteUnhover, this);
         }
         game.camera.target = BALL.play.ball;
         game.camera.target = null;

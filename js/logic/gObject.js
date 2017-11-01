@@ -54,6 +54,7 @@ BALL.objDefs = {
             init: function(obj) {
                 console.log("init: ", this);
                 console.log("obj = ", obj);
+                obj.body.isFloor = true;
                 obj.body.setCircle(51);
                 obj.body.mass = 12;
                 obj.body.data.mass = 12;
@@ -104,6 +105,7 @@ BALL.objDefs = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
                 obj.body.static = true;
+                obj.body.isFloor = true;
                 obj.body.setMaterial(BALL.gameState.bounceMaterial);
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.ballGroup);
@@ -114,6 +116,7 @@ BALL.objDefs = {
         this["hanging-plank"] = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.isFloor = true;
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.wallrideGroup);
                 obj.body.collides(BALL.gameState.ballGroup);
@@ -124,6 +127,7 @@ BALL.objDefs = {
         this["rope"] = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.isFloor = true;
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.wallrideGroup);
                 obj.body.collides(BALL.gameState.ballGroup);
@@ -134,6 +138,7 @@ BALL.objDefs = {
         this["woodbig"] = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.isFloor = true;
                 obj.body.setMaterial(BALL.gameState.wallrideMaterial);
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
@@ -147,6 +152,7 @@ BALL.objDefs = {
             init: function(obj) {
                 obj.body.setCircle(9);
                 obj.body.static = true;
+                obj.body.isFloor = true;
                 obj.body.setCollisionGroup(BALL.gameState.wallrideGroup);
                 obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
                 obj.body.collides(BALL.gameState.dynamicGroup);
@@ -159,6 +165,7 @@ BALL.objDefs = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
                 obj.body.static = true;
+                obj.body.isFloor = true;
                 obj.body.setMaterial(BALL.gameState.wallrideMaterial);
                 obj.body.setCollisionGroup(BALL.gameState.wallrideGroup);
                 obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
@@ -176,6 +183,8 @@ BALL.objDefs = {
             init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
                 obj.body.static = true;
+                obj.body.isFloor = true;
+                obj.body.isAlwaysFloor = true;
                 obj.body.setMaterial(BALL.gameState.noBounceMaterial);
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.wallrideCallback, this);
@@ -189,6 +198,8 @@ BALL.objDefs = {
                 console.log("DEFAULT: " + obj.key);
                 obj.body.loadPolygon("newbods2", obj.key);
                 obj.body.static = true;
+                obj.body.isFloor = true;
+                obj.body.setMaterial(BALL.gameState.noBounceMaterial);
                 obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.wallrideGroup);
                 obj.body.collides(BALL.gameState.ballGroup);

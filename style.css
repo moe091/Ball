@@ -1,3 +1,15 @@
+#gameLabelDiv {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ddd;
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 0;
+    text-align: center;
+}
+
+
+
 .editModule {
     display: none;
     text-align: center;
@@ -27,7 +39,7 @@
 
 #gameDiv {
     display: inline-block;
-
+    position: relative;
 }
 
 .editorImg:before {    /* create a full-height inline block pseudo=element */

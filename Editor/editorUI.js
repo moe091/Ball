@@ -128,6 +128,7 @@ BALL.editorUI = {
         });
         
         //--------------------- MovePaths -------------------\\
+        /**
         $("#mPathSelect").change(function(event) {
             //BALL.editorUI.selectMovePath(BALL.editorUI.selected.movePaths[$("#mPathSelect").val()]);
             console.log("CHANGE HERE");
@@ -150,7 +151,7 @@ BALL.editorUI = {
             }
         });
         
-        
+        **/
         
         
         
@@ -190,10 +191,10 @@ BALL.editorUI = {
         });
         
         $("#selectEventTargetBtn").click(function(event) {
-            BALL.eventEditor.selectTargetClick();
+            //BALL.eventEditor.selectTargetClick();
         });
         
-        
+        //TODO - move all of these listeners/functions to eventDetailEdit module
         $("#eParam2").keypress(function(event) {
             BALL.eventEditor.updateParam2(Number($("#eParam2").val()));
         });
@@ -225,7 +226,7 @@ BALL.editorUI = {
         
         
         
-        
+        /** REMOVE - move all this to pathpoint editor module
         $("#createPointBtn").click(function() {
             console.log("SKLDJFSD");
             if (BALL.editor.getSelectedObj() != null) {
@@ -240,7 +241,7 @@ BALL.editorUI = {
         $("#stopPathBtn").click(function() {
             BALL.pathEditor.stopPath();                  
         });
-        
+        **/
         
         //___________Triggers_____________\\
         /**
@@ -271,8 +272,9 @@ BALL.editorUI = {
     },
     
     createMovePath: function(event) {
-        BALL.editor.setEditor(BALL.pathEditor);
-        BALL.pathEditor.createPath(BALL.editor.getSelectedObj(), prompt("ENTER PATH NAME:"));
+        //REMOVE - new movepath button moved to path editor module
+        //BALL.editor.setEditor(BALL.pathEditor);
+        //BALL.pathEditor.createPath(BALL.editor.getSelectedObj(), prompt("ENTER PATH NAME:"));
     },
     
 

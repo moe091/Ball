@@ -4,6 +4,14 @@ BALL.trigEditor = {
     curTrigger: null,
     curEvent: null,
     
+    setCurTrigger: function(trig) {
+        if (trig != null) {
+            this.curTrigger = trig;
+        } else {
+            console.warn("Tried to set trigEditur.curTrigger to null");
+        }
+        BALL.triggerSelectEditor.setCurTrigger(this.curTrigger);
+    },
     
     select: function(sprite) {
         if (this.curTrigger == null || this.curTrigger.parent != sprite) {
@@ -37,9 +45,9 @@ BALL.trigEditor = {
         this.curEvent = new BALL.Event(BALL.play.ball, name, type, BALL.gameState.events.length);
         BALL.gameState.events.push(this.curEvent);
         this.curTrigger.events.push(this.curEvent);
-        this.updateTrigEventList();
-        $("#trigEventsSelect").val(this.curTrigger.events.length - 1);
-        BALL.eventEditor.selectEvent(this.curEvent);
+        //this.updateTrigEventList();
+        //$("#trigEventsSelect").val(this.curTrigger.events.length - 1);
+        //BALL.eventEditor.selectEvent(this.curEvent);
     },
     
 
@@ -118,10 +126,8 @@ BALL.trigEditor = {
 BALL.eventEditor = {
     curEvent: null,
     
-    selectEvent: function(event) {
-        this.curEvent = event;
-        this.showEditor();
-        $("#eventNameLbl").html(event.name);
+    setCurEvent: function(ev) {
+        BALL.eventEditor.curEvent = ev;
     },
     
     showEditor: function() {
@@ -154,7 +160,6 @@ BALL.eventEditor = {
     
     selectTarget: function(sprite) {
         this.curEvent.setTarget(sprite);
-        BALL.editor.endTargetSelect(this);
     },
     
     updateParam1: function(val) {
@@ -179,6 +184,7 @@ BALL.eventEditor = {
     
     
     selectEventType: function(sprite, index, update) {
+        console.warn("this: ", this);
         console.log("selectEventType - " + index);
         
         if (update)

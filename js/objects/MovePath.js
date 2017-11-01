@@ -24,7 +24,6 @@ BALL.MovePath = function(parent, name) {
     
     
     BALL.gameState.movePaths.push(this);
-    
     parent.curPath = this;
     //this.updateFunc = function() { if (this.curPath.active) this.curPath.update()};
     //parent.addUpdateFunc(this.updateFunc);
@@ -128,7 +127,8 @@ BALL.MovePath.prototype.endPoint = function() {
     if (this.nextPoint == 0) { //check if path has finished
         this.finishPath(); //sets active to false if repeat is not true
     }
-    
+    this.parent.body.x = this.nextPoint.x;
+    this.parent.body.y = this.nextPoint.y;
     if (this.active) {
         this.curPoint = this.nextPoint;
         this.curIndex = this.nextIndex;
@@ -145,8 +145,8 @@ BALL.MovePath.prototype.endPoint = function() {
     }
 }
 BALL.MovePath.prototype.updateVelocity = function() {
-    this.dX = Math.cos(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
-    this.dY = Math.sin(Math.atan2(this.nextPoint.pSprite.y - this.curPoint.pSprite.y, this.nextPoint.pSprite.x - this.curPoint.pSprite.x)) * this.curPoint.speed;
+    this.dX = Math.cos(Math.atan2(this.nextPoint.pSprite.y - this.parent.body.y, this.nextPoint.pSprite.x - this.parent.body.x)) * this.curPoint.speed;
+    this.dY = Math.sin(Math.atan2(this.nextPoint.pSprite.y - this.parent.body.y, this.nextPoint.pSprite.x - this.parent.body.x)) * this.curPoint.speed;
 }
 
 BALL.MovePath.prototype.getAngle = function() {
@@ -206,7 +206,7 @@ BALL.PathPoint = function(x, y, speed, angle, path) {
     this.angle = angle;
     this.speed = speed; 
     console.log("added point: ", this);
-    this.pSprite.visible = false;
+    //this.pSprite.visible = false;
     this.update = function() {
         if (this.pSprite.visible == true) 
             this.pSprite.visible = false;

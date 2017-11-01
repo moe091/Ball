@@ -98,7 +98,17 @@ BALL.play = {
         this.startTime = game.time.now;
         BALL.manager.resetLevel();
         
+        BALL.play.ball.body.onBeginContact.add(BALL.play.ballContact, this);
         //this.endGame();
+    },
+    
+    ballContact: function(ball, c1, c2, c3, c4) {
+        console.log("ball = ", ball);
+        console.log(c1);
+        console.log(c2);
+        if (c4[0].normalA[1] < 0 && c3.body.parent.isFloor) {
+            BALL.gameState.canJump = true;
+        }
     },
     
     follow: function() {

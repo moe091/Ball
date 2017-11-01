@@ -15,18 +15,30 @@ BALL.pathEditor = {
         //update mPathSelect list
         //select this path in list
             //update path editor/points
-        if (this.curPath != null) {
-            this.curPath.stop();
+        if (sprite != null) {
+            if (!sprite.isPathSprite) {
+                
+                //CREATE new movepath
+                if (this.curPath != null) { //if another path is selected, stop it before creating this one
+                    this.curPath.stop();
+                }
+                if (sprite.movePaths == null) //if selected sprite doesn't have movePaths, add movePath array property to sprite
+                    sprite.movePaths = [];
+
+                //create movepath, add it to sprites movePath array and the pathEditors path list
+                var mPath = new BALL.MovePath(sprite, name); 
+                sprite.movePaths.push(mPath);
+                this.movePaths.push(mPath);
+                
+                BALL.pathSelectEditor.updateMovePathList(sprite, sprite.movePaths.length -1);
+
+            } else {
+                alert("cannot add movepath to path sprite");
+            }
+        } else {
+            alert("no sprite selected, cannot create path");
         }
-        if (sprite.movePaths == null)
-            sprite.movePaths = [];
         
-        
-        var mPath = new BALL.MovePath(sprite, name);
-        sprite.movePaths.push(mPath);
-        this.movePaths.push(mPath);
-        
-        this.updateMovePathList(sprite, sprite.movePaths.length -1);
     },
     
     
@@ -36,7 +48,7 @@ BALL.pathEditor = {
         //select this point
         this.curPoint = new BALL.PathPoint(this.curPath.parent.x + 100, this.curPath.parent.y + 100, 2, this.curPath.parent.angle, this.curPath);
         this.curPath.addPoint(this.curPoint);
-        this.updatePathPointList();
+        BALL.movePathEditor.updatePathPointList();
     },
     
     
@@ -65,13 +77,18 @@ BALL.pathEditor = {
 
     
     
-    
-    selectMovePath: function(path) {
-        BALL.editor.getSelectedObj().setPath(path);
+    //called by path edit module
+    selectMovePath: function(sprite, path) {
+        if (BALL.editor.getSelectedObj() != sprite) {
+            console.warn("sprite doesn't = selected. sprite:", sprite);
+            console.log("selected:", BALL.editor.getSelectedObj());
+        }
+        sprite.setPath(path);
         this.curPath = path;
         this.showPathSprites(); //CREATE THIS
-        this.showPathEditor();
-        this.updatePathPointList();
+        //this.showPathEditor(); TODO: BALL.editUI.show(BALL.movePathEditor, 3) - create movePathEditor first.
+        BALL.editUI.showPanel(BALL.movePathEditor, 3);
+        BALL.movePathEditor.setPath(this.curPath); //sets path and calls updatePathPointList
     },
  
     //::::::::::::::::::::--CHANGE DISPLAY--:::::::::::::::::::\\    
@@ -92,29 +109,9 @@ BALL.pathEditor = {
     
     //::::::::::::::::::::--UPDATE UI ELEMENTS--:::::::::::::::::::\\
     //UPDATES-------
-    updateMovePathList: function(sprite, selID) {
-        $("#mPathSelect").empty();
-        console.log(sprite);
-        console.log("updateMovePathlist");
-        if (sprite.movePaths != null) {
-            for (var i in sprite.movePaths) {
-                $("#mPathSelect").append("<option value=" + i + ">" + i + ".................." + sprite.movePaths[i].name + "</option>");
-            }   
-            
-            if (selID != null) {
-                $("#mPathSelect").val(selID);
-                console.log(selID, sprite.movePaths, sprite.movePaths[selID]);
-                this.selectMovePath(sprite.movePaths[selID]);
-            }
-        } else {
-            $("#mPathSelect").append("<option value=1>.........NO MOVEPATHS.........</option>");
-            
-            $(".propEditDiv").hide();
-        }
-        
-    },
+  
     
-    
+    //TODO - REMOVE - added to pathPointEditor module
     updatePathPointList: function() {
         $("#pathPointSelect").empty();
     

@@ -644,7 +644,7 @@ BALL.editor = {
     select: function(sprite) { //select a new sprite. assumes selMode = 0
         BALL.editorUI.updateSelected(sprite);
         this.selected = sprite;
-        console.log("setSprite-editUI");
+        console.warn("selMode = " + BALL.editor.selMode);
         BALL.editUI.setSprite(sprite);
     }, //TODO: setup updateSelected in editorUI(and eventually design some kind of state machine to handle UI state in editorUI)
     
@@ -664,22 +664,27 @@ BALL.editor = {
     
     //set select mode and callback for that mode. when sprite is selected, it will be passed to the callback to handle it.
     setTargetSel: function(cb) {
-        this.selMode = this.SEL_TARGET;
-        this.targetCB = cb;
+        console.log("setTargetSel. this = ", this);
+        console.log("setTargetSel. cb = ", cb);
+        BALL.editor.selMode = BALL.editor.SEL_TARGET;
+        BALL.editor.targetCB = cb;
+        BALL.manager.setGameLabel("CLICK TO SELECT TARGET");
     },
     setWLocSel: function(cb) {
-        this.selMode = this.SEL_WLOC;
-        this.wLocCB = cb;
+        BALL.editor.selMode = BALL.editor.SEL_WLOC;
+        BALL.editor.wLocCB = cb;
     },
     setSLocSel: function(cb) {
-        this.selMode = this.SEL_SLOC;
-        this.sLocCB = cb;
+        BALL.editor.selMode = BALL.editor.SEL_SLOC;
+        BALL.editor.sLocCB = cb;
     },
-    setNormalSel: function(cb) {
-        this.selMODE = this.SEL_NORMAL;
-        this.sLocCB = null;
-        this.wLocCB = null;
-        this.targetCB = null;
+    setNormalSel: function() {
+        BALL.editor.selMode = BALL.editor.SEL_NORMAL;
+        BALL.editor.sLocCB = null;
+        BALL.editor.wLocCB = null;
+        BALL.editor.targetCB = null;
+        BALL.manager.setGameLabel();
+        console.log("setNormalSel() - selMode = " + BALL.editor.selMode);
     }, //TODO: setup other editors to use these callbacks, specifically target. joint will eventually use SLoc/WLoc as well.
     //------end selection methods-------\\
     
@@ -715,22 +720,31 @@ BALL.editor = {
     },
     
     clickObj: function(s) { //called when a sprite is clicked. probably check selMode here and pass sprite to appropriate callback. editor.select can just handle normal selections(selMode = 0)
-        if (this.selMode == this.SEL_NORMAL) {
+        console.warn("clickObj. this = ", this);
+        if (BALL.editor.selMode == BALL.editor.SEL_NORMAL) {
+            console.log("clickObj - selMode normal");
             BALL.editor.select(s);
             BALL.editor.pathSpriteSelected = false;
             BALL.editor.spriteGrabbed = true;
             BALL.editor.movingObj = false;
-        } else if (this.selMode == this.SEL_TARGET) {
-            this.targetCB(s);
-        } else if (this.selMode == this.SEL_WLOC) {
-            this.wLocCB(s);
-        } else if (this.selMode == this.SEL_SLOC) {
-            this.sLocCB(s);
+        } else if (BALL.editor.selMode == BALL.editor.SEL_TARGET) {
+            console.log("clickObj - selMode TARGET!");
+            console.log("targetCB --", BALL.editor.targetCB);
+            if (BALL.editor.targetCB != null) {
+                BALL.editor.targetCB(s);
+            } else {
+                console.log("clickObj - setNormalSel()");
+                BALL.editor.setNormalSel();
+            }
+        } else if (BALL.editor.selMode == BALL.editor.SEL_WLOC) {
+            BALL.editor.wLocCB(s);
+        } else if (BALL.editor.selMode == BALL.editor.SEL_SLOC) {
+            BALL.editor.sLocCB(s);
         } else {
-            console.warn("clickObj() - somehow selMode isn't valid. selmode=" + this.selMode);
+            console.warn("clickObj() - somehow selMode isn't valid. selmode=" + BALL.editor.selMode);
         }
-        this.lastPX = Math.round(game.input.worldX); //NOTE: try removing these, I don't think they do anything
-        this.lastPY = Math.round(game.input.worldY);
+        BALL.editor.lastPX = Math.round(game.input.worldX); //NOTE: try removing these, I don't think they do anything
+        BALL.editor.lastPY = Math.round(game.input.worldY);
     },
     
     spriteHover: function() {

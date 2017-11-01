@@ -16,10 +16,13 @@ BALL.gameState = {
     
     selected: null,
     
-    ballSpeed: 1,
+    ballSpeed: 0.09,
     boopSpeed: 15,
-    ballJump: 450,
-    jumpInterval: 900,
+    ballJump: 500,
+    jumpInterval: 1,
+    canJump: true,
+    dubJumpInt: 600,
+    dubJump: false,
     sideJumpInterval: 500,
     sideJumpTime: 0,
     
@@ -67,7 +70,7 @@ BALL.gameState = {
         BALL.play.ball.body.setCollisionGroup(this.ballGroup);
         
         game.physics.p2.createContactMaterial(this.ballMaterial, this.bounceMaterial, { friction: 3 , restitution: 0.6 }); 
-        game.physics.p2.createContactMaterial(this.ballMaterial, this.noBounceMaterial, { friction: 3 , restitution: 0.1 }); 
+        game.physics.p2.createContactMaterial(this.ballMaterial, this.noBounceMaterial, { friction: 3 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.wallrideMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.ballMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
         game.physics.p2.createContactMaterial(this.wallrideMaterial, this.boulderMaterial, { friction: 999 , restitution: 0 }); 
@@ -75,8 +78,9 @@ BALL.gameState = {
         
         
         BALL.play.ball.body.collides(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
+        BALL.play.ball.body.collides(BALL.gameState.wallrideGroup, BALL.gameState.ballContactCb, this);
         BALL.play.ball.body.collides(BALL.gameState.killGroup, BALL.gameState.killCallback, this);
-        BALL.play.ball.body.collides(BALL.gameState.dynamicGroup);
+        BALL.play.ball.body.collides(BALL.gameState.dynamicGroup, BALL.gameState.ballContactCb, this);
                     //BALL.play.ball.body.createGroupCallback(BALL.gameState.wallrideGroup, BALL.gameState.wallrideCallback, this);
         
         BALL.objDefs.init();
@@ -175,6 +179,8 @@ BALL.gameState = {
         BALL.gameState.selected.events.onInputOver.add(BALL.editor.spriteHover, this);
         BALL.gameState.selected.events.onInputOut.add(BALL.editor.spriteUnhover, this);
         
+        
+        
         BALL.gameState.selected.updateFuncs = [];
         this.updateObjs.push(BALL.gameState.selected);
         
@@ -184,6 +190,7 @@ BALL.gameState = {
         BALL.gameState.initObject(BALL.gameState.selected);
         return BALL.gameState.selected;
     },
+    
     
     initObject: function(sprite) {
         sprite.startX = sprite.x;

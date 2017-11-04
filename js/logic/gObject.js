@@ -10,8 +10,62 @@ BALL.gObject = {
             }
                 
         }
+    },
+    
+    crunch: function(machine, bar, speed, int, hold) {
+        bar.crunchSpeed = speed;
+        bar.crunchInt = int;
+        bar.crunchHold = hold;
+        bar.crunchStep = 0;
+        bar.crunchTime = game.time.now;
+        return function() { //NOTE: Set step to 4 for editing purposes. pauses crunching and allows crunchTop/bottom to be reset on movement
+            if (bar.ID != 34) {
+            if (bar.crunchStep == 0) { //bar up, waiting crunchInt MS until it crunches down
+                if (game.time.now - bar.crunchTime >= bar.crunchInt) {
+                    //start crunch
+                    bar.crunchStep = 1;
+                }   
+            } else if (bar.crunchStep == 1) { //bar crunching down, stopping when it reaches crunchBottom
+                bar.body.y+= bar.crunchSpeed * game.time.elapsed; 
+                BALL.gObject.crunchMachinePos(bar, machine);
+                if (bar.body.y >= bar.crunchBottom) {
+                    bar.body.y = bar.crunchBottom;
+                    BALL.gObject.crunchMachinePos(bar, machine);
+                    bar.crunchStep = 2;
+                    bar.crunchTime = game.time.now;
+                }
+            } else if (bar.crunchStep == 2) { //bar in down position, holding still for crunchHold MS
+                //wait
+                if (game.time.now - bar.crunchTime >= bar.crunchHold) { //done holding in down position.
+                    bar.crunchStep = 3;
+                }
+            } else if (bar.crunchStep == 3) { //bar moving back up, stopping when it reaches crunchTop
+                bar.body.y-= bar.crunchSpeed * game.time.elapsed;
+                BALL.gObject.crunchMachinePos(bar, machine);
+                if (bar.body.y <= bar.crunchTop) {
+                    bar.body.y = bar.crunchTop;
+                    BALL.gObject.crunchMachinePos(bar, machine);
+                    bar.crunchStep = 0;
+                    bar.crunchTime = game.time.now;
+                }
+            } else if(bar.crunchStep == 4) {
+                if (BALL.editor.getSelectedObj() != bar) {
+                    bar.crunchStep = 0;
+                    bar.crunchTime = game.time.now;
+                }
+            }//if crunchStep
+            }
+            
+        } //return func
+        
+        
+    }, //crunch
+    
+    crunchMachinePos: function(bar, machine) {
+        machine.body.y = bar.machineOffset - (bar.body.y - bar.crunchTop);
     }
-}
+    
+}//gObj
 
 
 Phaser.Sprite.prototype.addUpdateFunc = function(f) {
@@ -42,6 +96,7 @@ Phaser.Sprite.prototype.update = function() {
 
 BALL.objDefs = {
     init: function() {
+        
         this["d01-boulder"] = {
             material: BALL.gameState.boulderMaterial,
             colGroup: BALL.gameState.dynamicGroup,
@@ -88,7 +143,16 @@ BALL.objDefs = {
             }
         }; //killboulder
         
-        
+        this["g1-saw"] = {
+            init: function(obj) {
+                obj.body.setCircle(90);
+                obj.body.static = true;
+                obj.body.setCollisionGroup(BALL.gameState.killGroup);
+                 
+                obj.body.collides(BALL.gameState.ballGroup, BALL.gameState.killCallback, this);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+            }
+        };
         this["k01-redline"] = {
              init: function(obj) {
                 obj.body.loadPolygon("newbods2", obj.key);
@@ -158,6 +222,44 @@ BALL.objDefs = {
                 obj.body.collides(BALL.gameState.dynamicGroup);
                 obj.body.collides(BALL.gameState.killGroup);
                 
+            }
+        };
+        
+        this["g1-crunchbar"] = {
+            init: function(obj) { //TODO: kill callback on collide
+                obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.static = true;
+                obj.body.isFloor = true;
+                obj.body.setMaterial(BALL.gameState.noBounceMaterial);
+                obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.wallrideGroup);
+                obj.body.collides(BALL.gameState.ballGroup);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+                console.log("crunchvar - ", obj);
+                obj.machineOffset = -60;
+                obj.addChild(BALL.gameState.createObj(0, obj.machineOffset, "g1-crunchmachine"), Phaser.CENTER);
+                console.log("crunch Machine - ", obj.children[0]);
+                obj.children[0].owner = obj;
+                
+                obj.crunchDist = 90;
+                obj.crunchTop = obj.y;
+                obj.crunchBottom = obj.y + obj.crunchDist;
+                obj.crunchUpdate = BALL.gObject.crunch(obj.children[0], obj, 0.5, 1000, 400);
+                obj.addUpdateFunc(obj.crunchUpdate);
+            }    
+        };
+        this["g1-crunchmachine"] = {
+            init: function(obj) {
+                console.log("DEFAULT: " + obj.key);
+                obj.body.loadPolygon("newbods2", obj.key);
+                obj.body.static = true;
+                obj.body.isFloor = true;
+                obj.body.setMaterial(BALL.gameState.noBounceMaterial);
+                obj.body.setCollisionGroup(BALL.gameState.dynamicGroup);
+                obj.body.collides(BALL.gameState.wallrideGroup);
+                obj.body.collides(BALL.gameState.ballGroup);
+                obj.body.collides(BALL.gameState.dynamicGroup);
+                console.log("\n\nOwner = ", obj.owner);
             }
         };
         

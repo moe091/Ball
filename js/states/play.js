@@ -85,8 +85,8 @@ BALL.play = {
         
         
         
-        this.bgGround = game.add.tileSprite(0, 300, 8860, 225, "g1-groundbg");
-        this.bgGround.fixedToCamera = true;
+        //this.bgGround = game.add.tileSprite(0, 300, 8860, 225, "g1-groundbg");
+        //this.bgGround.fixedToCamera = true;
         
         this.follow();
         game.camera.scale.setTo(0.5);
@@ -103,10 +103,8 @@ BALL.play = {
     },
     
     ballContact: function(ball, c1, c2, c3, c4) {
-        console.log("ball = ", ball);
-        console.log(c1);
-        console.log(c2);
         if (c4[0].normalA[1] < 0 && c3.body.parent.isFloor) {
+            console.log("can jump!");
             BALL.gameState.canJump = true;
         }
     },
@@ -156,7 +154,7 @@ BALL.play = {
         }
         BALL.timer.update();
         
-        this.bgGround.cameraOffset.x = -1000 - (this.ball.x) * 0.5;
+        //this.bgGround.cameraOffset.x = -1000 - (this.ball.x) * 0.5;
         this.bgMountains.cameraOffset.x = -1000 - (this.ball.x) * 0.25;
         this.bgBuildings.cameraOffset.x = -1000 - (this.ball.x) * 0.2;
         //this.bg2.x = (this.ball.x - 1750) * 0.15;

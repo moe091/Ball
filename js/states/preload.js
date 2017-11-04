@@ -18,6 +18,12 @@ BALL.preload = {
         game.load.image("g1-short-breakplat", "assets/graphics/world2/g1-short-breakplat.png");
         game.load.image("g1-short-plat", "assets/graphics/world2/g1-short-plat.png");
         game.load.image("g1-windmill", "assets/graphics/world2/g1-windmill.png");
+        game.load.image("g1-saw", "assets/graphics/world2/g1-saw.png");
+        
+        game.load.image("g1-crunchmachine", "assets/graphics/world2/g1-crunchmachine.png");
+        game.load.image("g1-crunchbar", "assets/graphics/world2/g1-crunchbar.png");
+        game.load.image("g1-bigblock", "assets/graphics/world2/g1-bigblock.png");
+        game.load.image("g1-smallblock", "assets/graphics/world2/g1-smallblock.png");
         
         //game.load.image("chalkbg", "assets/graphics/world1/chalkbg.png");
         
@@ -109,7 +115,7 @@ BALL.preload = {
         **/
         
         
-        game.load.physics("newbods", "assets/physics/newbods.json");
+        //game.load.physics("newbods", "assets/physics/newbods.json");
         game.load.physics("newbods2", "assets/physics/newbods2.json");
         
         game.load.json("level", "assets/levels/level.json");

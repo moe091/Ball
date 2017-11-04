@@ -43,6 +43,7 @@
         <script src="Editor/movePathModule.js"></script>
         <script src="Editor/eventModule.js"></script>
         <script src="Editor/triggerSelectModule.js"></script>
+        <script src="Editor/crunchModule.js"></script>
         <script src="Editor/editUIModule.js"></script>
         
         <!-- helper/old editor scripts -->
@@ -296,6 +297,47 @@
             </div>
 
         </div> <!-- pathPointEditor module -->
+        
+        <!-- crunchMachine edit Module -->
+        <div id="crunchEditor" class="editModule">
+            <div class="propSelectDiv">
+                <span class="groupSpan" id="crunchIntSpan">
+                    <label class="editorLbl">Crunch Interval:</label>
+                    <input type="number" step=10 value=1000 class="editorNumInput" id="crunchIntVal">
+                </span>
+                
+                <span class="groupSpan" id="crunchSpeedSpan">
+                    <label class="editorLbl">Crunch Speed:</label>
+                    <input type="number" step=0.01 value=0.5 class="editorNumInput" id="crunchSpeedVal">
+                </span>
+                
+                <span class="groupSpan" id="crunchHoldSpan">
+                    <label class="editorLbl">Crunch Hold:</label>
+                    <input type="number" step=5 value=250 class="editorNumInput" id="crunchHoldVal">
+                </span>
+                
+                <span class="groupSpan" id="crunchDist">
+                    <label class="editorLbl">Crunch Distance:</label>
+                    <input type="number" step=1 value=90 class="editorNumInput" id="crunchDistVal">
+                </span>
+                
+                <span class="groupSpan" id="crunchOffset">
+                    <label class="editorLbl">Bar Offset:</label>
+                    <input type="number" step=1 value=60 class="editorNumInput" id="crunchOffsetVal">
+                </span>
+                
+                <span class="groupSpan" id="crunchBtns">
+                    <button class="btn" id="startCrunchBtn">Start Crunching</button>
+                    <button class="btn" id="stopCrunchBtn">Stop Crunching</button>
+                </span>
+                
+                <span class="groupSpan" id="crunchPosBtns">
+                    <button class="btn" id="crunchTopBtn">Top Position</button>
+                    <button class="btn" id="crunchBotBtn">Bottom Position</button>
+                </span>
+                
+            </div>
+        </div>
         
         
         

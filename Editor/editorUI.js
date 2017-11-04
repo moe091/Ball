@@ -105,7 +105,11 @@ BALL.editorUI = {
             console.log("delete selected:");
             console.log(BALL.editor.getSelectedObj());
             console.log(BALL.editor.selected);
-            BALL.gameState.destroyObject(BALL.editor.getSelectedObj()); 
+            if (BALL.editor.selected.owner != null) {
+                BALL.gameState.destroyObject(BALL.editor.selected.owner);
+            } else {
+                BALL.gameState.destroyObject(BALL.editor.getSelectedObj()); 
+            }
             BALL.editor.selected = null;
         });
         

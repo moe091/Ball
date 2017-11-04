@@ -8,11 +8,13 @@ BALL.editUI = {
         this.panels[1] = null;
         this.panels[2] = null;
         this.panels[3] = null;
+        this.panels[4] = null;
         BALL.spriteEditor.init(this);
         BALL.pathSelectEditor.init(this);
         BALL.eventPropEditor.init(this);
         BALL.triggerSelectEditor.init(this);
         BALL.movePathEditor.init(this);
+        BALL.crunchEditor.init(this);
     },
     
     showPanel: function(panel, num) { //displays a module(panel) in one of the editModule slots(num) in the editor UI

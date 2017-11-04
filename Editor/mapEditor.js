@@ -645,7 +645,12 @@ BALL.editor = {
         BALL.editorUI.updateSelected(sprite);
         this.selected = sprite;
         console.warn("selMode = " + BALL.editor.selMode);
+
         BALL.editUI.setSprite(sprite);
+        if (sprite.key == "g1-crunchbar") {
+            BALL.editUI.showPanel(BALL.crunchEditor, 4);
+        }
+        
     }, //TODO: setup updateSelected in editorUI(and eventually design some kind of state machine to handle UI state in editorUI)
     
     getSelectedObj: function() { //return current object. if a pathsprite is selected, return the parent. if null, log a warning
@@ -721,6 +726,12 @@ BALL.editor = {
     
     clickObj: function(s) { //called when a sprite is clicked. probably check selMode here and pass sprite to appropriate callback. editor.select can just handle normal selections(selMode = 0)
         console.warn("clickObj. this = ", this);
+        if (s.owner != null) {
+            console.log("clicked = ", s);
+            s = s.owner;
+            console.log("\nHAS OWNER\nowner = " + s.key);
+            console.log(s);
+        }
         if (BALL.editor.selMode == BALL.editor.SEL_NORMAL) {
             console.log("clickObj - selMode normal");
             BALL.editor.select(s);
@@ -889,6 +900,9 @@ BALL.editor = {
         this.gObjs.push("g1-short-breakplat");
         this.gObjs.push("g1-short-plat");
         this.gObjs.push("g1-windmill");
+        this.gObjs.push("g1-bigblock");
+        this.gObjs.push("g1-smallblock");
+        this.gObjs.push("g1-saw");
         /**
         this.gObjs.push("bigplat");
         //this.gObjs.push("w1-tree-plat")
@@ -899,6 +913,8 @@ BALL.editor = {
         this.gObjs.push("chalkbreak");
         **/
         //special
+        this.gObjs.push("g1-crunchmachine");
+        this.gObjs.push("g1-crunchbar");
         this.gObjs.push("launcher-stop");
         this.gObjs.push("d01-boulder");
         this.gObjs.push("d01-killboulder");

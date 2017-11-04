@@ -16,9 +16,9 @@ BALL.gameState = {
     
     selected: null,
     
-    ballSpeed: 0.09,
+    ballSpeed: 0.1,
     boopSpeed: 15,
-    ballJump: 500,
+    ballJump: 450,
     jumpInterval: 1,
     canJump: true,
     dubJumpInt: 600,
@@ -42,10 +42,12 @@ BALL.gameState = {
     
     special: null,
     
+    behindGroup: null,
+    
 
     
     initGame: function() {
-        
+        this.behindGroup = game.add.group();
         this.special = game.add.group();
         
         this.sprites = game.add.group();
@@ -145,10 +147,6 @@ BALL.gameState = {
         }
         
         if (BALL.manager.editMode) {
-            console.log("EDITMODE!");
-            console.log("EDITMODE!");
-            console.log("EDITMODE!");
-            console.log("EDITMODE!");
             console.log("EDITMODE!");
             if (BALL.gameState.selected.body.static) {
                 BALL.gameState.selected.isStatic = true;
@@ -260,6 +258,13 @@ BALL.gameState = {
             sprite.body.y = Math.round(game.input.worldY * (1 / game.camera.scale.y));
             sprite.startX = sprite.body.x;
             sprite.startY = sprite.body.y;
+            if (sprite.key == "g1-crunchbar") {
+                console.log("selected a crunchbar!");
+                sprite.crunchTop = sprite.startY;
+                sprite.crunchBottom = sprite.crunchTop + sprite.crunchDist;
+                sprite.children[0].body.y = sprite.machineOffset;
+                sprite.crunchStep = 4;
+            }
             //sprite.body.static = true;
         } else {
             if (BALL.editor.pathSpriteSelected) {

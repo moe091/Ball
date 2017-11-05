@@ -41,6 +41,13 @@ BALL.pathEditor = {
         
     },
     
+    updatePointPositions: function() {
+        console.log("path = ", this.curPath);
+        console.log("sprite = " + this.curPath.parent.x + "/" + this.curPath.parent.y);
+        for (var i = 0; i < this.curPath.points.length; i++) {
+            console.log(this.curPath.points[i]);
+        }
+    },
     
     createPoint: function() {
         //add to path.points

@@ -262,7 +262,7 @@ BALL.gameState = {
                 console.log("selected a crunchbar!");
                 sprite.crunchTop = sprite.startY;
                 sprite.crunchBottom = sprite.crunchTop + sprite.crunchDist;
-                sprite.children[0].body.y = sprite.machineOffset;
+                BALL.gObject.crunchMachinePos(sprite, sprite.children[0]);
                 sprite.crunchStep = 4;
             }
             //sprite.body.static = true;
@@ -299,6 +299,14 @@ BALL.gameState = {
     },
     
     restoreObject: function(sprite) {
+        if (sprite.key == "g1-crunchmachine" && sprite.owner != null) {
+            sprite = sprite.owner;
+            console.log("pre reset position: ", sprite.children[0]);
+            sprite.crunchStep = 0;
+            sprite.crunchTime = game.time.now;
+            BALL.gObject.crunchMachinePos(sprite, sprite.children[0]);
+            console.log("reset position: ", sprite.children[0]);
+        }
         if (sprite.mass != null) {
             sprite.body.mass = sprite.mass;
         }
@@ -317,6 +325,11 @@ BALL.gameState = {
                 console.log(sprite);
             }
         }
+        if (sprite.createTrigger != null) {
+            console.log("create trigger:", sprite.createTrigger);
+            console.log("sprite:", sprite);
+            sprite.createTrigger.callEvent();
+        }
     },
     
     buryObject: function(sprite) {
@@ -326,6 +339,7 @@ BALL.gameState = {
     
     resurrectObjs: function() {
         for (var i in this.objects) {
+            console.log("restoring - " + this.objects[i].key);
             this.restoreObject(this.objects[i]);
         }
         for (var i in this.objects) {

@@ -184,9 +184,10 @@ BALL.Oldeditor = {
                 //IF MOVED MORE THAN 5PX(so that i don't accidently drag sprites when trying to select them by clicking)
                 if (Math.abs(game.input.activePointer.positionDown.x - game.input.activePointer.position.x) > 5 || Math.abs(game.input.activePointer.positionDown.y - game.input.activePointer.position.y) > 5 || this.movingObj) {
                     BALL.gameState.moveObject(this.selected, Math.round(game.input.worldX * (1 / game.camera.scale.x)), Math.round(game.input.worldY * (1 / game.camera.scale.y)));
-
                     this.lastPX = Math.round(game.input.worldX);
                     this.lastPY = Math.round(game.input.worldY);
+                    BALL.pathEditor.updatePointPositions();
+                    console.log("moving pathsprite");
                 } else {
                     this.lastPX = Math.round(game.input.worldX);
                     this.lastPY = Math.round(game.input.worldY);
@@ -317,6 +318,7 @@ BALL.Oldeditor = {
         if (BALL.editor.editMode) {
             if (BALL.editor.pathSpriteSelected == false && BALL.editor.selected != null) {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
+                    console.log("selected up. key-" + BALL.editor.selected.key);
                     BALL.editor.selected.body.y -= BALL.editor.spriteSpeed;
                     BALL.editor.selected.startY = BALL.editor.selected.body.y;
                 } else {
@@ -356,6 +358,9 @@ BALL.Oldeditor = {
                 if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                     BALL.editor.selected.body.y += BALL.editor.spriteSpeed;
                     BALL.editor.selected.startY = BALL.editor.selected.body.y;
+                    if (BALL.editor.selected.key == "g1-crunchbar") {
+                        BALL.editor.selected.crunchTop = BALL.editor.selected.startY;
+                    }
                 } else {
                     BALL.editor.selected.y += BALL.editor.spriteSpeed;
                 }
@@ -851,6 +856,11 @@ BALL.editor = {
             if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                 BALL.editor.selected.body.y -= BALL.editor.moveSpeed;
                 BALL.editor.selected.startY = BALL.editor.selected.body.y;
+                if (BALL.editor.selected.key == "g1-crunchbar") {
+                    BALL.editor.selected.crunchTop = BALL.editor.selected.startY;
+                    BALL.editor.selected.crunchBottom = BALL.editor.selected.crunchTop + BALL.editor.selected.crunchDist;
+                    BALL.gObject.crunchMachinePos(BALL.editor.selected, BALL.editor.selected.children[0]);
+                }
             } else {
                 BALL.editor.selected.y -= BALL.editor.moveSpeed;
             }
@@ -872,6 +882,11 @@ BALL.editor = {
             if (BALL.editor.selected != null && BALL.editor.selected.body != null) {
                 BALL.editor.selected.body.y += BALL.editor.moveSpeed;
                 BALL.editor.selected.startY = BALL.editor.selected.body.y;
+                if (BALL.editor.selected.key == "g1-crunchbar") {
+                    BALL.editor.selected.crunchTop = BALL.editor.selected.startY;
+                    BALL.editor.selected.crunchBottom = BALL.editor.selected.crunchTop + BALL.editor.selected.crunchDist;
+                    BALL.gObject.crunchMachinePos(BALL.editor.selected, BALL.editor.selected.children[0]);
+                }
             } else {
                 BALL.editor.selected.y += BALL.editor.moveSpeed;
             }

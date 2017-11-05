@@ -50,9 +50,9 @@ BALL.manager = {
         game.input.onUp.add(BALL.editor.inputUp, this);
         
         for (var i in BALL.gameState.objects) {
-            //BALL.gameState.objects[i].events.onInputDown.add(BALL.editor.clickObj, this);
-            //BALL.gameState.objects[i].events.onInputOver.add(BALL.editor.spriteHover, this);
-            //BALL.gameState.objects[i].events.onInputOut.add(BALL.editor.spriteUnhover, this);
+            BALL.gameState.objects[i].events.onInputDown.add(BALL.editor.clickObj, this);
+            BALL.gameState.objects[i].events.onInputOver.add(BALL.editor.spriteHover, this);
+            BALL.gameState.objects[i].events.onInputOut.add(BALL.editor.spriteUnhover, this);
         }
         game.camera.target = BALL.play.ball;
         game.camera.target = null;
@@ -163,6 +163,9 @@ BALL.manager = {
                 o.triggers = [];
                 for (var j in BALL.gameState.objects[i].triggers) {
                     var trig = {};
+                    if (BALL.gameState.objects[i].triggers[j].target != null) {
+                        trig.targetID = BALL.gameState.objects[i].triggers[j].target.ID;
+                    }
                     trig.type = BALL.gameState.objects[i].triggers[j].type;
                     trig.name = BALL.gameState.objects[i].triggers[j].name;
                     trig.params = BALL.gameState.objects[i].triggers[j].params;
@@ -277,6 +280,11 @@ BALL.manager = {
                     j.triggers = [];
                     for (var a in level.objs[i].triggers) {
                         j.triggers[a] = new BALL.Trigger(BALL.gameState.getSpriteById(level.objs[i].triggers[a].parentID), level.objs[i].triggers[a].name);
+                        if (level.objs[i].triggers[a].targetID != null) {
+                            console.log("IMP: trigger not null. trigger:", j.triggers[a]);
+                            console.log("IMP: target: ", BALL.gameState.getSpriteById(level.objs[i].triggers[a].targetID));
+                            j.triggers[a].target = BALL.gameState.getSpriteById(level.objs[i].triggers[a].targetID);
+                        }
                         j.triggers[a].setType(level.objs[i].triggers[a].type);
                         j.triggers[a].params = level.objs[i].triggers[a].params;
                         j.triggers[a].events = [];

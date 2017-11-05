@@ -170,16 +170,30 @@
             </span>
             
             <div id="triggersDiv" class="propSelectDiv">
+                <span class="groupSpan">
+                    <label class="editorLbl floatL" id="trigTarLbl">Tar: none</label>
+                    <label class="editorLbl floatR">Trig Type:</label>
+                </span>
+                
+                <span class="groupSpan">
+                    <select size=4 class="propSelectBox floatL" id="triggerSelect">
+                        <option val=0>0___Back and Forth[default]</option>
+                        <option val=1>1___Sped Up</option>
+                        <option val=2>2___Slowed Down</option>
+                    </select>
 
-                <select size=5 class="propSelectBox" id="triggerSelect">
-                    <option val=0>0__________Back and Forth[default]</option>
-                    <option val=1>1__________Sped Up</option>
-                    <option val=2>2__________Slowed Down</option>
-                </select>
-
-                <span class="groupSpan centered" id="triggerButtonsSpan">
-                    <button class="rightBtn btn" id="newTriggerBtn">New Trigger</button>
-                    <button class="leftBtn btn" id="delTriggerBtn">Delete Trigger</button>
+                    <select size=4 class="propSelectBox floatR" id="trigTypeSelect">
+                        <option value=1>1.Contact</option>
+                        <option value=2>2.Path End</option>
+                        <option value=3>3.Create</option> 
+                        <option value=4>4.Destroy</option> 
+                    </select>
+                </span>
+                
+                <span class="groupSpan centered floatL" id="triggerButtonsSpan">
+                    <button class="leftBtn btn" id="newTriggerBtn">New</button>
+                    <button class="leftBtn btn" id="delTriggerBtn">Delete</button>
+                    <button class="leftBtn btn" id="triggerTargetBtn">Sel Target</button>
                 </span>
             </div><!-- TRIGGERS DIV -->
             

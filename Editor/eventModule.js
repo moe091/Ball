@@ -1,24 +1,33 @@
 BALL.eventPropEditor = (function() {
     var ed = {};
     var sprite = "sprite not set yet";
+    var curEvent = null;
     
     ed.init = function(editor) {
         ed.editor = editor;
         ed.panel = $("#eventEditor");
         
+        ed.eventTypeSelect = $("#eventTypeSelect");
+        ed.eParam1 = $("#eParam1");
+        ed.eParam2 = $("#eParam2");
+        
         ed.eventNameLbl = $("#eventNameLbl");
-        
         ed.targetSelectBtn = $("#selectEventTargetBtn");
-        
         ed.targetNameLbl = $("#eventTarNameLbl");
         
         
         ed.targetSelectBtn.click(ed.targetSelectClick);
+        ed.eventTypeSelect.on("click change", ed.typeSelectClick);
+        
+    }
+    
+    ed.typeSelectClick = function(e) {
         
     }
     
     ed.setEvent = function(ev) {
         ed.eventNameLbl.text("Event Name: " + ev.name);
+        curEvent = ev;
     }
     
     ed.targetSelectClick = function(e) {

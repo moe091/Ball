@@ -30,7 +30,7 @@ BALL.Event = function(target, name, type, id) {
 }
 
 BALL.Event.prototype.execute = function(trigger) {
-    console.log("executing:");
+    console.log("executing this func:");
     console.log(this.func);
     this.func(this.target, this.args);
 }
@@ -46,7 +46,13 @@ BALL.Event.prototype.setType = function(t) {
             }
         }
     } else if (t == BALL.E_SPAWN) {
-        this.func = BALL.play.endGame;
+        if (this.delay == 0) {
+            this.func = BALL.EventFuncs.spawnTarget(this.target);
+        } else {
+            this.func = function() {
+                BALL.timer.pushEvent(BALL.EventFuncs.spawnTarget(this.target), this, this.delay, false);
+            }
+        }
     } else if (t == BALL.E_START_MOVEPATH) {
         this.func = BALL.EventFuncs.startMovepath();
         this.execute();
@@ -96,6 +102,7 @@ BALL.EventFuncs = {
         }  
     },
     toggle: function(sprite) {
+        console.log("trig- calling toggle on sprite:", sprite);
         return function() {
             if (sprite.alive) {
                 sprite.kill();
@@ -124,6 +131,22 @@ BALL.EventFuncs = {
                 target.startAngle = target.angle;
                 BALL.gameState.buryObject(target);
                 target.kill();
+            }
+        }
+    },
+    
+    spawnTarget: function(target, trigger, args) {
+        return function() {
+            console.log("spawnTarget func. target=", target);
+            if (target == -1) {
+                if (trigger.target!= null) {
+                    BALL.gameState.restoreObject(trigger.target);
+                } else {
+                    console.warn("SPAWNTARGET(): event target and trig target are both null! trig:", trigger);
+                }
+            } else {
+                console.log("RESTORING TARGET EVENT. target=", target);
+                BALL.gameState.restoreObject(target);
             }
         }
     },

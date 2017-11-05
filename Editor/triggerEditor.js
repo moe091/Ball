@@ -10,7 +10,7 @@ BALL.trigEditor = {
         } else {
             console.warn("Tried to set trigEditur.curTrigger to null");
         }
-        BALL.triggerSelectEditor.setCurTrigger(this.curTrigger);
+        console.warn("stack tracing...");
     },
     
     select: function(sprite) {
@@ -24,7 +24,7 @@ BALL.trigEditor = {
     createTrigger: function(sprite, name) {
         this.curTrigger = new BALL.Trigger(sprite, name);
         $("#trigTypeSelect").val(1);
-        this.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val());
+        //this.selectType(BALL.editor.getSelectedObj(), $("#trigTypeSelect").val());
     },
     
     

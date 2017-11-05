@@ -48,6 +48,7 @@ BALL.pathSelectEditor = (function() {
     
     ed.setSprite = function(s) {
         sprite = s;
+        ed.updateMovePathList(sprite);
     }
     
     //_______________________________________Funcs called externall________________________\\

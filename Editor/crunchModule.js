@@ -14,6 +14,8 @@ BALL.crunchEditor = (function() {
         
         ed.startCrunchBtn = $("#startCrunchBtn");
         ed.stopCrunchBtn = $("#stopCrunchBtn");
+        ed.crunchTopBtn = $("#crunchTopBtn");
+        ed.crunchBotBtn = $("#crunchBotBtn");
         
         
         ed.crunchSpeed.on("change paste keyup click", ed.crunchSpeedInputChange);
@@ -24,6 +26,8 @@ BALL.crunchEditor = (function() {
         
         ed.startCrunchBtn.click(ed.startCrunching);
         ed.stopCrunchBtn.click(ed.stopCrunching);
+        ed.crunchTopBtn.click(ed.crunchTop);
+        ed.crunchBotBtn.click(ed.crunchBot);
     }
     
     ed.crunchSpeedInputChange = function(e) {
@@ -40,7 +44,7 @@ BALL.crunchEditor = (function() {
     
     ed.crunchDistInputChange = function(e) {
         sprite.crunchDist = Number(ed.crunchDist.val());
-        sprite.crunchBottom = sprite.y + Number(sprite.crunchDist);
+        sprite.crunchBottom = sprite.crunchTop + Number(sprite.crunchDist);
     }
     
     ed.crunchOffsetInputChange = function(e) {
@@ -58,6 +62,15 @@ BALL.crunchEditor = (function() {
         sprite.crunchStep = 4; //step 4 does nothing in the crunchUpdate function, allowing it to stop crunching while editing\
         
         sprite.body.y = sprite.crunchTop;
+        BALL.gObject.crunchMachinePos(sprite, sprite.children[0]);
+    }
+    
+    ed.crunchTop = function(e) {
+        sprite.body.y = sprite.crunchTop;
+        BALL.gObject.crunchMachinePos(sprite, sprite.children[0]);
+    }
+    ed.crunchBot = function(e) {
+        sprite.body.y = sprite.crunchBottom;
         BALL.gObject.crunchMachinePos(sprite, sprite.children[0]);
     }
     

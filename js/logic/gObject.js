@@ -21,6 +21,7 @@ BALL.gObject = {
         return function() { //NOTE: Set step to 4 for editing purposes. pauses crunching and allows crunchTop/bottom to be reset on movement
             if (bar.ID != 34) {
             if (bar.crunchStep == 0) { //bar up, waiting crunchInt MS until it crunches down
+                bar.crunchBottom = bar.crunchTop + bar.crunchDist;
                 if (game.time.now - bar.crunchTime >= bar.crunchInt) {
                     //start crunch
                     bar.crunchStep = 1;
@@ -62,7 +63,16 @@ BALL.gObject = {
     }, //crunch
     
     crunchMachinePos: function(bar, machine) {
-        machine.body.y = bar.machineOffset - (bar.body.y - bar.crunchTop);
+        //machine.y = bar.machineOffset - (bar.body.y - bar.crunchTop);
+        //machine.body.y = machine.y + bar.y;
+        //machine.body.x = machine.x + bar.x;
+        machine.body.y = bar.crunchTop + bar.machineOffset;
+        machine.body.x = bar.x;
+        machine.body.offset.x = -machine.body.x;
+        machine.body.offset.y = -(machine.body.y + (bar.body.y - bar.crunchTop) - bar.machineOffset);
+        console.log("machine body: x=" + machine.body.x + ", y=" + machine.body.y);
+        console.log("machine sprite: x=" + machine.x + ", y=" + machine.y);
+        console.log("bar body: x=" + bar.body.x + ", y=" + bar.body.y);
     }
     
 }//gObj
@@ -103,8 +113,7 @@ BALL.objDefs = {
             collides: [
                 BALL.gameState.wallrideGroup,
                 BALL.gameState.ballGroup,
-                BALL.gameState.dynamicGroup,
-                BALL.gameState.killGroup
+                BALL.gameState.dynamicGroup
             ],
             init: function(obj) {
                 console.log("init: ", this);
@@ -145,7 +154,7 @@ BALL.objDefs = {
         
         this["g1-saw"] = {
             init: function(obj) {
-                obj.body.setCircle(90);
+                obj.body.setCircle(86);
                 obj.body.static = true;
                 obj.body.setCollisionGroup(BALL.gameState.killGroup);
                  
@@ -246,11 +255,11 @@ BALL.objDefs = {
                 obj.crunchBottom = obj.y + obj.crunchDist;
                 obj.crunchUpdate = BALL.gObject.crunch(obj.children[0], obj, 0.5, 1000, 400);
                 obj.addUpdateFunc(obj.crunchUpdate);
+                BALL.gObject.crunchMachinePos(obj, obj.children[0]);
             }    
         };
         this["g1-crunchmachine"] = {
             init: function(obj) {
-                console.log("DEFAULT: " + obj.key);
                 obj.body.loadPolygon("newbods2", obj.key);
                 obj.body.static = true;
                 obj.body.isFloor = true;
@@ -260,6 +269,7 @@ BALL.objDefs = {
                 obj.body.collides(BALL.gameState.ballGroup);
                 obj.body.collides(BALL.gameState.dynamicGroup);
                 console.log("\n\nOwner = ", obj.owner);
+                console.log("CRUNCH MACHINE. x=" + obj.body.x + ", y=" + obj.body.y);
             }
         };
         

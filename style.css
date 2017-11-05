@@ -164,6 +164,7 @@
 
 .propSelectBox {
     font-size: 0.75em;
+    margin-bottom: 5px;
 }
 
 .groupSpan {
@@ -192,7 +193,7 @@
 
 
 #triggersDiv {
-    
+    overflow: auto;
 }
 #trigNameLbl {
     font-size: 1.2em;
@@ -214,6 +215,12 @@
 
 
 /**:::::::::::::--- CLASSES ---::::::::::::**/
+.floatR {
+    float: right;
+}
+.floatL {
+    float: left;
+}
 .centered {
     text-align: center; !important
     margin: 0 auto; 
@@ -240,6 +247,7 @@
     color: #fff;
     background-color: #868686;
     border: 2px #fff solid;
+    margin: 2px;
 }
 
 .btn-small {
